@@ -54,6 +54,8 @@ World.prototype.update_tanks = function(msg) {
 				tank.reload_ticks = tank_data.reload_ticks;
 			}
 
+			tank.color = tank_data.color;
+
 			tank.alive = true;
 		} else {
 			tank.alive = false;
@@ -91,6 +93,7 @@ function Tank() {
 	this.current = new TankState();
 	this.draw = new TankState();
 	this.old = new TankState();
+	this.color = '';
 }
 
 Tank.prototype.lerp_state = function(delta) {

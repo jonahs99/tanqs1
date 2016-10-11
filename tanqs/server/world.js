@@ -25,6 +25,15 @@ function World() {
 
 };
 
+function random_color() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 World.prototype.reserve_tank = function(client) { // Returns the id of the reserved tank, or -1 if unsuccessful
 	for (var i = 0; i < this.n_tanks; i++) {
 		var tank = this.tanks[i];
@@ -32,6 +41,7 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 			tank.reserved = true;
 			tank.alive = false;
 			tank.client = client;
+			tank.color = random_color();
 			return i;
 		}
 	}
@@ -71,7 +81,8 @@ World.prototype.kill_bullet = function(bullet_id) {
 
 World.prototype.shoot = function(tank_id) {
 
-	var tank = this.tanks[tank_id];
+	var tank = this.tanks[tank_
+	id];
 	if (tank.alive) {
 		for (var i = 0; i < tank.max_bullets; i++) {
 			if (tank.reload[i] == tank.reload_ticks) {
@@ -185,6 +196,8 @@ function Tank() {
 	this.reload = [];
 
 	// Configuration
+
+	this.color = '';
 
 	this.rad = 16; // Half the distance between wheels, determines max spin-speed vs max linear-speed
 	this.max_velocity = 6; // Max velocity of each wheel
