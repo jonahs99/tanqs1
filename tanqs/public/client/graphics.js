@@ -130,9 +130,9 @@ Renderer.prototype.render_tank = function(tank, delta) {
 
 Renderer.prototype.render_bullet = function(bullet) {
 
-	this.context.fillStyle = '#B076CC';
+	this.context.fillStyle = bullet.color;//'#B076CC';
 	this.context.lineWidth = 3;
-	this.context.strokeStyle = '#893DCC';
+	this.context.strokeStyle = '#444';//'#893DCC';
 
 	this.context.beginPath();
 	this.context.arc(bullet.pos.x, bullet.pos.y, bullet.rad, 0, 2*Math.PI);

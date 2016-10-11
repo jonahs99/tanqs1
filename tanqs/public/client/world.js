@@ -70,11 +70,13 @@ World.prototype.add_bullets = function(msg) {
 	for (var i = 0; i < msg.length; i++) {
 		var bullet_data = msg[i];
 		var bullet = this.bullets[bullet_data.id];
+		var tank = this.world.tanks[bullet_data.tank]; // Tank which shot the bullet
 		if (bullet_data.alive) {
 			bullet.alive = true;
 			bullet.vel.set_xy(bullet_data.vx, bullet_data.vy);
 			bullet.pos.set_xy(bullet_data.x, bullet_data.y).m_sub(bullet.vel.scale(this.game.time_step / 20));
 			bullet.rad = bullet_data.rad;
+			bullet.color = tank.color;
 		} else {
 			bullet.alive = false;
 		}
@@ -108,6 +110,8 @@ function Bullet(pos, vel, rad) {
 	this.pos = new Vec2();
 	this.vel = new Vec2();
 	this.rad = rad || 0;
+
+	this.color = '';
 
 	if (pos) {
 		this.pos.set(pos);
