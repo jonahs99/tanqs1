@@ -40,15 +40,16 @@ World.prototype.update_tanks = function(msg) {
 			tank.name = tank_data.name;
 			tank.rad = tank_data.rad;
 
-			tank.current.pos.set(tank_data.pos);
-			tank.current.dir = tank_data.dir;
 			if (tank.alive) {
-				tank.old.pos.set(tank.draw.pos);
+				tank.old.pos.set(tank.current.pos);//tank.draw.pos);
 				tank.old.dir = tank.draw.dir;
 			} else {
-				tank.old.pos.set(tank.current.pos);
-				tank.old.dir = tank.current.dir;
+				tank.old.pos.set(tank_data.pos);
+				tank.old.dir = tank_data.dir;
 			}
+
+			tank.current.pos.set(tank_data.pos);
+			tank.current.dir = tank_data.dir;
 
 			if (tank == this.game.player_tank) {
 				tank.reload = tank_data.reload;
