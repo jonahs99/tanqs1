@@ -113,6 +113,7 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.dir = tank.dir;
 			tank_data.reload = tank.reload;
 			tank_data.reload_ticks = tank.reload_ticks;
+			tank_data.color = tank.color;
 		}
 		msg.push(tank_data);
 	}
