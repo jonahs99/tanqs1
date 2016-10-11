@@ -81,8 +81,7 @@ World.prototype.kill_bullet = function(bullet_id) {
 
 World.prototype.shoot = function(tank_id) {
 
-	var tank = this.tanks[tank_
-	id];
+	var tank = this.tanks[tank_id];
 	if (tank.alive) {
 		for (var i = 0; i < tank.max_bullets; i++) {
 			if (tank.reload[i] == tank.reload_ticks) {
