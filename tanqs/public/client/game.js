@@ -127,7 +127,9 @@ Game.prototype.on_mousemove = function(evt) {
 
 Game.prototype.on_click = function(evt) {
 
-	this.client.send_shoot();
+	if (this.state == GameState.GAME) {
+		this.client.send_shoot();
+	}
 
 };
 
