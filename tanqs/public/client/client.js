@@ -16,7 +16,7 @@ Client.prototype.send_login = function(name) {
 
 	var msg = {name: name};
 
-	login_time = (new Date()).getTime();
+	login_time = Date.now();
 	this.socket.emit('login', msg);
 
 };
@@ -55,8 +55,10 @@ Client.prototype.on_connect = function() {
 };
 
 Client.prototype.on_server = function(msg) {
-	console.log("recieved server config");
-	this.game.time_step = msg.ms_frame * msg.frames_update;
+	console.log("Received server info:");
+	console.log(msg);
+	this.game.time_step = msg.config.ms_frame * msg.config.frames_update;
+	this.game.world.map = msg.map;
 	this.game.begin_simulation();
 };
 
@@ -70,7 +72,7 @@ Client.prototype.on_disconnect = function() {
 Client.prototype.on_join = function(msg) {
 
 	console.log("Joined server as " + msg.name + ".");
-	console.log("Ping " + ((new Date()).getTime() - login_time) + " ms");
+	console.log("Ping " + (Date.now() - login_time) + " ms");
 	this.game.set_player(msg.id);
 	this.game.change_state(GameState.GAME);
 	
@@ -78,7 +80,8 @@ Client.prototype.on_join = function(msg) {
 
 Client.prototype.on_update = function(msg) {
 
-	this.game.last_update_time = (new Date()).getTime(); // Used for interpolation
+	console.log(Date.now() - this.game.last_update_time);
+	this.game.last_update_time = Date.now(); // Used for interpolation
 	this.game.world.update_tanks(msg.tanks);
 	this.game.world.add_bullets(msg.bullets);
 

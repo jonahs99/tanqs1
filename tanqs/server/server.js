@@ -77,7 +77,8 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 // Sends
 
 GameServer.prototype.send_server = function(socket) {
-	socket.emit('server', this.server_config);
+	var msg = {config: this.server_config, map: this.world.map};
+	socket.emit('server', msg);
 };
 
 GameServer.prototype.send_who = function() {

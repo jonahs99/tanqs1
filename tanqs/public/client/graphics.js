@@ -22,7 +22,7 @@ Renderer.prototype.render_world = function() {
 
 	// Calculate delta value for interpolation
 
-	var elapsed = (new Date()).getTime() - this.game.last_update_time;
+	var elapsed = Date.now() - this.game.last_update_time;
 	var delta = clamp(elapsed / this.game.time_step, 0, 1.2); // Allow dead-reckoning for up to 0.2 time steps if necessary
 
 	// Clear the canvas
@@ -48,19 +48,29 @@ Renderer.prototype.render_world = function() {
 	this.context.strokeStyle = '#333';
 	this.context.lineWidth = 1;
 
+	var grid_spacing = 100;
+
 	this.context.beginPath();
-	for (var i = -10; i <= 10; i++) {
-		this.context.moveTo(i * 100, -1000);
-		this.context.lineTo(i * 100, 1000);
-		this.context.moveTo(-1000, i * 100);
-		this.context.lineTo(1000, i * 100);
+	for (var x = -this.world.map.size.width / 2; x <= this.world.map.size.width / 2; x+= grid_spacing) {
+		this.context.moveTo(x, -this.world.map.size.height / 2);
+		this.context.lineTo(x, this.world.map.size.height / 2);
+	}
+	for (var y = -this.world.map.size.height / 2; y <= this.world.map.size.height / 2; y+= grid_spacing) {
+		this.context.moveTo(-this.world.map.size.width / 2, y);
+		this.context.lineTo(this.world.map.size.width / 2, y);
 	}
 	this.context.stroke();
+
+	//Draw the map
+	this.render_map();
 
 	//Draw the tanks
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
 		if (tank.alive) {
+			if (tank != this.world.game.player_tank) {
+				tank.lerp_state(delta);
+			}
 			this.render_tank(tank, delta);
 		}
 	}
@@ -85,9 +95,25 @@ Renderer.prototype.render_world = function() {
 
 };
 
+Renderer.prototype.render_map = function() {
+
+	this.context.fillStyle = '#333';
+	this.context.strokeStyle = '#444';
+	this.context.lineWidth = 3;
+
+	for (var i = 0; i < this.world.map.squares.length; i++) {
+		var square = this.world.map.squares[i];
+		this.context.beginPath();
+		this.context.rect(square.x - square.rad, square.y - square.rad, square.rad * 2, square.rad * 2);
+		this.context.fill();
+		this.context.stroke();
+	}
+
+};
+
 Renderer.prototype.render_tank = function(tank, delta) {
 
-	tank.lerp_state(delta);
+	//tank.lerp_state(delta);
 
 	this.context.translate(tank.draw.pos.x, tank.draw.pos.y);
 	this.context.rotate(tank.draw.dir);
