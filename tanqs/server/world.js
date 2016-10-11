@@ -156,7 +156,7 @@ World.prototype.handle_collisions = function() {
 				var bullet = this.bullets[bullet_id];
 				if (bullet.alive && bullet.tank != tank_id) {
 					var dist2 = (new Vec2()).set(tank.pos).m_sub(bullet.pos).mag2();
-					var rad2 = Math.pow(tank.rad + bullet.rad, 2);
+					var rad2 = Math.pow((tank.rad*1.25) + bullet.rad, 2);
 					if (dist2 < rad2) {
 						this.server.player_kill(bullet.tank, tank_id)
 						this.kill_tank(tank_id);
