@@ -70,7 +70,7 @@ World.prototype.add_bullets = function(msg) {
 	for (var i = 0; i < msg.length; i++) {
 		var bullet_data = msg[i];
 		var bullet = this.bullets[bullet_data.id];
-		var tank = this.world.tanks[bullet_data.tank]; // Tank which shot the bullet
+		var tank = this.tanks[bullet_data.tank]; // Tank which shot the bullet
 		if (bullet_data.alive) {
 			bullet.alive = true;
 			bullet.vel.set_xy(bullet_data.vx, bullet_data.vy);
