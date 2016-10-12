@@ -83,6 +83,7 @@ Renderer.prototype.render_world = function() {
 		}
 	}
 
+	this.context.rotate(-this.game.camera.rotate);
 	this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 
 	//Draw the leader_board
