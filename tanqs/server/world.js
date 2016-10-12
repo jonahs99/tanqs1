@@ -11,7 +11,7 @@ function World() {
 
 	this.tanks = [];
 	this.bullets = [];
-	this.map = {size: {width: 4000, height: 4000}, squares:[]};
+	this.map = {size: {width: 3000, height: 3000}, squares:[]};
 
 	this.n_tanks = 24;
 	this.n_bullets = 72;
