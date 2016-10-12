@@ -55,6 +55,34 @@ World.prototype.generate_map = function() {
 };
 
 function random_color() {
+
+	var colors = [	'#ff6666',
+					'#ff8c66',
+					'#ffb366',
+					'#ffd966',
+					'#ffff66',
+					'#d9ff66',
+					'#b3ff66',
+					'#8cff66',
+					'#66ff66',
+					'#66ff8c',
+					'#66ffb3',
+					'#66ffd9',
+					'#66ffff',
+					'#66d9ff',
+					'#66b3ff',
+					'#668cff',
+					'#6666ff',
+					'#8c66ff',
+					'#b366ff',
+					'#d966ff',
+					'#ff66ff',
+					'#ff66d9',
+					'#ff66b3',
+					'#ff668c',
+					'#ff6666'];
+	return colors[Math.floor(Math.random() * colors.length)];
+
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++ ) {
