@@ -98,9 +98,9 @@ Renderer.prototype.render_world = function() {
 
 Renderer.prototype.render_map = function() {
 
-	this.context.fillStyle = '#333';
+	this.context.fillStyle = '#19334d';
 	this.context.strokeStyle = '#444';
-	this.context.lineWidth = 3;
+	this.context.lineWidth = 4;
 
 	for (var i = 0; i < this.world.map.squares.length; i++) {
 		var square = this.world.map.squares[i];
