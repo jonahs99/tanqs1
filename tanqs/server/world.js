@@ -35,7 +35,7 @@ World.prototype.reset = function() {
 
 World.prototype.generate_map = function() {
 
-	var n_squares = 49;
+	var n_squares = 64;
 	var min_rad = 40; var max_rad = 80;
 
 	var sqrt = Math.floor(Math.sqrt(n_squares));
@@ -152,6 +152,7 @@ World.prototype.update_tanks = function() {
 		if (tank.alive) {
 			tank.steer();
 			tank.drive();
+			tank.pos.m_clampxy(-this.map.size.width / 2, this.map.size.width / 2, -this.map.size.height / 2, this.map.size.height / 2);
 
 			for (var j = 0; j < tank.max_bullets; j++) {
 				if (tank.reload[j] < tank.reload_ticks) {
@@ -345,7 +346,7 @@ Tank.prototype.drive = function() { // Moves and rotates the tank according to w
 	this.vel.set_rt((this.left_wheel + this.right_wheel) / 2, this.dir);
 
 	this.dir += this.rot_vel;
-	this.pos.m_add(this.vel).m_clampxy(-this.map.size.width / 2, this.map.size.width / 2, -this.map.size.height / 2, this.map.size.height / 2);
+	this.pos.m_add(this.vel);
 
 };
 
