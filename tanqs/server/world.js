@@ -36,7 +36,7 @@ World.prototype.reset = function() {
 World.prototype.generate_map = function() {
 
 	var n_squares = 36;
-	var min_rad = 100; var max_rad = 140;
+	var min_rad = 40; var max_rad = 80;
 
 	var sqrt = Math.floor(Math.sqrt(n_squares));
 	var x_spacing = this.map.size.width / sqrt;
@@ -44,7 +44,7 @@ World.prototype.generate_map = function() {
 
 	for (var x = -sqrt / 2; x < sqrt / 2; x++) {
 		for (var y = -sqrt / 2; y < sqrt / 2; y++) {
-			var rad = 60;//Math.random() * (max_rad - min_rad) + min_rad;
+			var rad = Math.random() * (max_rad - min_rad) + min_rad;
 			var sx = (x + 0.5) * x_spacing;//Math.random() * (x_spacing - rad * 2) + x * x_spacing + rad;
 			var sy = (y + 0.5) * x_spacing;//Math.random() * (y_spacing - rad * 2) + y * y_spacing + rad;
 			var square = {x: sx, y: sy, rad: rad};
@@ -178,6 +178,9 @@ World.prototype.update_bullets = function() {
 };
 
 World.prototype.handle_collisions = function() {
+
+	// Tank-bullet
+
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
 		if (tank.alive) {
@@ -195,6 +198,61 @@ World.prototype.handle_collisions = function() {
 			}
 		}
 	}
+
+	// Tank-wall
+
+	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
+		var tank = this.tanks[tank_id];
+		if (tank.alive) {
+			for (var square_id = 0; square_id < this.map.squares.length; square_id++) {
+				var square = this.map.squares[square_id];
+				var tot_rad = tank.rad + square.rad;
+				var x_overlap = tot_rad - Math.abs(square.x - tank.pos.x);
+				var y_overlap = tot_rad - Math.abs(square.y - tank.pos.y);
+				if (x_overlap > 0 && y_overlap > 0) {
+					if (x_overlap < y_overlap) { // fix x
+						if (tank.pos.x > square.x) {
+							tank.pos.x += x_overlap;
+						} else {
+							tank.pos.x -= x_overlap;
+						}
+					} else { // fix y
+						if (tank.pos.y > square.y) {
+							tank.pos.y += y_overlap;
+						} else {
+							tank.pos.y -= y_overlap;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Bullet-wall
+
+	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
+		var bullet = this.bullets[bullet_id];
+		if (bullet.alive) {
+			for (var square_id = 0; square_id < this.map.squares.length; square_id++) {
+				var square = this.map.squares[square_id];
+				var tot_rad = bullet.rad + square.rad;
+				var x_overlap = tot_rad - Math.abs(square.x - bullet.pos.x);
+				var y_overlap = tot_rad - Math.abs(square.y - bullet.pos.y);
+				if (x_overlap > 0 && y_overlap > 0) {
+					/*if (x_overlap < y_overlap) { // bounce x
+						bullet.vel.x = - bullet.vel.x;
+					} else { // bounce y
+						bullet.vel.y = - bullet.vel.y;
+					}
+					bullet.pos.m_add(bullet.vel);
+					bullet.need_update = true;*/
+					this.kill_bullet(bullet_id);
+					break;
+				}
+			}
+		}
+	}
+
 };
 
 module.exports = World;
@@ -295,6 +353,7 @@ function Bullet() {
 
 	this.alive = false;
 	this.just_died = false;
+	this.need_update = false;
 
 	this.tank = -1;
 

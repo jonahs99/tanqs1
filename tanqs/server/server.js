@@ -138,6 +138,11 @@ GameServer.prototype.bullet_update_msg = function() {
 		if (bullet.just_died) {
 			bullet.just_died = false;
 			msg.push({id: i, alive: false});
+			continue;
+		}
+		if (bullet.need_update) {
+			bullet.need_update = false;
+			msg.push({id: i, alive: true, tank: bullet.tank, x: bullet.pos.x, y: bullet.pos.y, vx: bullet.vel.x, vy: bullet.vel.y, rad: bullet.rad});
 		}
 	}
 

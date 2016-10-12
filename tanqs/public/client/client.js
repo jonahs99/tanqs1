@@ -80,7 +80,7 @@ Client.prototype.on_join = function(msg) {
 
 Client.prototype.on_update = function(msg) {
 
-	console.log(Date.now() - this.game.last_update_time);
+	//console.log(Date.now() - this.game.last_update_time);
 	this.game.last_update_time = Date.now(); // Used for interpolation
 	this.game.world.update_tanks(msg.tanks);
 	this.game.world.add_bullets(msg.bullets);
