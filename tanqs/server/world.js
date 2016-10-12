@@ -35,7 +35,7 @@ World.prototype.reset = function() {
 
 World.prototype.generate_map = function() {
 
-	var n_squares = 64;
+	var n_squares = 100;
 	var min_rad = 40; var max_rad = 80;
 
 	var sqrt = Math.floor(Math.sqrt(n_squares));
