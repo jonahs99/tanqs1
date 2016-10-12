@@ -45,8 +45,8 @@ World.prototype.generate_map = function() {
 	for (var x = -sqrt / 2; x < sqrt / 2; x++) {
 		for (var y = -sqrt / 2; y < sqrt / 2; y++) {
 			var rad = Math.random() * (max_rad - min_rad) + min_rad;
-			var sx = (x + 0.5) * x_spacing;//Math.random() * (x_spacing - rad * 2) + x * x_spacing + rad;
-			var sy = (y + 0.5) * x_spacing;//Math.random() * (y_spacing - rad * 2) + y * y_spacing + rad;
+			var sx = Math.random() * (x_spacing - rad * 2) + x * x_spacing + rad;
+			var sy = Math.random() * (y_spacing - rad * 2) + y * y_spacing + rad;
 			var square = {x: sx, y: sy, rad: rad};
 			this.map.squares.push(square);
 		}
