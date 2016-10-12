@@ -11,7 +11,7 @@ function World() {
 
 	this.tanks = [];
 	this.bullets = [];
-	this.map = {size: {width: 6000, height: 6000}, squares:[]};
+	this.map = {size: {width: 4000, height: 4000}, squares:[]};
 
 	this.n_tanks = 24;
 	this.n_bullets = 72;
@@ -35,7 +35,7 @@ World.prototype.reset = function() {
 
 World.prototype.generate_map = function() {
 
-	var n_squares = 36;
+	var n_squares = 49;
 	var min_rad = 40; var max_rad = 80;
 
 	var sqrt = Math.floor(Math.sqrt(n_squares));
@@ -345,7 +345,7 @@ Tank.prototype.drive = function() { // Moves and rotates the tank according to w
 	this.vel.set_rt((this.left_wheel + this.right_wheel) / 2, this.dir);
 
 	this.dir += this.rot_vel;
-	this.pos.m_add(this.vel).m_clampxy(-1000, 1000, -1000, 1000);
+	this.pos.m_add(this.vel).m_clampxy(-this.map.size.width / 2, this.map.size.width / 2, -this.map.size.height / 2, this.map.size.height / 2);
 
 };
 
