@@ -169,7 +169,7 @@ World.prototype.update_bullets = function() {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
 			bullet.drive();
-			if (bullet.life <= 0 || !bullet.pos.in_BB(-1000,-1000,1000,1000)) {
+			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				this.kill_bullet(i);
 			} else {
 				bullet.life--;
