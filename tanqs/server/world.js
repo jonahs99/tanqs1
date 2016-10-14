@@ -160,7 +160,7 @@ World.prototype.add_bullet = function(tank_id) {
 			bullet.life = tank.reload_ticks;
 			bullet.tank = tank_id;
 			bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos); // Bullet starts at end of cannon
-			bullet.vel.set_rt(bullet.speed, tank.dir).m_add(tank.vel);
+			bullet.vel.set_rt(bullet.speed, tank.dir).m_add(tank.vel.scale(0.5));
 			bullet.rad = 5;
 			return i;
 		}

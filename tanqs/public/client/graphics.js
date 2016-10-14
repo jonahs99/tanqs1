@@ -61,10 +61,27 @@ Renderer.prototype.render_world = function() {
 	}
 	this.context.stroke();
 
+	//Draw the tracks
+	/*this.context.strokeStyle = '#fff';
+	this.context.lineJoin = 'butt';
+	this.context.lineCap = 'butt';
+	this.context.lineWidth = 8;
+	this.context.setLineDash([5]);
+
+	for (var i = 0; i < this.world.tanks.length; i++) {
+		var tank = this.world.tanks[i];
+		if (tank.alive) {
+			this.render_tank_tracks(tank);
+		}
+	}
+
+	this.context.setLineDash([]);*/
+
 	//Draw the map
 	this.render_map();
 
 	//Draw the tanks
+
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
 		if (tank.alive) {
@@ -112,6 +129,30 @@ Renderer.prototype.render_map = function() {
 
 };
 
+Renderer.prototype.render_tank_tracks = function(tank) {
+
+	if (tank.track.left.length) {
+
+		this.context.beginPath();
+
+		this.context.moveTo(tank.track.left[tank.track.start].x, tank.track.left[tank.track.start].y);
+		for (var i = 1; i < tank.track.left.length; i++) {
+			var l = tank.track.left[(tank.track.start + i) % tank.track.max];
+			this.context.lineTo(l.x, l.y);
+		}
+
+		this.context.moveTo(tank.track.right[tank.track.start].x, tank.track.right[tank.track.start].y);
+		for (var i = 1; i < tank.track.right.length; i++) {
+			var r = tank.track.right[(tank.track.start + i) % tank.track.max];
+			this.context.lineTo(r.x, r.y);
+		}
+
+		this.context.stroke();
+
+	}
+
+};
+
 Renderer.prototype.render_tank = function(tank, delta) {
 
 	//tank.lerp_state(delta);
@@ -124,15 +165,19 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.strokeStyle = '#444';
 	this.context.lineJoin = 'round';
 
+	// Base tank square
 	this.context.beginPath();
 	this.context.rect(-tank.rad, -tank.rad, 2 * tank.rad, 2 * tank.rad);
 	this.context.fill();
 	this.context.stroke();
 
 	this.context.beginPath();
+	// Wheels
 	this.context.rect(-tank.rad * 1.25, -tank.rad * 1.25, tank.rad * 2.5, tank.rad * 0.75);
 	this.context.rect(-tank.rad * 1.25, tank.rad * 0.5, tank.rad * 2.5, tank.rad * 0.75);
-	this.context.rect(0, -tank.rad * 0.2, tank.rad * 2, tank.rad * 0.4);
+	// Gun
+	this.context.rect(-2 * tank.rad * (1 - tank.gun_len), -tank.rad * 0.2, tank.rad * 2, tank.rad * 0.4);
+
 	this.context.fill();
 	this.context.stroke();
 

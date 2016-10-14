@@ -8,6 +8,8 @@ function World(game) {
 	this.bullets = [];
 	this.map = {};
 
+	this.frame = 0;
+
 	this.reset();
 
 }
@@ -23,13 +25,57 @@ World.prototype.reset = function() {
 
 };
 
-World.prototype.update_bullets = function() {
+World.prototype.local_update = function() {
+	this.local_update_tanks();
+	this.local_update_bullets();
+
+	if (this.frame % 4 == 0) {
+		this.track_tanks();
+	}
+
+	this.frame++;
+}
+
+World.prototype.local_update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
-		this.bullets[i].update();
+		var bullet = this.bullets[i];
+		if (bullet.alive) {
+			this.bullets[i].update();
+		}
 	}
 };
 
-World.prototype.update_tanks = function(msg) {
+World.prototype.track_tanks = function() {
+	for (var i = 0; i < this.tanks.length; i++) {
+		var tank = this.tanks[i];
+		if (tank.alive) {
+			if (tank.track.left.length < tank.track.max) {
+				var l = (new Vec2()).set_rt(tank.rad, tank.draw.dir + Math.PI / 2).m_add(tank.draw.pos);
+				var r = (new Vec2()).set_rt(tank.rad, tank.draw.dir - Math.PI / 2).m_add(tank.draw.pos);
+				tank.track.left.push(l);
+				tank.track.right.push(r);
+			} else {
+				tank.track.left[tank.track.start].set_rt(tank.rad, tank.draw.dir + Math.PI / 2).m_add(tank.draw.pos);
+				tank.track.right[tank.track.start].set_rt(tank.rad, tank.draw.dir - Math.PI / 2).m_add(tank.draw.pos);
+				tank.track.start++;
+				if (tank.track.start >= tank.track.max) {
+					tank.track.start = 0;
+				}
+			}
+		}
+	}
+};
+
+World.prototype.local_update_tanks = function() {
+	for (var i = 0; i < this.tanks.length; i++) {
+		var tank = this.tanks[i];
+		if (tank.alive) {
+			tank.update();
+		}
+	}
+};
+
+World.prototype.server_update_tanks = function(msg) {
 
 	for (var i = 0; i < msg.length; i++) {
 
@@ -79,6 +125,7 @@ World.prototype.add_bullets = function(msg) {
 			bullet.pos.set_xy(bullet_data.x, bullet_data.y).m_sub(bullet.vel.scale(this.game.time_step / 20));
 			bullet.rad = bullet_data.rad;
 			bullet.color = tank.color;
+			tank.gun_len = 0.9;
 		} else {
 			bullet.alive = false;
 		}
@@ -94,11 +141,22 @@ function TankState() {
 function Tank() {
 	this.alive = false;
 	this.rad = 20;
+	this.gun_len = 1;
 	this.current = new TankState();
 	this.draw = new TankState();
 	this.old = new TankState();
 	this.color = '';
+	this.track = {max: 30, start: 0, left: [], right: []};
 }
+
+Tank.prototype.update = function() {
+	var rebound_speed = 0.01;
+	if (this.gun_len < 1 - rebound_speed) {
+		this.gun_len += 0.01;
+	} else if (this.gun_len < 1) {
+		this.gun_len = 1;
+	}
+};
 
 Tank.prototype.lerp_state = function(delta) {
 	this.draw.pos.set_lerp(this.old.pos, this.current.pos, delta);

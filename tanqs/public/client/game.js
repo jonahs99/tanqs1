@@ -72,8 +72,8 @@ Game.prototype.set_player = function(id) {
 
 Game.prototype.update = function() {
 
-	// Update some things to keep the demo going during login
-	this.world.update_bullets();
+	// Update some things locally
+	this.world.local_update();
 
 	// Handle input in the game state
 	if (this.state == GameState.GAME) {

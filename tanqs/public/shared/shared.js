@@ -18,6 +18,10 @@ function Vec2(x, y) {
 
 }
 
+Vec2.prototype.copy = function() {
+	return (new Vec2()).set(this);
+};
+
 Vec2.prototype.set = function(v) {
 
 	this.x = v.x;
