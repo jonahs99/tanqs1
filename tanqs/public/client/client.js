@@ -55,7 +55,7 @@ Client.prototype.on_connect = function() {
 };
 
 Client.prototype.on_server = function(msg) {
-	console.log("Received server info:");
+	console.log("Received server info.");
 	console.log(msg);
 	this.game.time_step = msg.config.ms_frame * msg.config.frames_update;
 	this.game.world.map = msg.map;

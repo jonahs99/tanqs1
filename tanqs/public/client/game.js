@@ -14,6 +14,7 @@ function Game() {
 	this.player_tank = null;
 
 	this.mouse = new Vec2();
+	this.mouse_down = false;
 	this.leaderboard = [];
 
 	// Graphics
@@ -125,12 +126,14 @@ Game.prototype.on_mousemove = function(evt) {
 
 };
 
-Game.prototype.on_click = function(evt) {
-
+Game.prototype.on_mousedown = function(evt) {
+	this.mouse_down = true;
 	if (this.state == GameState.GAME) {
 		this.client.send_shoot();
 	}
-
+};
+Game.prototype.on_mouseup = function(evt) {
+	this.mouse_down = false;
 };
 
 Game.prototype.on_keydown = function(evt) {
@@ -148,7 +151,8 @@ var game = new Game();
 
 window.onresize = game.resize_canvas.bind(game);
 window.onmousemove = game.on_mousemove.bind(game);
-window.onmousedown = game.on_click.bind(game);
+window.onmousedown = game.on_mousedown.bind(game);
+window.onmouseup = game.on_mouseup.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
 
 var splash = document.getElementById('splash');
