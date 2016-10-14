@@ -148,7 +148,7 @@ var game = new Game();
 
 window.onresize = game.resize_canvas.bind(game);
 window.onmousemove = game.on_mousemove.bind(game);
-window.onclick = game.on_click.bind(game);
+window.onmousedown = game.on_click.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
 
 var splash = document.getElementById('splash');
