@@ -86,7 +86,7 @@ GameServer.prototype.send_who = function() {
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
-			var client_msg = {name: client.name, stats: client.stats};
+			var client_msg = {name: client.name, tank_id: client.tank_id, stats: client.stats};
 			msg.push(client_msg);
 		}
 	}
