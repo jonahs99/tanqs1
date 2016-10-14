@@ -171,6 +171,11 @@ GameServer.prototype.on_disconnect = function(socket) {
 GameServer.prototype.on_login = function(socket, msg) {
 	var client = this.clients[socket.id];
 	client.name = msg.name; // TODO: Filter name for length/empty/symbols/words
+
+	if (client.name == "") {
+		client.name = "Anon";
+	}
+
 	client.state = 'logged';
 	client.tank_id = this.world.reserve_tank(client);
 	if (client.tank_id > -1) {
