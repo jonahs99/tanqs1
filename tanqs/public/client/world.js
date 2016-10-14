@@ -29,9 +29,9 @@ World.prototype.local_update = function() {
 	this.local_update_tanks();
 	this.local_update_bullets();
 
-	if (this.frame % 4 == 0) {
+	/*if (this.frame % 4 == 0) {
 		this.track_tanks();
-	}
+	}*/
 
 	this.frame++;
 }
