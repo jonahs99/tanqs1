@@ -6,6 +6,7 @@ function World(game) {
 
 	this.tanks = [];
 	this.bullets = [];
+	this.flags = [];
 	this.map = {};
 
 	this.frame = 0;

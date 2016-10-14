@@ -11,6 +11,7 @@ function World() {
 
 	this.tanks = [];
 	this.bullets = [];
+	this.flags = [];
 	this.map = {size: {width: 2000, height: 2000}, squares:[]};
 
 	this.n_tanks = 24;
@@ -22,6 +23,10 @@ function World() {
 };
 
 World.prototype.reset = function() {
+
+	this.tanks = [];
+	this.bullets = [];
+	this.flags = [];
 
 	// populate the tank array with dead tanks
 	for (var i = 0; i < this.n_tanks; i++) {
@@ -50,6 +55,19 @@ World.prototype.generate_map = function() {
 			var square = {x: sx, y: sy, rad: rad};
 			this.map.squares.push(square);
 		}
+	}
+
+};
+
+World.prototype.randomize_flags = function() {
+
+	var n_flags = 40;
+
+	for (var i = 0; i < n_flags; i++) {
+		var flag = new Flag();
+		flag.pos.set_xy(Math.random() * this.map.size.width - this.map.size.width / 2, 
+			Math.random() * this.map.size.height - this.map.size.height / 2);
+		this.flags[i] = flag;
 	}
 
 };
@@ -400,3 +418,11 @@ function Bullet() {
 Bullet.prototype.drive = function() {
 	this.pos.m_add(this.vel);
 };
+
+function Flag() {
+
+	this.pos = new Vec2();
+	this.rad = 12;
+	this.type = '';
+
+}

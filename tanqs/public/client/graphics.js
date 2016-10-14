@@ -80,8 +80,13 @@ Renderer.prototype.render_world = function() {
 	//Draw the map
 	this.render_map();
 
-	//Draw the tanks
+	//Draw the flags
+	for (var i = 0; i < this.world.flags.length; i++) {
+		var flag = this.world.flags[i];
+		this.render_flag(flag);
+	}
 
+	//Draw the tanks
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
 		if (tank.alive) {
@@ -210,6 +215,39 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.arc(bullet.pos.x, bullet.pos.y, bullet.rad, 0, 2*Math.PI);
 	this.context.fill();
 	this.context.stroke();
+
+};
+
+Renderer.prototype.render_flag = function(flag) {
+
+	this.context.translate(flag.x, flag.y);
+
+	this.context.fillStyle = '#888';
+	this.context.lineWidth = 3;
+	this.context.strokeStyle = '#aaa';
+
+	var rad = 12; var flag_rad = 6;
+
+	this.context.beginPath();
+	this.context.arc(0, 0, rad, 0, 2*Math.PI);
+
+	this.context.fill();
+	this.context.stroke();
+
+	this.context.strokeStyle = '#fff';
+	this.context.fillStyle = '#fff';
+
+	this.context.beginPath();
+	this.context.moveTo(-0.5 * flag_rad, flag_rad);
+	this.context.lineTo(-0.5 * flag_rad, -flag_rad);
+	this.context.lineTo(flag_rad * 0.7, 0);
+	this.context.lineTo(-0.5 * flag_rad, 0);
+	this.context.closePath();
+	
+	this.context.fill();
+	this.context.stroke();
+
+	this.context.translate(-flag.x, -flag.y);
 
 };
 
