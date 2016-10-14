@@ -390,7 +390,7 @@ function Bullet() {
 	this.vel = new Vec2();
 
 	this.rad = 5;
-	this.speed = 8;
+	this.speed = 6;
 
 	this.life = 0; // frames remaining until dead
 
