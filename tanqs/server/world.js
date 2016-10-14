@@ -160,7 +160,7 @@ World.prototype.add_bullet = function(tank_id) {
 			bullet.life = tank.reload_ticks;
 			bullet.tank = tank_id;
 			bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos); // Bullet starts at end of cannon
-			bullet.vel.set_rt(bullet.speed, tank.dir).m_add(tank.vel.scale(0.5));
+			bullet.vel.set_rt(bullet.speed, tank.dir).m_add(tank.vel.scale(0.8));
 			bullet.rad = 5;
 			return i;
 		}
@@ -390,7 +390,7 @@ function Bullet() {
 	this.vel = new Vec2();
 
 	this.rad = 5;
-	this.speed = 6;
+	this.speed = 8;
 
 	this.life = 0; // frames remaining until dead
 
