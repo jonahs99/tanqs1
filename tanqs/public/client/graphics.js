@@ -97,8 +97,8 @@ Renderer.prototype.render_world = function() {
 		if (tank.alive) {
 			if (tank != this.world.game.player_tank) {
 				tank.lerp_state(delta);
+				this.render_tank(tank, delta);
 			}
-			this.render_tank(tank, delta);
 		}
 	}
 
@@ -110,6 +110,9 @@ Renderer.prototype.render_world = function() {
 			this.render_bullet(bullet);
 		}
 	}
+
+	//Draw the player tank
+	this.render_tank(this.world.game.player_tank, delta);
 
 	this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);
@@ -198,7 +201,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.font = "16px Open Sans";
 	this.context.textAlign = "center";
 	this.context.textBaseline = "middle";
-	if (!this.game.player_tank || tank.name != this.game.player_tank.name) {
+	if (tank.name != this.game.player_tank) {
 		this.context.fillText(tank.name, 0, tank.rad * 3);	
 	}
 
