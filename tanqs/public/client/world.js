@@ -123,7 +123,7 @@ World.prototype.server_update_bullets = function(msg) {
 
 		if (bullet_data.alive) {
 
-			if (!bullet.alive) { // This bullet was just shot!
+			if (bullet_data.new) { // This bullet was just shot!
 				var tank = this.tanks[bullet_data.tank];
 				tank.gun_len = 0.9;
 				bullet.rad = bullet_data.rad;

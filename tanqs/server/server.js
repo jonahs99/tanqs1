@@ -129,23 +129,24 @@ GameServer.prototype.bullet_update_msg = function() {
 
 	for (var i = 0; i < this.frame_input.shots.length; i++) {
 		var bullet_id = this.world.shoot(this.frame_input.shots[i]);
-		/*if (bullet_id > -1) {
+		if (bullet_id > -1) {
 			var bullet = this.world.bullets[bullet_id];
-			msg.push({id: bullet_id, alive: true, tank: this.frame_input.shots[i], x: bullet.pos.x, y: bullet.pos.y, vx: bullet.vel.x, vy: bullet.vel.y, rad: bullet.rad});
-		}*/ 
+			bullet.new = true;
+		}
 	}
 	this.frame_input.shots = [];
 
 	for (var i = 0; i < 72; i++) {
 		var bullet = this.world.bullets[i];
 		if (bullet.alive) {
-			var bullet_msg = {id: i, alive: true,
+			var bullet_msg = {id: i, alive: true, new: bullet.new,
 				x: bullet.pos.x, y: bullet.pos.y, tank: bullet.tank,
 				rad: bullet.rad};
 			msg.push(bullet_msg);
 		} else {
 			msg.push({id: i, alive: false});
 		}
+		bullet.new = false;
 		/*if (bullet.just_died) {
 			bullet.just_died = false;
 			msg.push({id: i, alive: false});

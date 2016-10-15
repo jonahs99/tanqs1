@@ -151,7 +151,6 @@ World.prototype.kill_tank = function(tank_id) {
 World.prototype.kill_bullet = function(bullet_id) {
 	var bullet = this.bullets[bullet_id];
 	bullet.alive = false;
-	bullet.just_died = true;
 };
 
 World.prototype.shoot = function(tank_id) {
@@ -402,8 +401,7 @@ Tank.prototype.drive = function() { // Moves and rotates the tank according to w
 function Bullet() {
 
 	this.alive = false;
-	this.just_died = false;
-	this.need_update = false;
+	this.new = false;
 
 	this.tank = -1;
 
