@@ -83,7 +83,8 @@ Client.prototype.on_update = function(msg) {
 	//console.log(Date.now() - this.game.last_update_time);
 	this.game.last_update_time = Date.now(); // Used for interpolation
 	this.game.world.server_update_tanks(msg.tanks);
-	this.game.world.add_bullets(msg.bullets);
+	this.game.world.server_update_bullets(msg.bullets);
+	//this.game.world.add_bullets(msg.bullets);
 
 	if (this.game.state == GameState.GAME) {
 		if (!this.game.player_tank.alive) {

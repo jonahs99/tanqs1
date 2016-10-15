@@ -294,8 +294,8 @@ World.prototype.handle_collisions = function() {
 					} else { // bounce y
 						bullet.vel.y = - bullet.vel.y;
 					}
-					bullet.pos.m_add(bullet.vel);
-					bullet.need_update = true;*/
+					//bullet.pos.m_add(bullet.vel);
+					//bullet.need_update = true;*/
 					this.kill_bullet(bullet_id);
 					break;
 				}

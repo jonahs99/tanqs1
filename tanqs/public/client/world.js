@@ -28,7 +28,7 @@ World.prototype.reset = function() {
 
 World.prototype.local_update = function() {
 	this.local_update_tanks();
-	this.local_update_bullets();
+	//this.local_update_bullets();
 
 	/*if (this.frame % 4 == 0) {
 		this.track_tanks();
@@ -114,6 +114,38 @@ World.prototype.server_update_tanks = function(msg) {
 
 };
 
+World.prototype.server_update_bullets = function(msg) {
+
+	for (var i = 0; i < msg.length; i++) {
+
+		var bullet_data = msg[i];
+		var bullet = this.bullets[bullet_data.id];
+
+		if (bullet_data.alive) {
+
+			if (!bullet.alive) { // This bullet was just shot!
+				var tank = this.tanks[bullet_data.tank];
+				tank.gun_len = 0.9;
+				bullet.rad = bullet_data.rad;
+				bullet.color = tank.color;
+				bullet.alive = true;
+
+				bullet.old_pos.set(tank.draw.pos);
+				bullet.draw_pos.set(bullet.old_pos);
+			} else {
+				bullet.old_pos.set(bullet.draw_pos);
+			}
+
+			bullet.current_pos.set_xy(bullet_data.x, bullet_data.y);
+			
+		} else {
+			bullet.alive = false;
+		}
+
+	}
+
+};
+
 World.prototype.add_bullets = function(msg) {
 
 	for (var i = 0; i < msg.length; i++) {
@@ -168,7 +200,10 @@ function Bullet(pos, vel, rad) {
 
 	this.alive = false;
 
-	this.pos = new Vec2();
+	this.old_pos = new Vec2();
+	this.draw_pos = new Vec2();
+	this.current_pos = new Vec2();
+
 	this.vel = new Vec2();
 	this.rad = rad || 0;
 
@@ -182,6 +217,10 @@ function Bullet(pos, vel, rad) {
 	}
 
 }
+
+Bullet.prototype.lerp_state = function(delta) {
+	this.draw_pos.set_lerp(this.old_pos, this.current_pos, delta)
+};
 
 Bullet.prototype.update = function() {
 	this.pos.m_add(this.vel);

@@ -106,6 +106,7 @@ Renderer.prototype.render_world = function() {
 	for (var i = 0; i < this.world.bullets.length; i++) {
 		var bullet = this.world.bullets[i];
 		if (bullet.alive) {
+			bullet.lerp_state(delta);
 			this.render_bullet(bullet);
 		}
 	}
@@ -217,7 +218,7 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.strokeStyle = '#444';//'#893DCC';
 
 	this.context.beginPath();
-	this.context.arc(bullet.pos.x, bullet.pos.y, bullet.rad, 0, 2*Math.PI);
+	this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.rad, 0, 2*Math.PI);
 	this.context.fill();
 	this.context.stroke();
 
