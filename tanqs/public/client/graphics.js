@@ -112,7 +112,9 @@ Renderer.prototype.render_world = function() {
 	}
 
 	//Draw the player tank
-	this.render_tank(this.world.game.player_tank, delta);
+	if (this.game.player_tank && this.game.player_tank.alive) {
+		this.render_tank(this.game.player_tank, delta);
+	}
 
 	this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);

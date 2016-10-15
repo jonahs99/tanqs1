@@ -45,17 +45,24 @@ Game.prototype.change_state = function(state) {
 		splash_text.innerHTML = "tanqs.io";
 		splash_button.value = "join";
 
+		chat_input.style.visibility = 'hidden';
+
 	} else if (state == GameState.GAME) {
 
 		splash.style.visibility = 'hidden';
 
+		chat_input.style.visibility = 'visible';
+
 	} else if (state == GameState.RESPAWN) {
 
 		splash_input.style.display = 'none';
-		splash.style.visibility = 'visible';
 
 		splash_text.innerHTML = "you got blown up ;>";
 		splash_button.value = "respawn";
+		splash.style.visibility = 'visible';
+
+		chat_input.style.visibility = 'visible';
+
 
 	}
 
@@ -108,6 +115,19 @@ Game.prototype.begin_simulation = function() {
 	}.bind(this), this.time_step);
 };
 
+Game.prototype.add_chat_message = function(chat) {
+	var span = document.createElement('span');
+	span.innerHTML = chat;
+	chat_output.appendChild(span);
+
+	if (chat_output.childElementCount > 16) {
+		chat_output.removeChild(chat_output.children[0]);
+	} else {
+
+	}
+
+};
+
 // Events
 
 Game.prototype.player_died = function() {
@@ -130,10 +150,17 @@ Game.prototype.on_mousedown = function(evt) {
 	this.mouse_down = true;
 	if (this.state == GameState.GAME) {
 		this.client.send_shoot();
+		if (!shoot_repeat) {
+			shoot_repeat = setInterval(function() {
+				game.on_mousedown(evt);
+			}, 300);
+		}
 	}
 };
 Game.prototype.on_mouseup = function(evt) {
 	this.mouse_down = false;
+	clearInterval(shoot_repeat);
+	shoot_repeat = null;
 };
 
 Game.prototype.on_keydown = function(evt) {
@@ -146,6 +173,7 @@ Game.prototype.on_keydown = function(evt) {
 // Client stuff
 
 var game = new Game();
+var shoot_repeat = null;
 
 // Events
 
@@ -166,6 +194,18 @@ splash_form.onsubmit = function() {
 		game.client.send_login(splash_input.value);
 	} else {
 		game.client.send_respawn();
+	}
+	return false;
+};
+
+var chat_form = document.getElementById('chat_form');
+var chat_input = document.getElementById('chat_input');
+var chat_output = document.getElementById('chat_output');
+
+chat_form.onsubmit = function() {
+	if (chat_input.value) {
+		game.client.send_chat(chat_input.value);
+		chat_input.value = "";
 	}
 	return false;
 };

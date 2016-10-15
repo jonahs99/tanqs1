@@ -36,6 +36,11 @@ Client.prototype.send_shoot = function() {
 	this.socket.emit('shoot', {});
 };
 
+Client.prototype.send_chat = function(text) {
+	console.log("Sending chat: " + text);
+	this.socket.emit('chat', {text: text});
+};
+
 // Events
 
 Client.prototype.setup_socket_events = function() {
@@ -46,6 +51,7 @@ Client.prototype.setup_socket_events = function() {
 	this.socket.on('join', this.on_join.bind(this));
 	this.socket.on('update', this.on_update.bind(this));
 	this.socket.on('who', this.on_who.bind(this));
+	this.socket.on('chat', this.on_chat.bind(this));
 
 };
 
@@ -56,7 +62,6 @@ Client.prototype.on_connect = function() {
 
 Client.prototype.on_server = function(msg) {
 	console.log("Received server info.");
-	console.log(msg);
 	this.game.time_step = msg.config.ms_frame * msg.config.frames_update;
 	this.game.world.map = msg.map;
 	this.game.begin_simulation();
@@ -103,4 +108,8 @@ Client.prototype.on_who = function(msg) {
 	this.game.leaderboard.sort(function(a, b) {
 		return (a.stats.deaths + b.stats.kills - a.stats.kills - b.stats.deaths);
 	});
+};
+
+Client.prototype.on_chat = function(msg) {
+	this.game.add_chat_message("<br>" + msg.text);
 };

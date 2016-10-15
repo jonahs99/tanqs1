@@ -35,7 +35,7 @@ input[type="text"] {
   display: block;
   margin: 10%;
   width: 80%;
-  font-family: sans-serif;
+  font-family: Open Sans;
   font-size: 18px;
   appearance: none;
   box-shadow: none;
@@ -88,4 +88,47 @@ input[type="submit"]:active,
 input[type="submit"].active {
   background-color: #27496d;
   text-shadow: -1px 1px #193047;
+}
+
+#chat_output {
+
+  margin: 0;
+  padding: 0;
+
+  position: fixed;
+  background-color: transparent;
+  color: white;
+  width: 250px;
+  bottom: 60px;
+  right: 20px;
+
+  font-family: Open Sans;
+  font-size: 18px;
+
+  float: left;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+
+  cursor: default;
+
+}
+
+#chat_input {
+
+  margin: 0;
+  padding: 0;
+
+  position: fixed;
+  background-color: transparent;
+  color: white;
+  width: 250px;
+  bottom: 20px;
+  right: 20px;
+
 }

@@ -54,6 +54,7 @@ GameServer.prototype.setup_socket_events = function(socket) {
 	socket.on('respawn', this.on_respawn.bind(this, socket));
 	socket.on('input', this.on_input.bind(this, socket));
 	socket.on('shoot', this.on_shoot.bind(this, socket));
+	socket.on('chat', this.on_chat.bind(this, socket));
 
 };
 
@@ -99,6 +100,10 @@ GameServer.prototype.send_who = function() {
 GameServer.prototype.send_join = function(socket, player_id, name) {
 	var msg = {id: player_id, name: name};
 	socket.emit('join', msg);
+};
+
+GameServer.prototype.send_chat = function(text) {
+	this.io.emit('chat', {text: text});
 };
 
 GameServer.prototype.update_clients = function() {
@@ -202,7 +207,7 @@ GameServer.prototype.on_login = function(socket, msg) {
 		console.log("A client attempted to login, but the server is full.")
 		// TODO: What happens on the client side?
 	}
-	
+
 };
 
 GameServer.prototype.on_respawn = function(socket, msg) {
@@ -227,6 +232,17 @@ GameServer.prototype.on_shoot = function(socket, msg) {
 	var tank_id = this.clients[socket.id].tank_id;
 	if (tank_id > -1) {
 		this.frame_input.shots.push(tank_id);
+	}
+
+};
+
+GameServer.prototype.on_chat = function(socket, msg) {
+
+	var client = this.clients[socket.id];
+	if (client.tank_id > -1) {
+		var name = this.clients[socket.id].name;
+		var color = this.world.tanks[client.tank_id].color;
+		this.send_chat("<span style=\"color:" + color + "\">" + name + "</span>: " + msg.text);
 	}
 
 };
