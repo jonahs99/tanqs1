@@ -336,7 +336,7 @@ function Tank() {
 
 	this.rad = 16; // Half the distance between wheels, determines max spin-speed vs max linear-speed
 	this.max_velocity = 6; // Max velocity of each wheel
-	this.max_wheel_acceleration = 4; // Higher is more responsive
+	this.max_wheel_acceleration = 1; // Higher is more responsive
 
 }
 
