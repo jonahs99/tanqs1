@@ -30,6 +30,9 @@ Renderer.prototype.render_world = function() {
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 
+	// Discourage zoom cheating
+	this.context.rect(-1920/2, 1080/2, 1920, 1080);
+
 	// Pan with the player
 	if (this.game.state == GameState.GAME) {
 		this.game.player_tank.lerp_state(delta);
