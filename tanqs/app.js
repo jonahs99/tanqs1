@@ -17,5 +17,7 @@ http.listen(server_port, function(){
 
 var GameServer = require('./server/server.js');
 
-var server = new GameServer(http);
+var map_path = config.map;
+
+var server = new GameServer(http, map_path);
 server.begin();

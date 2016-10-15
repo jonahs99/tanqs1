@@ -124,10 +124,10 @@ Renderer.prototype.render_map = function() {
 	this.context.strokeStyle = '#444';
 	this.context.lineWidth = 4;
 
-	for (var i = 0; i < this.world.map.squares.length; i++) {
-		var square = this.world.map.squares[i];
+	for (var i = 0; i < this.world.map.rectangles.length; i++) {
+		var rect = this.world.map.rectangles[i];
 		this.context.beginPath();
-		this.context.rect(square.x - square.rad, square.y - square.rad, square.rad * 2, square.rad * 2);
+		this.context.rect(rect.x - rect.hwidth, rect.y - rect.hheight, rect.hwidth * 2, rect.hheight * 2);
 		this.context.fill();
 		this.context.stroke();
 	}

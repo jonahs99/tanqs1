@@ -17,7 +17,7 @@ function World() {
 	this.n_tanks = 24;
 	this.n_bullets = 72;
 
-	this.generate_map();
+	//this.generate_map();
 	this.reset();
 
 };
@@ -252,20 +252,21 @@ World.prototype.handle_collisions = function() {
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
 		if (tank.alive) {
-			for (var square_id = 0; square_id < this.map.squares.length; square_id++) {
-				var square = this.map.squares[square_id];
-				var tot_rad = tank.rad + square.rad;
-				var x_overlap = tot_rad - Math.abs(square.x - tank.pos.x);
-				var y_overlap = tot_rad - Math.abs(square.y - tank.pos.y);
+			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
+				var rect = this.map.rectangles[rect_id];
+				var tot_width = tank.rad + rect.hwidth;
+				var tot_height = tank.rad + rect.hheight;
+				var x_overlap = tot_width - Math.abs(rect.x - tank.pos.x);
+				var y_overlap = tot_height - Math.abs(rect.y - tank.pos.y);
 				if (x_overlap > 0 && y_overlap > 0) {
 					if (x_overlap < y_overlap) { // fix x
-						if (tank.pos.x > square.x) {
+						if (tank.pos.x > rect.x) {
 							tank.pos.x += x_overlap;
 						} else {
 							tank.pos.x -= x_overlap;
 						}
 					} else { // fix y
-						if (tank.pos.y > square.y) {
+						if (tank.pos.y > rect.y) {
 							tank.pos.y += y_overlap;
 						} else {
 							tank.pos.y -= y_overlap;
@@ -281,11 +282,12 @@ World.prototype.handle_collisions = function() {
 	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 		var bullet = this.bullets[bullet_id];
 		if (bullet.alive) {
-			for (var square_id = 0; square_id < this.map.squares.length; square_id++) {
-				var square = this.map.squares[square_id];
-				var tot_rad = bullet.rad + square.rad;
-				var x_overlap = tot_rad - Math.abs(square.x - bullet.pos.x);
-				var y_overlap = tot_rad - Math.abs(square.y - bullet.pos.y);
+			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
+				var rect = this.map.rectangles[rect_id];
+				var tot_width = bullet.rad + rect.hwidth;
+				var tot_height = bullet.rad + rect.hheight;
+				var x_overlap = tot_width - Math.abs(rect.x - bullet.pos.x);
+				var y_overlap = tot_height - Math.abs(rect.y - bullet.pos.y);
 				if (x_overlap > 0 && y_overlap > 0) {
 					/*if (x_overlap < y_overlap) { // bounce x
 						bullet.vel.x = - bullet.vel.x;

@@ -1,7 +1,7 @@
 
 var World = require('./world.js');
 
-var GameServer = function(http) {
+var GameServer = function(http, map_path) {
 
 	// Configuration
 
@@ -11,12 +11,15 @@ var GameServer = function(http) {
 
 	this.server_config = {ms_frame: this.ms_frame, frames_update: this.frames_update};
 
+	var map = require(map_path);
+
 	// Initialize the server
 
 	this.io = require('socket.io')(http);
 
 	this.world = new World();
 	this.world.server = this;
+	this.world.map = map;
 	this.clients = {};
 
 	this.frame_input = {shots:[]};
