@@ -201,7 +201,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.font = "16px Open Sans";
 	this.context.textAlign = "center";
 	this.context.textBaseline = "middle";
-	if (tank.name != this.game.player_tank) {
+	if (tank != this.game.player_tank) {
 		this.context.fillText(tank.name, 0, tank.rad * 3);	
 	}
 
