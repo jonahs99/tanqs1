@@ -181,11 +181,15 @@ GameServer.prototype.on_disconnect = function(socket) {
 };
 
 GameServer.prototype.on_login = function(socket, msg) {
+
 	var client = this.clients[socket.id];
-	client.name = msg.name; // TODO: Filter name for length/empty/symbols/words
+	client.name = msg.name;
 
 	if (client.name == "") {
 		client.name = "Anon";
+	}
+	if (client.name.length > 25) {
+		client.name = client.name.substring(0, 24) + "...";
 	}
 
 	client.state = 'logged';
@@ -198,6 +202,7 @@ GameServer.prototype.on_login = function(socket, msg) {
 		console.log("A client attempted to login, but the server is full.")
 		// TODO: What happens on the client side?
 	}
+	
 };
 
 GameServer.prototype.on_respawn = function(socket, msg) {
