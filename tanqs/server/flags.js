@@ -91,7 +91,7 @@ function Flags(world) {
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
 			max_bullets: 2,
-			reload_ticks: 200
+			reload_ticks: 180
 		},
 		bullet_attr: {
 			rad: 5,
@@ -138,7 +138,8 @@ function Flags(world) {
 			rad: 10,
 			max_vel: 6,
 			max_acc: 3,
-			wall_collide: true
+			wall_collide: true,
+			die_on_collide: true
 		},
 		weapon_attr: this.default.weapon_attr,
 		bullet_attr: this.default.bullet_attr,

@@ -30,14 +30,14 @@
 
 	"flags": [
 
-		{"x": 0, "y": -1300, "type":"triple_shot"},
-		{"x": 0, "y": 1300, "type":"ricochet"},
-		{"x": 1300, "y": 0, "type":"steam_roller"},
-		{"x": -1300, "y": 0, "type":"super_bullet"},
-		{"x": -1000, "y": -1000, "type":"tunneler"},
-		{"x": 1000, "y": 1000, "type":"tiny"},
-		{"x": -1000, "y": 1000, "type":"tunneler"},
-		{"x": 1000, "y": -1000, "type":"tiny"}
+		{"x": 0, "y": -800, "type":"triple_shot"},
+		{"x": 0, "y": 800, "type":"ricochet"},
+		{"x": 800, "y": 0, "type":"steam_roller"},
+		{"x": -800, "y": 0, "type":"super_bullet"},
+		{"x": -800, "y": -800, "type":"tunneler"},
+		{"x": 800, "y": 800, "type":"tunneler"},
+		{"x": -800, "y": 800, "type":"tiny"},
+		{"x": 800, "y": -800, "type":"tiny"}
 
 	]
 

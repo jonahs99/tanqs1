@@ -136,6 +136,10 @@ World.prototype.spawn_tank = function(id) {
 	tank.set_flag(this.flag_types.default);
 	tank.flag_id = -1;
 
+	for (var i = 0; i < tank.max_bullets; i++) {
+		tank.reload[i] = tank.reload_ticks;
+	}
+
 	tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	tank.steer_target.set_xy(0, 0);
 };
@@ -332,11 +336,11 @@ World.prototype.handle_collisions = function() {
 
 	for (var i = 0; i < this.tanks.length; i++) {
 		var tank1 = this.tanks[i];
-		if (tank1.alive && tank1.flag.tank_attr.kill_on_collide) {
+		if (tank1.alive && !(tank1.flag.tank_attr.die_on_collide)) {
 			for (var j = 0; j < this.tanks.length; j++) {
 				if (i != j) {
 					var tank2 = this.tanks[j];
-					if (tank2.alive) {
+					if (tank2.alive && (tank1.flag.tank_attr.kill_on_collide || tank2.flag.tank_attr.die_on_collide)) {
 						var dist2 = (new Vec2()).set(tank1.pos).m_sub(tank2.pos).mag2();
 						var rad2 = Math.pow((tank1.rad*1.25) + (tank2.rad*1.25), 2);
 						if (dist2 < rad2) {
@@ -498,12 +502,27 @@ Tank.prototype.set_flag = function(flag) {
 	this.max_velocity = flag.tank_attr.max_vel;
 	this.max_wheel_acceleration = flag.tank_attr.max_acc;
 
+	var tot_reload = 0;
+	for (var i = 0; i < this.max_bullets; i++) {
+		tot_reload += this.reload[i];
+	}
+	tot_reload /= this.max_bullets;
+
 	this.max_bullets = flag.weapon_attr.max_bullets;
 	this.reload_ticks = flag.weapon_attr.reload_ticks;
 
+	tot_reload *= this.max_bullets;
 	this.reload = [];
 	for (var i = 0; i < this.max_bullets; i++) {
-		this.reload[i] = this.reload_ticks;
+		if (tot_reload >= this.reload_ticks) {
+			this.reload[i] = this.reload_ticks;
+			tot_reload -= this.reload_ticks;
+		} else if (tot_reload >= 0){
+			this.reload[i] = Math.floor(tot_reload);
+			tot_reload = 0;
+		} else {
+			this.reload[i] = 0;
+		}
 	}
 
 	this.flag = flag;
