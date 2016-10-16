@@ -59,7 +59,8 @@ World.prototype.parse_map = function(map) {
 
 		flag.alive = true;
 		flag.type = flag_data.type;
-		flag.pos.set_xy(flag_data.x, flag_data.y);
+		flag.spawn.set_xy(flag_data.x, flag_data.y);
+		flag.pos.set(flag.spawn);
 
 	}
 
@@ -82,19 +83,6 @@ World.prototype.generate_map = function() {
 			var square = {x: sx, y: sy, rad: rad};
 			this.map.squares.push(square);
 		}
-	}
-
-};
-
-World.prototype.randomize_flags = function() {
-
-	var n_flags = 40;
-
-	for (var i = 0; i < n_flags; i++) {
-		var flag = new Flag();
-		flag.pos.set_xy(Math.random() * this.map.size.width - this.map.size.width / 2, 
-			Math.random() * this.map.size.height - this.map.size.height / 2);
-		this.flags[i] = flag;
 	}
 
 };
@@ -552,6 +540,7 @@ function Flag() {
 
 	this.type = '';
 
+	this.spawn = new Vec2();
 	this.pos = new Vec2();
 
 	this.rad = 12;
@@ -559,7 +548,9 @@ function Flag() {
 }
 
 Flag.prototype.update = function() {
-	if (this.cooldown > 0) {
-		this.cooldown--;
+	this.cooldown--;
+	if (this.cooldown <= -1000) {
+		this.pos.set(this.spawn);
+		this.cooldown = 0;
 	}
 };
