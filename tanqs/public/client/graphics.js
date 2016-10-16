@@ -245,17 +245,17 @@ Renderer.prototype.render_flag = function(flag) {
 
 	this.context.translate(flag.pos.x, flag.pos.y);
 
-	this.context.fillStyle = '#888';
+	this.context.fillStyle = '#aaa';
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = '#aaa';
 
 	var flag_rad = flag.rad / 2;
 
-	this.context.beginPath();
-	this.context.arc(0, 0, flag.rad, 0, 2*Math.PI);
-
-	this.context.fill();
-	this.context.stroke();
+	//this.context.beginPath();
+	//this.context.arc(0, 0, flag.rad, 0, 2*Math.PI);
+	//this.context.fill();
+	//this.context.stroke();
+	this.context.fillRect(-flag.rad, -flag.rad, flag.rad * 2, flag.rad * 2);
 
 	this.context.strokeStyle = '#fff';
 	this.context.fillStyle = '#fff';
