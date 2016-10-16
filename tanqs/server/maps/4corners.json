@@ -34,7 +34,8 @@
 		{"x": 0, "y": 1300, "type":"ricochet"},
 		{"x": 1300, "y": 0, "type":"steam_roller"},
 		{"x": -1300, "y": 0, "type":"super_bullet"},
-		{"x": -1300, "y": -1300, "type":"tunneler"}
+		{"x": -1300, "y": -1300, "type":"tunneler"},
+		{"x": 1300, "y": 1300, "type":"tiny"}
 
 	]
 

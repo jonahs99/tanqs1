@@ -129,6 +129,22 @@ function Flags(world) {
 		shoot: this.default.shoot
 	};
 	
+	// TINY
+
+	this.tiny = {
+		name: "tiny",
+		kill_verb: "blew up",
+		tank_attr: {
+			rad: 10,
+			max_vel: 6,
+			max_acc: 3,
+			wall_collide: true
+		},
+		weapon_attr: this.default.weapon_attr,
+		bullet_attr: this.default.bullet_attr,
+		shoot: this.default.shoot
+	};
+
 }
 
 module.exports = Flags;
