@@ -179,7 +179,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rotate(tank.draw.dir);
 
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
-	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#ddd';
+	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#888';
 
 	if (tank.corpse) {
 		var scl = (tank.death_anim) / 3;
