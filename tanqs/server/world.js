@@ -399,6 +399,7 @@ World.prototype.handle_collisions = function() {
 							tank.set_flag(flag_type);
 							tank.flag_id = flag_id;
 							this.server.player_flag_pickup(tank_id);
+							break;
 						}
 					}
 				}
