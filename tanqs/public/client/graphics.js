@@ -179,7 +179,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rotate(tank.draw.dir);
 
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
-	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#888';
+	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#666';
 
 	if (tank.corpse) {
 		var scl = (tank.death_anim) / 3;
@@ -246,7 +246,7 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.translate(flag.pos.x, flag.pos.y);
 
 	this.context.fillStyle = '#aaa';
-	this.context.lineWidth = 2;
+	this.context.lineWidth = 4;
 	this.context.strokeStyle = '#aaa';
 
 	var flag_rad = flag.rad * 0.8;
@@ -263,8 +263,8 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.beginPath();
 	this.context.moveTo(-0.5 * flag_rad, flag_rad);
 	this.context.lineTo(-0.5 * flag_rad, -flag_rad);
-	this.context.lineTo(flag_rad * 0.7, -flag_rad);
-	this.context.lineTo(flag_rad * 0.7, 0);
+	this.context.lineTo(flag_rad * 0.5, -flag_rad);
+	this.context.lineTo(flag_rad * 0.5, 0);
 	this.context.lineTo(-0.5 * flag_rad, 0);
 	this.context.closePath();
 	
