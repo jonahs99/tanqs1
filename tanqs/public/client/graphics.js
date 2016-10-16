@@ -251,7 +251,7 @@ Renderer.prototype.render_flag = function(flag) {
 
 	var flag_rad = flag.rad * 0.8;
 
-	//this.context.beginPath();
+	this.context.beginPath();
 	//this.context.arc(0, 0, flag.rad, 0, 2*Math.PI);
 	this.context.rect(-flag.rad, -flag.rad, flag.rad * 2, flag.rad * 2);
 	this.context.fill();
