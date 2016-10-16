@@ -191,7 +191,7 @@ World.prototype.shoot = function(tank_id) {
 World.prototype.drop_flag = function(tank_id) {
 
 	var tank = this.tanks[tank_id];
-	if (tank.flag_id > -1) {
+	if (tank.flag.name != "default") {
 		tank.set_flag(this.flag_types.default);
 		var flag = this.flags[tank.flag_id];
 		flag.pos.set(tank.pos);
@@ -363,14 +363,18 @@ World.prototype.handle_collisions = function() {
 				if (i != j) {
 					var tank2 = this.tanks[j];
 					if (tank2.alive) {
-						if (tank2.flag.tank_attr.kill_on_collide) { // Both steam roller lol!
-							this.server.player_kill(i, j);
-							this.server.player_kill(j, i);
-							this.kill_tank(i);
-							this.kill_tank(j);
-						} else { // Get steam rolled son
-							this.server.player_kill(i, j);
-							this.kill_tank(j);
+						var dist2 = (new Vec2()).set(tank1.pos).m_sub(tank2.pos).mag2();
+						var rad2 = Math.pow((tank1.rad*1.25) + (tank2.rad*1.25), 2);
+						if (dist2 < rad2) {
+							if (tank2.flag.tank_attr.kill_on_collide) { // Both steam roller lol!
+								this.server.player_kill(i, j);
+								this.server.player_kill(j, i);
+								this.kill_tank(i);
+								this.kill_tank(j);
+							} else { // Get steam rolled son
+								this.server.player_kill(i, j);
+								this.kill_tank(j);
+							}
 						}
 					}
 				}
