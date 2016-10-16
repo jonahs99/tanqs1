@@ -249,13 +249,13 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.lineWidth = 2;
 	this.context.strokeStyle = '#aaa';
 
-	var flag_rad = flag.rad / 2;
+	var flag_rad = flag.rad * 0.8;
 
 	//this.context.beginPath();
 	//this.context.arc(0, 0, flag.rad, 0, 2*Math.PI);
-	//this.context.fill();
-	//this.context.stroke();
-	this.context.fillRect(-flag.rad, -flag.rad, flag.rad * 2, flag.rad * 2);
+	this.context.rect(-flag.rad, -flag.rad, flag.rad * 2, flag.rad * 2);
+	this.context.fill();
+	this.context.stroke();
 
 	this.context.strokeStyle = '#fff';
 	this.context.fillStyle = '#fff';
