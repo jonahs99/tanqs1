@@ -186,7 +186,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 		this.context.scale((1 + scl) / 2, scl);
 	}
 
-	this.context.lineWidth = 3;
+	this.context.lineWidth = tank.flag == "tiny" ? 1.5 : 3;
 	this.context.lineJoin = 'round';
 
 	// Base tank square
