@@ -192,6 +192,7 @@ World.prototype.drop_flag = function(tank_id) {
 
 	var tank = this.tanks[tank_id];
 	if (tank.flag.name != "default") {
+		this.server.player_flag_drop(tank_id);
 		tank.set_flag(this.flag_types.default);
 		var flag = this.flags[tank.flag_id];
 		flag.pos.set(tank.pos);

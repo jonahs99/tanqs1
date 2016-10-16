@@ -97,6 +97,16 @@ GameServer.prototype.player_flag_pickup = function(tank_id) {
 
 };
 
+GameServer.prototype.player_flag_drop = function(tank_id) {
+
+	var tank = this.world.tanks[tank_id];
+
+	var chat_msg = "<i> <span style=\"color:" + tank.color + "\">" + tank.client.name + "</span> dropped " + tank.flag.name + ".</i>";
+
+	this.send_chat(chat_msg);
+
+};
+
 // Sends
 
 GameServer.prototype.send_server = function(socket) {
