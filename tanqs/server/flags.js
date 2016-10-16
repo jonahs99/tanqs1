@@ -44,7 +44,7 @@ function Flags(world) {
 			rad: 5,
 			speed: 8,
 			life: 125,
-			ricochet: 3,
+			ricochet: 2,
 			wall_collide: true
 		},
 		shoot: this.default.shoot

@@ -80,7 +80,7 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	this.frame_events.deaths.push(killed_id);
 
 	var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
-	var chat_msg = "<i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
+	var chat_msg = "&gt&gt <i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
 	" <span style=\"color:" + killed_tank.color + "\">" + killed_tank.client.name + "</span>. </i>";
 
 	this.send_chat(chat_msg);
@@ -306,7 +306,7 @@ GameServer.prototype.on_chat = function(socket, msg) {
 	if (client.tank_id > -1) {
 		var name = this.clients[socket.id].name;
 		var color = this.world.tanks[client.tank_id].color;
-		this.send_chat("<span style=\"color:" + color + "\">" + name + "</span>: " + msg.text);
+		this.send_chat("<span style=\"color:" + color + "\"><b>" + name + "</b></span>: " + msg.text);
 	}
 
 };
