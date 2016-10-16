@@ -3,7 +3,6 @@
 
 	"rectangles": [
 
-
 		{"x": 550, "y":550, "hwidth": 50, "hheight": 50},
 		{"x": 550, "y":350, "hwidth": 50, "hheight": 150},
 		{"x": 350, "y":550, "hwidth": 150, "hheight": 50},
@@ -27,5 +26,16 @@
 		{"x": 0, "y": -1050, "hwidth": 500, "hheight": 50},
 		{"x": -1050, "y": 0, "hwidth": 50, "hheight": 500}
 
+	],
+
+	"flags": [
+
+		{"x": 0, "y": -1300, "type":"triple_shot"},
+		{"x": 0, "y": 1300, "type":"ricochet"},
+		{"x": 1300, "y": 0, "type":"steam_roller"},
+		{"x": -1300, "y": 0, "type":"super_bullet"},
+		{"x": -1300, "y": -1300, "type":"tunneler"}
+
 	]
+
 }

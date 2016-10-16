@@ -88,13 +88,15 @@ Renderer.prototype.render_world = function() {
 	//Draw the flags
 	for (var i = 0; i < this.world.flags.length; i++) {
 		var flag = this.world.flags[i];
-		this.render_flag(flag);
+		if (flag.alive) {
+			this.render_flag(flag);
+		}
 	}
 
 	//Draw the tanks
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
-		if (tank.alive) {
+		if (tank.alive || tank.corpse) {
 			if (tank != this.world.game.player_tank) {
 				tank.lerp_state(delta);
 				this.render_tank(tank, delta);
@@ -112,7 +114,7 @@ Renderer.prototype.render_world = function() {
 	}
 
 	//Draw the player tank
-	if (this.game.player_tank && this.game.player_tank.alive) {
+	if (this.game.player_tank && (this.game.player_tank.alive || this.game.player_tank.corpse)) {
 		this.render_tank(this.game.player_tank, delta);
 	}
 
@@ -177,8 +179,14 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rotate(tank.draw.dir);
 
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
+	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#ddd';
+
+	if (tank.corpse) {
+		var scl = (tank.death_anim) / 3;
+		this.context.scale((1 + scl) / 2, scl);
+	}
+
 	this.context.lineWidth = 3;
-	this.context.strokeStyle = '#444';
 	this.context.lineJoin = 'round';
 
 	// Base tank square
@@ -196,6 +204,10 @@ Renderer.prototype.render_tank = function(tank, delta) {
 
 	this.context.fill();
 	this.context.stroke();
+
+	if (tank.corpse) {
+		this.context.scale(2/(1 + scl), 1/scl);
+	}
 
 	this.context.rotate(-tank.draw.dir);
 
@@ -231,16 +243,16 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 Renderer.prototype.render_flag = function(flag) {
 
-	this.context.translate(flag.x, flag.y);
+	this.context.translate(flag.pos.x, flag.pos.y);
 
 	this.context.fillStyle = '#888';
-	this.context.lineWidth = 3;
+	this.context.lineWidth = 2;
 	this.context.strokeStyle = '#aaa';
 
-	var rad = 12; var flag_rad = 6;
+	var flag_rad = flag.rad / 2;
 
 	this.context.beginPath();
-	this.context.arc(0, 0, rad, 0, 2*Math.PI);
+	this.context.arc(0, 0, flag.rad, 0, 2*Math.PI);
 
 	this.context.fill();
 	this.context.stroke();
@@ -251,6 +263,7 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.beginPath();
 	this.context.moveTo(-0.5 * flag_rad, flag_rad);
 	this.context.lineTo(-0.5 * flag_rad, -flag_rad);
+	this.context.lineTo(flag_rad * 0.7, -flag_rad);
 	this.context.lineTo(flag_rad * 0.7, 0);
 	this.context.lineTo(-0.5 * flag_rad, 0);
 	this.context.closePath();
@@ -258,7 +271,7 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.fill();
 	this.context.stroke();
 
-	this.context.translate(-flag.x, -flag.y);
+	this.context.translate(-flag.pos.x, -flag.pos.y);
 
 };
 
@@ -290,6 +303,11 @@ Renderer.prototype.render_ui = function() {
 
 	var text_length = this.context.measureText(text).width;
 	this.render_reload_bars(text_length);
+
+	var	flag_name = this.game.player_tank.flag;
+	if (flag_name && (flag_name != "default")) {
+		this.context.fillText(flag_name, 0, -this.canvas.height/2+60);
+	}
 
 };
 

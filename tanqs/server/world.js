@@ -3,6 +3,8 @@ var shared = require('../public/shared/shared.js');
 var Vec2 = shared.Vec2;
 var clamp = shared.clamp;
 
+var Flags = new require('./flags.js');
+
 // World class with all the nitty gritty server simulation code
 
 function World() {
@@ -12,13 +14,17 @@ function World() {
 	this.tanks = [];
 	this.bullets = [];
 	this.flags = [];
-	this.map = {size: {width: 2000, height: 2000}, squares:[]};
+	this.map = {};
 
 	this.n_tanks = 24;
 	this.n_bullets = 72;
+	this.n_flags = 12;
 
 	//this.generate_map();
 	this.reset();
+
+	this.flag_types = new Flags(this);
+	//console.log(this.flag_types);
 
 };
 
@@ -31,9 +37,30 @@ World.prototype.reset = function() {
 	// populate the tank array with dead tanks
 	for (var i = 0; i < this.n_tanks; i++) {
 		this.tanks.push(new Tank());
+		this.tanks[i].id = i;
 	}
 	for (var i = 0; i < this.n_bullets; i++) {
 		this.bullets.push(new Bullet());
+	}
+	for (var i = 0; i < this.n_flags; i++) {
+		this.flags.push(new Flag());
+	}
+
+};
+
+World.prototype.parse_map = function(map) {
+
+	this.map = {size: map.size, rectangles: map.rectangles};
+
+	for (var i = 0; i < map.flags.length; i++) {
+
+		var flag_data = map.flags[i];
+		var flag = this.flags[i];
+
+		flag.alive = true;
+		flag.type = flag_data.type;
+		flag.pos.set_xy(flag_data.x, flag_data.y);
+
 	}
 
 };
@@ -132,12 +159,9 @@ World.prototype.free_tank = function(id) {
 World.prototype.spawn_tank = function(id) {
 	var tank = this.tanks[id];
 	tank.alive = true;
-	tank.max_bullets = 3;
-	tank.reload_ticks = 125;
 
-	for (var i = 0; i < tank.max_bullets; i++) {
-		tank.reload[i] = tank.reload_ticks;
-	}
+	tank.set_flag(this.flag_types.default);
+	tank.flag_id = -1;
 
 	tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	tank.steer_target.set_xy(0, 0);
@@ -146,6 +170,7 @@ World.prototype.spawn_tank = function(id) {
 World.prototype.kill_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	tank.alive = false;
+	this.drop_flag(tank_id);
 };
 
 World.prototype.kill_bullet = function(bullet_id) {
@@ -157,14 +182,22 @@ World.prototype.shoot = function(tank_id) {
 
 	var tank = this.tanks[tank_id];
 	if (tank.alive) {
-		for (var i = 0; i < tank.max_bullets; i++) {
-			if (tank.reload[i] == tank.reload_ticks) {
-				tank.reload[i] = 0;
-				return this.add_bullet(tank_id);
-			}
-		}
+		tank.flag.shoot(tank);
 	}
 	return -1;
+
+};
+
+World.prototype.drop_flag = function(tank_id) {
+
+	var tank = this.tanks[tank_id];
+	if (tank.flag_id > -1) {
+		tank.set_flag(this.flag_types.default);
+		var flag = this.flags[tank.flag_id];
+		flag.pos.set(tank.pos);
+		flag.alive = true;
+		flag.cooldown = 50;
+	}
 
 };
 
@@ -174,11 +207,8 @@ World.prototype.add_bullet = function(tank_id) {
 		var bullet = this.bullets[i];
 		if (!bullet.alive) {
 			bullet.alive = true;
-			bullet.life = tank.reload_ticks;
+			bullet.new = true;
 			bullet.tank = tank_id;
-			bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos); // Bullet starts at end of cannon
-			bullet.vel.set_rt(bullet.speed, tank.dir).m_add(tank.vel.scale(0.8));
-			bullet.rad = 5;
 			return i;
 		}
 	}
@@ -188,6 +218,7 @@ World.prototype.add_bullet = function(tank_id) {
 World.prototype.update = function() {
 	this.update_tanks();
 	this.update_bullets();
+	this.update_flags();
 	this.handle_collisions();
 };
 
@@ -224,6 +255,17 @@ World.prototype.update_bullets = function() {
 	}
 };
 
+World.prototype.update_flags = function() {
+
+	for (var i = 0; i < this.flags.length; i++) {
+		var flag = this.flags[i];
+		if (flag.alive) {
+			flag.update();
+		}
+	}
+
+};
+
 World.prototype.handle_collisions = function() {
 
 	// Tank-bullet
@@ -250,7 +292,7 @@ World.prototype.handle_collisions = function() {
 
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
-		if (tank.alive) {
+		if (tank.alive && tank.flag.tank_attr.wall_collide) {
 			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
 				var rect = this.map.rectangles[rect_id];
 				var tot_width = tank.rad + rect.hwidth;
@@ -280,7 +322,7 @@ World.prototype.handle_collisions = function() {
 
 	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 		var bullet = this.bullets[bullet_id];
-		if (bullet.alive) {
+		if (bullet.alive && bullet.wall_collide) {
 			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
 				var rect = this.map.rectangles[rect_id];
 				var tot_width = bullet.rad + rect.hwidth;
@@ -288,15 +330,73 @@ World.prototype.handle_collisions = function() {
 				var x_overlap = tot_width - Math.abs(rect.x - bullet.pos.x);
 				var y_overlap = tot_height - Math.abs(rect.y - bullet.pos.y);
 				if (x_overlap > 0 && y_overlap > 0) {
-					/*if (x_overlap < y_overlap) { // bounce x
-						bullet.vel.x = - bullet.vel.x;
-					} else { // bounce y
-						bullet.vel.y = - bullet.vel.y;
+					if (bullet.ricochet > 0) {
+						if (x_overlap < y_overlap) { // bounce x
+							if (Math.abs(bullet.vel.x) >= x_overlap) {
+								bullet.vel.x = - bullet.vel.x;
+							} else {
+								this.kill_bullet(bullet_id);
+							}
+						} else { // bounce y
+							if (Math.abs(bullet.vel.y) >= y_overlap) {
+								bullet.vel.y = - bullet.vel.y;
+							} else {
+								this.kill_bullet(bullet_id);
+							}
+						}
+						bullet.ricochet--;
+					} else {
+						this.kill_bullet(bullet_id);
 					}
-					//bullet.pos.m_add(bullet.vel);
-					//bullet.need_update = true;*/
-					this.kill_bullet(bullet_id);
 					break;
+				}
+			}
+		}
+	}
+
+	// Tank-tank
+
+	for (var i = 0; i < this.tanks.length; i++) {
+		var tank1 = this.tanks[i];
+		if (tank1.alive && tank1.flag.tank_attr.kill_on_collide) {
+			for (var j = 0; j < this.tanks.length; j++) {
+				if (i != j) {
+					var tank2 = this.tanks[j];
+					if (tank2.alive) {
+						if (tank2.flag.tank_attr.kill_on_collide) { // Both steam roller lol!
+							this.server.player_kill(i, j);
+							this.server.player_kill(j, i);
+							this.kill_tank(i);
+							this.kill_tank(j);
+						} else { // Get steam rolled son
+							this.server.player_kill(i, j);
+							this.kill_tank(j);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Tank-flag
+
+	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
+		var tank = this.tanks[tank_id];
+		if (tank.alive && tank.flag.name == "default") {
+			for (var flag_id = 0; flag_id < this.flags.length; flag_id++) {
+				var flag = this.flags[flag_id];
+				if (flag.alive && flag.cooldown <= 0) {
+					var dist2 = (new Vec2()).set(tank.pos).m_sub(flag.pos).mag2();
+					var rad2 = Math.pow((tank.rad*1.25) + flag.rad, 2);
+					if (dist2 < rad2) {
+						flag.alive = false;
+						var flag_type = this.flag_types[flag.type];
+						if (flag_type) {
+							tank.set_flag(flag_type);
+							tank.flag_id = flag_id;
+							this.server.player_flag_pickup(tank_id);
+						}
+					}
 				}
 			}
 		}
@@ -326,17 +426,22 @@ function Tank() {
 	this.left_wheel = 0; // Velocity of each wheel
 	this.right_wheel = 0;
 
-	this.max_bullets = 0;
-	this.reload_ticks = 0;
 	this.reload = [];
 
 	// Configuration
 
+	this.id = -1;
 	this.color = '';
 
-	this.rad = 16; // Half the distance between wheels, determines max spin-speed vs max linear-speed
-	this.max_velocity = 6; // Max velocity of each wheel
-	this.max_wheel_acceleration = 3; // Higher is more responsive
+	this.max_bullets = 0;
+	this.reload_ticks = 0;
+
+	this.rad = 0; // Half the distance between wheels, determines max spin-speed vs max linear-speed
+	this.max_velocity = 0; // Max velocity of each wheel
+	this.max_wheel_acceleration = 0; // Higher is more responsive
+
+	this.flag = null;
+	this.flag_id = -1;
 
 }
 
@@ -398,6 +503,34 @@ Tank.prototype.drive = function() { // Moves and rotates the tank according to w
 
 };
 
+Tank.prototype.use_reload = function() {
+	for (var i = 0; i < this.max_bullets; i++) {
+		if (this.reload[i] >= this.reload_ticks) {
+			this.reload[i] = 0;
+			return true;
+		}
+	}
+	return false;
+};
+
+Tank.prototype.set_flag = function(flag) {
+
+	this.rad = flag.tank_attr.rad;
+	this.max_velocity = flag.tank_attr.max_vel;
+	this.max_wheel_acceleration = flag.tank_attr.max_acc;
+
+	this.max_bullets = flag.weapon_attr.max_bullets;
+	this.reload_ticks = flag.weapon_attr.reload_ticks;
+
+	this.reload = [];
+	for (var i = 0; i < this.max_bullets; i++) {
+		this.reload[i] = this.reload_ticks;
+	}
+
+	this.flag = flag;
+
+};
+
 function Bullet() {
 
 	this.alive = false;
@@ -413,6 +546,8 @@ function Bullet() {
 
 	this.life = 0; // frames remaining until dead
 
+	this.wall_collide = true;
+
 }
 
 Bullet.prototype.drive = function() {
@@ -421,8 +556,19 @@ Bullet.prototype.drive = function() {
 
 function Flag() {
 
-	this.pos = new Vec2();
-	this.rad = 12;
+	this.alive = false;
+	this.cooldown = 0;
+
 	this.type = '';
 
+	this.pos = new Vec2();
+
+	this.rad = 12;
+
 }
+
+Flag.prototype.update = function() {
+	if (this.cooldown > 0) {
+		this.cooldown--;
+	}
+};

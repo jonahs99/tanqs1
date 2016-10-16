@@ -36,6 +36,10 @@ Client.prototype.send_shoot = function() {
 	this.socket.emit('shoot', {});
 };
 
+Client.prototype.send_drop_flag = function() {
+	this.socket.emit('drop_flag', {});
+};
+
 Client.prototype.send_chat = function(text) {
 	console.log("Sending chat: " + text);
 	this.socket.emit('chat', {text: text});
@@ -89,6 +93,7 @@ Client.prototype.on_update = function(msg) {
 	this.game.last_update_time = Date.now(); // Used for interpolation
 	this.game.world.server_update_tanks(msg.tanks);
 	this.game.world.server_update_bullets(msg.bullets);
+	this.game.world.server_update_flags(msg.flags);
 	//this.game.world.add_bullets(msg.bullets);
 
 	if (this.game.state == GameState.GAME) {

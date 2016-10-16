@@ -132,3 +132,7 @@ input[type="submit"].active {
   right: 20px;
 
 }
+
+span {
+  padding-bottom: 5px;
+}

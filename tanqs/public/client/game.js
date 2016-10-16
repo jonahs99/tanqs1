@@ -149,18 +149,22 @@ Game.prototype.on_mousemove = function(evt) {
 Game.prototype.on_mousedown = function(evt) {
 	this.mouse_down = true;
 	if (this.state == GameState.GAME) {
-		this.client.send_shoot();
-		if (!shoot_repeat) {
+		if (evt.which == 3) { // Right click
+			this.client.send_drop_flag();
+		} else { // Left click
+			this.client.send_shoot();
+		}
+		/*if (!shoot_repeat) {
 			shoot_repeat = setInterval(function() {
 				game.on_mousedown(evt);
 			}, 300);
-		}
+		}*/
 	}
 };
 Game.prototype.on_mouseup = function(evt) {
 	this.mouse_down = false;
-	clearInterval(shoot_repeat);
-	shoot_repeat = null;
+	//clearInterval(shoot_repeat);
+	//shoot_repeat = null;
 };
 
 Game.prototype.on_keydown = function(evt) {
@@ -182,6 +186,8 @@ window.onmousemove = game.on_mousemove.bind(game);
 window.onmousedown = game.on_mousedown.bind(game);
 window.onmouseup = game.on_mouseup.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
+
+window.oncontextmenu = function() {return false;};
 
 var splash = document.getElementById('splash');
 var splash_form = document.getElementById('splash_form');

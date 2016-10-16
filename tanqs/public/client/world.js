@@ -23,6 +23,9 @@ World.prototype.reset = function() {
 	for (var i = 0; i < 72; i++) {
 		this.bullets.push(new Bullet());
 	}
+	for (var i = 0; i < 12; i++) {
+		this.flags.push(new Flag());
+	}
 
 };
 
@@ -73,6 +76,12 @@ World.prototype.local_update_tanks = function() {
 		if (tank.alive) {
 			tank.update();
 		}
+		if (tank.corpse) {
+			tank.death_anim--;
+			if (tank.death_anim <= 0) {
+				tank.corpse = false;
+			}
+		}
 	}
 };
 
@@ -105,8 +114,14 @@ World.prototype.server_update_tanks = function(msg) {
 
 			tank.color = tank_data.color;
 
+			tank.flag = tank_data.flag;
+
 			tank.alive = true;
 		} else {
+			if (tank.alive) { // Tank just died!
+				tank.corpse = true;
+				tank.death_anim = 3;
+			}
 			tank.alive = false;
 		}
 
@@ -146,6 +161,25 @@ World.prototype.server_update_bullets = function(msg) {
 
 };
 
+World.prototype.server_update_flags = function(msg) {
+
+	for (var i = 0; i < msg.length; i++) {
+
+		var flag_data = msg[i];
+		var flag = this.flags[flag_data.id];
+
+		if (flag_data.alive) {
+			flag.alive = true;
+			flag.pos.set_xy(flag_data.x, flag_data.y);
+			flag.rad = flag_data.rad;
+		} else {
+			flag.alive = false;
+		}
+
+	}
+
+};
+
 World.prototype.add_bullets = function(msg) {
 
 	for (var i = 0; i < msg.length; i++) {
@@ -173,6 +207,10 @@ function TankState() {
 
 function Tank() {
 	this.alive = false;
+
+	this.corpse = false;
+	this.death_anim = 0;
+
 	this.rad = 20;
 	this.gun_len = 1;
 	this.current = new TankState();
@@ -180,6 +218,8 @@ function Tank() {
 	this.old = new TankState();
 	this.color = '';
 	this.track = {max: 30, start: 0, left: [], right: []};
+
+	this.flag = "default";
 }
 
 Tank.prototype.update = function() {
@@ -225,3 +265,12 @@ Bullet.prototype.lerp_state = function(delta) {
 Bullet.prototype.update = function() {
 	this.pos.m_add(this.vel);
 };
+
+function Flag() {
+
+	this.alive = false;
+
+	this.pos = new Vec2();
+	this.rad = 0;
+
+}

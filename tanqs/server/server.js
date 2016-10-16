@@ -19,10 +19,11 @@ var GameServer = function(http, map_path) {
 
 	this.world = new World();
 	this.world.server = this;
-	this.world.map = map;
+	this.world.parse_map(map);
+	
 	this.clients = {};
 
-	this.frame_input = {shots:[]};
+	this.frame_input = {shots:[], drops:[]};
 	this.frame_events = {deaths:[]};
 
 	this.io.on('connection', this.setup_socket_events.bind(this));
@@ -54,6 +55,7 @@ GameServer.prototype.setup_socket_events = function(socket) {
 	socket.on('respawn', this.on_respawn.bind(this, socket));
 	socket.on('input', this.on_input.bind(this, socket));
 	socket.on('shoot', this.on_shoot.bind(this, socket));
+	socket.on('drop_flag', this.on_drop_flag.bind(this, socket));
 	socket.on('chat', this.on_chat.bind(this, socket));
 
 };
@@ -76,6 +78,23 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	killer_tank.client.stats.kills++;
 	killed_tank.client.stats.deaths++;
 	this.frame_events.deaths.push(killed_id);
+
+	var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
+	var chat_msg = "<i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
+	" <span style=\"color:" + killed_tank.color + "\">" + killed_tank.client.name + "</span>. </i>";
+
+	this.send_chat(chat_msg);
+
+};
+
+GameServer.prototype.player_flag_pickup = function(tank_id) {
+
+	var tank = this.world.tanks[tank_id];
+
+	var chat_msg = "<i> <span style=\"color:" + tank.color + "\">" + tank.client.name + "</span> picked up " + tank.flag.name + ".</i>";
+
+	this.send_chat(chat_msg);
+
 };
 
 // Sends
@@ -107,7 +126,11 @@ GameServer.prototype.send_chat = function(text) {
 };
 
 GameServer.prototype.update_clients = function() {
-	var msg = {tanks: this.tank_update_msg(), bullets: this.bullet_update_msg()};
+	var msg = {
+		tanks: this.tank_update_msg(), 
+		bullets: this.bullet_update_msg(),
+		flags: this.flag_update_msg()
+	};
 	this.io.emit('update', msg);
 };
 
@@ -123,6 +146,7 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.reload = tank.reload;
 			tank_data.reload_ticks = tank.reload_ticks;
 			tank_data.color = tank.color;
+			tank_data.flag = tank.flag.name;
 		}
 		msg.push(tank_data);
 	}
@@ -133,15 +157,11 @@ GameServer.prototype.bullet_update_msg = function() {
 	var msg = [];
 
 	for (var i = 0; i < this.frame_input.shots.length; i++) {
-		var bullet_id = this.world.shoot(this.frame_input.shots[i]);
-		if (bullet_id > -1) {
-			var bullet = this.world.bullets[bullet_id];
-			bullet.new = true;
-		}
+		this.world.shoot(this.frame_input.shots[i]);
 	}
 	this.frame_input.shots = [];
 
-	for (var i = 0; i < 72; i++) {
+	for (var i = 0; i < this.world.n_bullets; i++) {
 		var bullet = this.world.bullets[i];
 		if (bullet.alive) {
 			var bullet_msg = {id: i, alive: true, new: bullet.new,
@@ -166,6 +186,30 @@ GameServer.prototype.bullet_update_msg = function() {
 	return msg;
 };
 
+GameServer.prototype.flag_update_msg = function() {
+
+	var msg = [];
+
+	for (var i = 0; i < this.frame_input.drops.length; i++) {
+		this.world.drop_flag(this.frame_input.drops[i]);
+	}
+	this.frame_input.drops = [];
+
+	for (var i = 0; i < this.world.flags.length; i++) {
+		var flag = this.world.flags[i];
+		var flag_data = {id: i, alive: flag.alive}
+		if (flag.alive) {
+			flag_data.x = flag.pos.x;
+			flag_data.y = flag.pos.y;
+			flag_data.rad = flag.rad;
+		}
+		msg.push(flag_data);
+	}
+
+	return msg;
+
+}
+
 // Events
 
 GameServer.prototype.on_connection = function(socket) {
@@ -180,6 +224,7 @@ GameServer.prototype.on_disconnect = function(socket) {
 	if (client.state == 'pre-login') {
 
 	} else {
+		this.world.kill_tank(client.tank_id);
 		this.world.free_tank(client.tank_id);
 	}
 	this.remove_client(socket.id);
@@ -232,6 +277,15 @@ GameServer.prototype.on_shoot = function(socket, msg) {
 	var tank_id = this.clients[socket.id].tank_id;
 	if (tank_id > -1) {
 		this.frame_input.shots.push(tank_id);
+	}
+
+};
+
+GameServer.prototype.on_drop_flag = function(socket, msg) {
+
+	var tank_id = this.clients[socket.id].tank_id;
+	if (tank_id > -1) {
+		this.frame_input.drops.push(tank_id);
 	}
 
 };
