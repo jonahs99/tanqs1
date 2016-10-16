@@ -116,7 +116,7 @@ function Flags(world) {
 		kill_verb: "flattened",
 		tank_attr: {
 			rad: 20,
-			max_vel: 8,
+			max_vel: 7,
 			max_acc: 3,
 			wall_collide: true,
 			kill_on_collide: true,
