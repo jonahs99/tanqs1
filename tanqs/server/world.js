@@ -445,9 +445,9 @@ Tank.prototype.steer = function() { // Adjusts wheel velocities based on steer_t
 	}
 
 	var wheel_dif = (1 - dot) * 2;
-	//if (dot < 0.95) {
-	//	wheel_dif += 0.1;
-	//}
+	if (dot < 0.95) {
+		wheel_dif += 0.2;
+	}
 
 	var desired_left_wheel = this.max_velocity;
 	var desired_right_wheel = this.max_velocity;

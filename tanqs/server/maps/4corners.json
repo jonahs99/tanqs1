@@ -35,9 +35,9 @@
 		{"x": 800, "y": 0, "type":"steam_roller"},
 		{"x": -800, "y": 0, "type":"super_bullet"},
 		{"x": -800, "y": -800, "type":"tunneler"},
-		{"x": 800, "y": 800, "type":"tunneler"},
+		{"x": 800, "y": 800, "type":"extra_clip"},
 		{"x": -800, "y": 800, "type":"tiny"},
-		{"x": 800, "y": -800, "type":"tiny"}
+		{"x": 800, "y": -800, "type":"sniper"}
 
 	]
 

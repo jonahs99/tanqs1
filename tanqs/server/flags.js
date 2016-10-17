@@ -1,6 +1,21 @@
 
 function Flags(world) {
 
+	// TEMPLATE
+
+	/*
+
+	this._ = {
+		name: "_",
+		kill_verb: "blew up",
+		tank_attr: this.default.tank_attr,
+		weapon_attr: this.default.weapon_attr,
+		bullet_attr: this.default.bullet_attr,
+		shoot: this.default.shoot
+	};
+
+	*/
+
 	// DEFAULT FLAG
 
 	this.default = {
@@ -63,6 +78,40 @@ function Flags(world) {
 			life: 125,
 			ricochet: 2,
 			wall_collide: false
+		},
+		shoot: this.default.shoot
+	};
+
+	// EXTRA CLIP
+
+	this.extra_clip = {
+		name: "extra clip",
+		kill_verb: "blew up",
+		tank_attr: this.default.tank_attr,
+		weapon_attr: {
+			max_bullets: 5,
+			reload_ticks: 125
+		},
+		bullet_attr: this.default.bullet_attr,
+		shoot: this.default.shoot
+	};
+
+	// SNIPER
+
+	this.sniper = {
+		name: "sniper",
+		kill_verb: "sniped",
+		tank_attr: this.default.tank_attr,
+		weapon_attr: {
+			max_bullets: 2,
+			reload_ticks: 180
+		},
+		bullet_attr: {
+			rad: 5,
+			speed: 12,
+			life: 125,
+			ricochet: 0,
+			wall_collide: true
 		},
 		shoot: this.default.shoot
 	};
