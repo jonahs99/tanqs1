@@ -30,6 +30,7 @@
 
 	"flags": [
 
+		{"x": 0, "y": -1200, "type":"speed"},
 		{"x": 0, "y": -800, "type":"triple_shot"},
 		{"x": 0, "y": 800, "type":"ricochet"},
 		{"x": 800, "y": 0, "type":"steam_roller"},
