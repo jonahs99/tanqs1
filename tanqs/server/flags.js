@@ -206,12 +206,11 @@ function Flags(world) {
 	this.speed = {
 		name: "speed",
 		kill_verb: "blew up",
-		tank_attr:
+		tank_attr: {
 			rad: 16,
 			max_vel: 9,
 			max_acc: 3,
 			wall_collide: true,
-			kill_on_collide: true,
 		},
 		weapon_attr: this.default.weapon_attr,
 		bullet_attr: this.default.bullet_attr,
