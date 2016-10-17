@@ -90,9 +90,15 @@ function Flags(world) {
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
 			max_bullets: 5,
-			reload_ticks: 50
+			reload_ticks: 125
 		},
-		bullet_attr: this.default.bullet_attr,
+		bullet_attr: {
+			rad: 4,
+			speed: 8,
+			life: 80,
+			ricochet: 0,
+			wall_collide: true
+		},
 		shoot: this.default.shoot
 	};
 
