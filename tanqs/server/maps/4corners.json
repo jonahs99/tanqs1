@@ -30,15 +30,17 @@
 
 	"flags": [
 
-		{"x": 0, "y": -1200, "type":"speed"},
-		{"x": 0, "y": -800, "type":"triple_shot"},
+		{"x": 0, "y": -800, "type":"tiny"},
 		{"x": 0, "y": 800, "type":"ricochet"},
-		{"x": 800, "y": 0, "type":"steam_roller"},
+		{"x": 800, "y": 0, "type":"tunneler"},
 		{"x": -800, "y": 0, "type":"super_bullet"},
-		{"x": -800, "y": -800, "type":"tunneler"},
-		{"x": 800, "y": 800, "type":"extra_clip"},
-		{"x": -800, "y": 800, "type":"tiny"},
-		{"x": 800, "y": -800, "type":"sniper"}
+		{"x": -300, "y": -300, "type":"triple_shot"},
+		{"x": 300, "y": 300, "type":"extra_clip"},
+		{"x": -300, "y": 300, "type":"speed"},
+		{"x": 300, "y": -300, "type":"steam_roller"},
+
+		{"x": 800, "y": 800, "type":"sniper"},
+		{"x": -800, "y": -800, "type":"back_fire"}
 
 	]
 

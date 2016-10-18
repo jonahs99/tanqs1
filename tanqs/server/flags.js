@@ -89,13 +89,13 @@ function Flags(world) {
 		kill_verb: "blew up",
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
-			max_bullets: 5,
+			max_bullets: 4,
 			reload_ticks: 125
 		},
 		bullet_attr: {
-			rad: 4,
+			rad: 5,
 			speed: 8,
-			life: 80,
+			life: 90,
 			ricochet: 0,
 			wall_collide: true
 		},
@@ -109,13 +109,13 @@ function Flags(world) {
 		kill_verb: "sniped",
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
-			max_bullets: 2,
+			max_bullets: 3,
 			reload_ticks: 180
 		},
 		bullet_attr: {
 			rad: 5,
-			speed: 12,
-			life: 125,
+			speed: 14,
+			life: 180,
 			ricochet: 0,
 			wall_collide: true
 		},
@@ -129,7 +129,7 @@ function Flags(world) {
 		kill_verb: "blew up",
 		tank_attr: {
 			rad: 16,
-			max_vel: 5,
+			max_vel: 6,
 			max_acc: 3,
 			wall_collide: false
 		}, 
@@ -208,13 +208,36 @@ function Flags(world) {
 		kill_verb: "blew up",
 		tank_attr: {
 			rad: 16,
-			max_vel: 9,
-			max_acc: 3,
+			max_vel: 7.5,
+			max_acc: 2,
 			wall_collide: true,
 		},
 		weapon_attr: this.default.weapon_attr,
 		bullet_attr: this.default.bullet_attr,
 		shoot: this.default.shoot
+	};
+
+	// BACKFIRE
+
+	this.back_fire = {
+		name: "back fire",
+		kill_verb: "blew up",
+		tank_attr: this.default.tank_attr,
+		weapon_attr: this.default.weapon_attr,
+		bullet_attr: this.default.bullet_attr,
+		back_bullet_attr: {
+			rad: 5,
+			speed: 6,
+			life: 125,
+			ricochet: 0,
+			wall_collide: true
+		}
+	};
+	this.back_fire.shoot = function(tank) {
+		if (tank.use_reload()) {
+			shoot(world, tank, this.bullet_attr);
+			shoot(world, tank, this.back_bullet_attr, Math.PI);
+		}
 	};
 
 }
