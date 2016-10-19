@@ -218,6 +218,7 @@ function Tank() {
 	this.death_anim = 0;
 
 	this.rad = 20;
+	this.draw_rad = 20;
 	this.gun_len = 1;
 	this.current = new TankState();
 	this.draw = new TankState();

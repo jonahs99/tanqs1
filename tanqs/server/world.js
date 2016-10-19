@@ -231,6 +231,9 @@ World.prototype.update_bullets = function() {
 		if (bullet.alive) {
 			bullet.drive();
 			bullet.rad += bullet.expansion;
+			if (bullet.expansion > 0) {
+				bullet.expansion -= 8 / 30;
+			}
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				this.kill_bullet(i);
 			} else {

@@ -236,7 +236,7 @@ function Flags(world) {
 	this.back_fire.shoot = function(tank) {
 		if (tank.use_reload()) {
 			shoot(world, tank, this.bullet_attr);
-			shoot(world, tank, this.back_bullet_attr, Math.PI);
+			shoot(world, tank, this.back_bullet_attr, Math.PI, 0, true, true);
 		}
 	};
 
@@ -251,14 +251,19 @@ function Flags(world) {
 			reload_ticks: 125
 		},
 		bullet_attr: {
-			rad: 0,
+			rad: 20,
 			speed: 0,
 			life: 30,
 			ricochet: 0,
 			wall_collide: false,
-			expansion: 5
-		},
-		shoot: this.default.shoot
+			pass_thru: true,
+			expansion: 9
+		}
+	};
+	this.shock_wave.shoot = function(tank) {
+		if (tank.use_reload()) {
+			shoot(world, tank, this.bullet_attr, 0, true, false, true);
+		}
 	};
 
 }
@@ -267,9 +272,13 @@ module.exports = Flags;
 
 // Private methods
 
-function shoot(world, tank, bullet_attr, dir_offset) {
+function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center) {
 
 	dir_offset = dir_offset || 0;
+	abs_vel = abs_vel || false;
+	dir_sweep = dir_sweep || false;
+	center = center || false;
+
 	var dir = tank.dir + dir_offset;
 
 	var bullet_id = world.add_bullet(tank.id);
@@ -277,14 +286,27 @@ function shoot(world, tank, bullet_attr, dir_offset) {
 	if (bullet_id > -1) {
 		var bullet = world.bullets[bullet_id];
 
-		bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos); // Bullet starts at end of cannon
-		bullet.vel.set_rt(bullet_attr.speed, dir).m_add(tank.vel.scale(0.8));
+		if (center) {
+			bullet.pos.set(tank.pos);
+		} else {
+			if (dir_sweep) {
+				bullet.pos.set_rt(tank.rad * 2, dir).m_add(tank.pos);
+			} else {
+				bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos);
+			}
+		}
+		if (abs_vel) {
+			bullet.vel.set_rt(bullet_attr.speed, dir);
+		} else {
+			bullet.vel.set_rt(bullet_attr.speed, dir).m_add(tank.vel);
+		}
 
 		bullet.life = bullet_attr.life;
 		bullet.rad = bullet_attr.rad;
 
 		bullet.ricochet = bullet_attr.ricochet;
 		bullet.wall_collide = bullet_attr.wall_collide;
+		bullet.pass_thru = bullet_attr.pass_thru || false;
 
 		bullet.expansion = bullet_attr.expansion || 0;
 

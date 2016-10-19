@@ -183,6 +183,8 @@ Renderer.prototype.render_tank_tracks = function(tank) {
 Renderer.prototype.render_tank = function(tank, delta) {
 
 	//tank.lerp_state(delta);
+	tank.draw_rad = lerp(tank.draw_rad, tank.rad, 0.2);
+	var rad = tank.draw_rad;
 
 	this.context.translate(tank.draw.pos.x, tank.draw.pos.y);
 	this.context.rotate(tank.draw.dir);
@@ -200,16 +202,16 @@ Renderer.prototype.render_tank = function(tank, delta) {
 
 	// Base tank square
 	this.context.beginPath();
-	this.context.rect(-tank.rad, -tank.rad, 2 * tank.rad, 2 * tank.rad);
+	this.context.rect(-rad, -rad, 2 * rad, 2 * rad);
 	this.context.fill();
 	this.context.stroke();
 
 	this.context.beginPath();
 	// Wheels
-	this.context.rect(-tank.rad * 1.25, -tank.rad * 1.25, tank.rad * 2.5, tank.rad * 0.75);
-	this.context.rect(-tank.rad * 1.25, tank.rad * 0.5, tank.rad * 2.5, tank.rad * 0.75);
+	this.context.rect(-rad * 1.25, -rad * 1.25, rad * 2.5, rad * 0.75);
+	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	// Gun
-	this.context.rect(-2 * tank.rad * (1 - tank.gun_len), -tank.rad * 0.2, tank.rad * 2, tank.rad * 0.4);
+	this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
 
 	this.context.fill();
 	this.context.stroke();
@@ -225,7 +227,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.textAlign = "center";
 	this.context.textBaseline = "middle";
 	if (tank != this.game.player_tank) {
-		this.context.fillText(tank.name, 0, tank.rad * 3);	
+		this.context.fillText(tank.name, 0, rad * 3);	
 	}
 
 	this.context.translate(-tank.draw.pos.x, -tank.draw.pos.y);
@@ -249,7 +251,7 @@ Renderer.prototype.render_bullet = function(bullet) {
 	if (bullet.old_rad != bullet.rad) {
 		this.context.lineWidth = 6;
 		this.context.strokeStyle = bullet.color;
-		this.context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+		this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
 	}
 	this.context.fill();
 	this.context.stroke();
