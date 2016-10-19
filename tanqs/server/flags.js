@@ -59,7 +59,7 @@ function Flags(world) {
 			rad: 5,
 			speed: 8,
 			life: 125,
-			ricochet: 2,
+			ricochet: 3,
 			wall_collide: true
 		},
 		shoot: this.default.shoot
@@ -109,7 +109,7 @@ function Flags(world) {
 		kill_verb: "sniped",
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
-			max_bullets: 3,
+			max_bullets: 2,
 			reload_ticks: 180
 		},
 		bullet_attr: {
