@@ -45,6 +45,27 @@ function Flags(world) {
 		}
 	};
 
+	// SHIELD
+
+	this.shield = {
+		name: "shield",
+		kill_verb: "blew up",
+		tank_attr: {
+			rad: 16,
+			max_vel: 6,
+			max_acc: 3,
+			wall_collide: true,
+			shield_rad: 40
+		},
+		weapon_attr: this.default.weapon_attr,
+		bullet_attr: this.default.bullet_attr
+	}
+	this.shield.shoot = function(tank) {
+		if (tank.use_reload(0,this.weapon_attr.max_bullets-1)) {
+			shoot(world, tank, this.bullet_attr);
+		}
+	}
+
 	// RICOCHET
 
 	this.ricochet = {

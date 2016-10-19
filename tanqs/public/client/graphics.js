@@ -216,6 +216,14 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.fill();
 	this.context.stroke();
 
+	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
+		this.context.strokeStyle = '#fff';
+		this.context.lineWidth = 4;
+		this.context.beginPath();
+		this.context.arc(0, 0, 40, 0, Math.PI * 2);
+		this.context.stroke();
+	}
+
 	if (tank.corpse) {
 		this.context.scale(2/(1 + scl), 1/scl);
 	}
@@ -335,7 +343,6 @@ Renderer.prototype.render_reload_bars = function(text_length) {
 
 	this.context.lineWidth = 12;
 	this.context.lineCap = "round";
-	this.context.strokeStyle = '#eee';
 
 	var n_bars = this.game.player_tank.reload.length;
 	var length = 70;
@@ -345,6 +352,12 @@ Renderer.prototype.render_reload_bars = function(text_length) {
 	var height = y - (n_bars-1)*spacing/2;
 
 	for (var i = 0; i < this.game.player_tank.reload.length; i++) {
+		if (this.game.player_tank.flag == "shield" && i==this.game.player_tank.reload.length-1) {
+			this.context.strokeStyle = '#888';
+			i++;
+		} else {
+			this.context.strokeStyle = '#eee';
+		}
 		this.context.beginPath();
 		this.context.moveTo(x, height + spacing * i);
 		this.context.lineTo(x + length, height + spacing * i);
@@ -358,6 +371,10 @@ Renderer.prototype.render_reload_bars = function(text_length) {
 		var x2 = x + this.game.player_tank.reload[i] / this.game.player_tank.reload_ticks * length;
 
 		this.context.strokeStyle = (this.game.player_tank.reload[i] == this.game.player_tank.reload_ticks)? '#3c3' : '#fc0';
+
+		if (this.game.player_tank.flag == "shield" && i==this.game.player_tank.reload.length-1) {
+			i++;
+		}
 
 		this.context.beginPath();
 		this.context.moveTo(x, height + spacing * i);

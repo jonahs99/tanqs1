@@ -271,6 +271,15 @@ World.prototype.handle_collisions = function() {
 						this.kill_tank(tank_id);
 						this.kill_bullet(bullet_id);
 					}
+					if (tank.flag.tank_attr.shield_rad && !bullet.pass_thru) {
+						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
+							var srad2 = Math.pow(tank.flag.tank_attr.shield_rad + bullet.rad, 2);
+							if (dist2 < srad2) {
+								this.kill_bullet(bullet_id);
+								tank.reload[tank.flag.weapon_attr.max_bullets - 1] = 0;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -501,8 +510,10 @@ Tank.prototype.drive = function() { // Moves and rotates the tank according to w
 
 };
 
-Tank.prototype.use_reload = function() {
-	for (var i = 0; i < this.max_bullets; i++) {
+Tank.prototype.use_reload = function(start, end) {
+	start = start || 0;
+	end = end || this.max_bullets;
+	for (var i = start; i < end; i++) {
 		if (this.reload[i] >= this.reload_ticks) {
 			this.reload[i] = 0;
 			return true;

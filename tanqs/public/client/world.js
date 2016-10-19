@@ -107,10 +107,8 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.current.pos.set(tank_data.pos);
 			tank.current.dir = tank_data.dir;
 
-			if (tank == this.game.player_tank) {
-				tank.reload = tank_data.reload;
-				tank.reload_ticks = tank_data.reload_ticks;
-			}
+			tank.reload = tank_data.reload;
+			tank.reload_ticks = tank_data.reload_ticks;
 
 			tank.color = tank_data.color;
 

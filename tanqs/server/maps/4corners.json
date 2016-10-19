@@ -42,7 +42,7 @@
 		{"x": 800, "y": 800, "type":"sniper"},
 		{"x": -800, "y": 800, "type":"extra_clip"},
 		{"x": -800, "y": -800, "type":"back_fire"},
-		{"x": 800, "y": -800, "type":"tiny"}
+		{"x": 800, "y": -800, "type":"shield"}
 
 	]
 
