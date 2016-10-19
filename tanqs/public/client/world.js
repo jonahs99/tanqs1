@@ -121,6 +121,7 @@ World.prototype.server_update_tanks = function(msg) {
 			if (tank.alive) { // Tank just died!
 				tank.corpse = true;
 				tank.death_anim = 3;
+				tank.killed_by = tank_data.killed_by;
 			}
 			tank.alive = false;
 		}
@@ -141,15 +142,19 @@ World.prototype.server_update_bullets = function(msg) {
 			if (bullet_data.new) { // This bullet was just shot!
 				var tank = this.tanks[bullet_data.tank];
 				tank.gun_len = 0.9;
-				bullet.rad = bullet_data.rad;
 				bullet.color = tank.color;
 				bullet.alive = true;
 
 				bullet.old_pos.set(tank.draw.pos);
 				bullet.draw_pos.set(bullet.old_pos);
+				bullet.old_rad = bullet_data.rad;
+				bullet.draw_rad = bullet_data.rad;
 			} else {
 				bullet.old_pos.set(bullet.draw_pos);
+				bullet.old_rad = bullet.draw_rad;
 			}
+
+			bullet.rad = bullet_data.rad;
 
 			bullet.current_pos.set_xy(bullet_data.x, bullet_data.y);
 			
@@ -206,6 +211,7 @@ function TankState() {
 }
 
 function Tank() {
+	this.name = '';
 	this.alive = false;
 
 	this.corpse = false;
@@ -220,6 +226,7 @@ function Tank() {
 	this.track = {max: 30, start: 0, left: [], right: []};
 
 	this.flag = "default";
+	this.killed_by = -1;
 }
 
 Tank.prototype.update = function() {
@@ -236,7 +243,7 @@ Tank.prototype.lerp_state = function(delta) {
 	this.draw.dir = lerp(this.old.dir, this.current.dir, delta);
 };
 
-function Bullet(pos, vel, rad) {
+function Bullet() {
 
 	this.alive = false;
 
@@ -245,21 +252,18 @@ function Bullet(pos, vel, rad) {
 	this.current_pos = new Vec2();
 
 	this.vel = new Vec2();
-	this.rad = rad || 0;
+	this.old_rad = 0;
+	this.draw_rad = 0;
+	this.rad = 0;
+	this.expansion = 0;
 
 	this.color = '';
-
-	if (pos) {
-		this.pos.set(pos);
-	}
-	if (vel) {
-		this.vel.set(vel);
-	}
 
 }
 
 Bullet.prototype.lerp_state = function(delta) {
-	this.draw_pos.set_lerp(this.old_pos, this.current_pos, delta)
+	this.draw_pos.set_lerp(this.old_pos, this.current_pos, delta);
+	this.draw_rad = lerp(this.old_rad, this.rad, delta);
 };
 
 Bullet.prototype.update = function() {

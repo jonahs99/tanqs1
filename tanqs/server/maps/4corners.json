@@ -35,7 +35,7 @@
 		{"x": 800, "y": 0, "type":"tunneler"},
 		{"x": -800, "y": 0, "type":"super_bullet"},
 		{"x": -300, "y": -300, "type":"triple_shot"},
-		{"x": 300, "y": 300, "type":"extra_clip"},
+		{"x": 300, "y": 300, "type":"shock_wave"},
 		{"x": -300, "y": 300, "type":"speed"},
 		{"x": 300, "y": -300, "type":"steam_roller"},
 

@@ -240,6 +240,27 @@ function Flags(world) {
 		}
 	};
 
+	// SHOCK WAVE
+
+	this.shock_wave = {
+		name: "shock wave",
+		kill_verb: "incinerated",
+		tank_attr: this.default.tank_attr,
+		weapon_attr: {
+			max_bullets: 2,
+			reload_ticks: 125
+		},
+		bullet_attr: {
+			rad: 0,
+			speed: 0,
+			life: 30,
+			ricochet: 0,
+			wall_collide: false,
+			expansion: 5
+		},
+		shoot: this.default.shoot
+	};
+
 }
 
 module.exports = Flags;
@@ -264,6 +285,8 @@ function shoot(world, tank, bullet_attr, dir_offset) {
 
 		bullet.ricochet = bullet_attr.ricochet;
 		bullet.wall_collide = bullet_attr.wall_collide;
+
+		bullet.expansion = bullet_attr.expansion || 0;
 
 	}
 

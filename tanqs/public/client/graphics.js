@@ -36,6 +36,8 @@ Renderer.prototype.render_world = function() {
 	this.context.clip();
 
 	// Pan with the player
+	var scl;
+
 	if (this.game.state == GameState.GAME) {
 		this.game.player_tank.lerp_state(delta);
 		this.game.camera.translate.set(this.game.player_tank.draw.pos).m_scale(-1);
@@ -44,9 +46,12 @@ Renderer.prototype.render_world = function() {
 		} else {
 			this.game.camera.rotate = 0;
 		}
-		var scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
-		this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.05);
+		scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
+	} else {
+		scl = 0.8;
 	}
+
+	this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.1);
 
 	this.context.scale(this.game.camera.scale, this.game.camera.scale);
 	this.context.rotate(this.game.camera.rotate);
@@ -239,7 +244,13 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.strokeStyle = '#444';//'#893DCC';
 
 	this.context.beginPath();
-	this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.rad, 0, 2*Math.PI);
+	this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad, 0, 2*Math.PI);
+
+	if (bullet.old_rad != bullet.rad) {
+		this.context.lineWidth = 6;
+		this.context.strokeStyle = bullet.color;
+		this.context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+	}
 	this.context.fill();
 	this.context.stroke();
 

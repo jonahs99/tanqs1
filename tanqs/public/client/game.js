@@ -57,12 +57,17 @@ Game.prototype.change_state = function(state) {
 
 		splash_input.style.display = 'none';
 
-		splash_text.innerHTML = "you got blown up ;>";
+		if (game.player_tank.killed_by > -1) {
+			var killer = game.world.tanks[game.player_tank.killed_by];
+			splash_text.innerHTML = "<span style=\"color:" + killer.color + "\">" + killer.name + "</span> killed you ;&gt";
+		} else {
+			splash_text.innerHTML = "you got blown up ;>";
+		}
+
 		splash_button.value = "respawn";
 		splash.style.visibility = 'visible';
 
 		chat_input.style.visibility = 'visible';
-
 
 	}
 

@@ -198,6 +198,12 @@ World.prototype.update = function() {
 	this.update_bullets();
 	this.update_flags();
 	this.handle_collisions();
+	for (var i = 0; i < this.tanks.length; i++) {
+		var tank = this.tanks[i];
+		if (tank.alive) {
+			tank.vel.set(tank.pos).m_sub(tank.last_pos);
+		}
+	}
 };
 
 World.prototype.update_tanks = function() {
@@ -224,6 +230,7 @@ World.prototype.update_bullets = function() {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
 			bullet.drive();
+			bullet.rad += bullet.expansion;
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				this.kill_bullet(i);
 			} else {
@@ -399,6 +406,7 @@ function Tank() {
 
 	// State
 
+	this.last_pos = new Vec2();
 	this.pos = new Vec2();
 	this.dir = 0;
 	this.vel = new Vec2(); 	//	Stored so that bullet velocities
@@ -410,6 +418,8 @@ function Tank() {
 	this.right_wheel = 0;
 
 	this.reload = [];
+
+	this.killed_by = -1;
 
 	// Configuration
 
@@ -477,6 +487,8 @@ Tank.prototype.steer = function() { // Adjusts wheel velocities based on steer_t
 };
 
 Tank.prototype.drive = function() { // Moves and rotates the tank according to wheel velocities
+
+	this.last_pos.set(this.pos);
 
 	this.rot_vel = (this.left_wheel - this.right_wheel) / 2 / this.rad;
 	this.vel.set_rt((this.left_wheel + this.right_wheel) / 2, this.dir);

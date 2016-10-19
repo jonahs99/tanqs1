@@ -75,6 +75,9 @@ GameServer.prototype.remove_client = function(socket_id) {
 GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	var killer_tank = this.world.tanks[killer_id];
 	var killed_tank = this.world.tanks[killed_id];
+
+	killed_tank.killed_by = killer_id;
+
 	killer_tank.client.stats.kills++;
 	killed_tank.client.stats.deaths++;
 	this.frame_events.deaths.push(killed_id);
@@ -157,6 +160,8 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.reload_ticks = tank.reload_ticks;
 			tank_data.color = tank.color;
 			tank_data.flag = tank.flag.name;
+		} else {
+			tank_data.killed_by = tank.killed_by;
 		}
 		msg.push(tank_data);
 	}
