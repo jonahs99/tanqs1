@@ -44,8 +44,11 @@ Renderer.prototype.render_world = function() {
 		} else {
 			this.game.camera.rotate = 0;
 		}
+		var scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
+		this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.05);
 	}
 
+	this.context.scale(this.game.camera.scale, this.game.camera.scale);
 	this.context.rotate(this.game.camera.rotate);
 	this.context.translate(this.game.camera.translate.x, this.game.camera.translate.y);
 
@@ -120,6 +123,7 @@ Renderer.prototype.render_world = function() {
 
 	this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);
+	this.context.scale(1/this.game.camera.scale, 1/this.game.camera.scale);
 
 	//Draw the leader_board
 	this.render_leaderboard();
