@@ -311,6 +311,8 @@ Renderer.prototype.render_ui = function() {
 	var	flag_name = this.game.player_tank.flag;
 	if (flag_name && (flag_name != "default")) {
 		this.context.fillText(flag_name, 0, -this.canvas.height/2+60);
+		this.context.font = "18px Open Sans";
+		this.context.fillText("(right click to drop flag)", 0, -this.canvas.height/2+100);
 	}
 
 };
