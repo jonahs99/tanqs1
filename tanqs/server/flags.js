@@ -98,7 +98,8 @@ function Flags(world) {
 			speed: 6,
 			life: 125,
 			ricochet: 2,
-			wall_collide: false
+			wall_collide: false,
+			pass_thru: true
 		},
 		shoot: this.default.shoot
 	};

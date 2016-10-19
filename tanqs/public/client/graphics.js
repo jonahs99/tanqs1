@@ -217,7 +217,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.stroke();
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
-		this.context.strokeStyle = '#fff';
+		this.context.strokeStyle = 'rgba(255,255,255,0.5)';
 		this.context.lineWidth = 4;
 		this.context.beginPath();
 		this.context.arc(0, 0, 40, 0, Math.PI * 2);

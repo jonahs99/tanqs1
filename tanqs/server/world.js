@@ -269,7 +269,9 @@ World.prototype.handle_collisions = function() {
 					if (dist2 < rad2) {
 						this.server.player_kill(bullet.tank, tank_id)
 						this.kill_tank(tank_id);
-						this.kill_bullet(bullet_id);
+						if (!bullet.pass_thru) {
+							this.kill_bullet(bullet_id);
+						}
 					}
 					if (tank.flag.tank_attr.shield_rad && !bullet.pass_thru) {
 						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
