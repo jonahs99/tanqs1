@@ -116,7 +116,21 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 			tank.reserved = true;
 			tank.alive = false;
 			tank.client = client;
-			tank.color = random_color();
+
+			var tries = 12;
+			var repeat_color = true;
+			while (repeat_color && tries > 0) {
+				repeat_color = false;
+				tank.color = random_color();
+				tries--;
+				for (var j = 0; j < this.n_tanks; j++) {
+					if (j != i && tank.color == this.tanks[j].color) {
+						repeat_color = true;
+						break;
+					}
+				}
+			}
+
 			return i;
 		}
 	}

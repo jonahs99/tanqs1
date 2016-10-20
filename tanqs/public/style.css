@@ -98,9 +98,13 @@ input[type="submit"].active {
   position: fixed;
   background-color: transparent;
   color: white;
-  width: 250px;
+  width: 350px;
+  max-width: calc(50% - 200px);
+  max-height: 50%;
   bottom: 60px;
   right: 20px;
+
+  overflow: hidden;
 
   font-family: Open Sans;
   font-size: 16px;
@@ -117,6 +121,8 @@ input[type="submit"].active {
 
   cursor: default;
 
+  -webkit-mask-image: -webkit-gradient(linear, left 40%, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+
 }
 
 #chat_input {
@@ -127,7 +133,8 @@ input[type="submit"].active {
   position: fixed;
   background-color: transparent;
   color: white;
-  width: 250px;
+  width: 350px;
+  max-width: calc(50% - 200px);
   bottom: 20px;
   right: 20px;
 

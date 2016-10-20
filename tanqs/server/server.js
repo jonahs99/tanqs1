@@ -311,7 +311,10 @@ GameServer.prototype.on_chat = function(socket, msg) {
 	if (client.tank_id > -1) {
 		var name = this.clients[socket.id].name;
 		var color = this.world.tanks[client.tank_id].color;
-		this.send_chat("<span style=\"color:" + color + "\"><b>" + name + "</b></span>: " + msg.text);
+
+		var text = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+		this.send_chat("<span style=\"color:" + color + "\"><b>" + name + "</b></span>: " + text);
 	}
 
 };

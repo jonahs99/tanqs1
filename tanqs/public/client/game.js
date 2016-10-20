@@ -124,6 +124,7 @@ Game.prototype.add_chat_message = function(chat) {
 	var span = document.createElement('span');
 	span.innerHTML = chat;
 	chat_output.appendChild(span);
+	chat_output.scrollTop = chat_output.scrollHeight;
 
 	if (chat_output.childElementCount > 16) {
 		chat_output.removeChild(chat_output.children[0]);

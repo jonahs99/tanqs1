@@ -142,7 +142,7 @@ Renderer.prototype.render_world = function() {
 
 Renderer.prototype.render_map = function() {
 
-	this.context.fillStyle = '#19334d';
+	this.context.fillStyle = '#244a6f';
 	this.context.strokeStyle = '#444';
 	this.context.lineWidth = 4;
 
