@@ -109,7 +109,7 @@ GameServer.prototype.player_flag_pickup = function(tank_id) {
 
 	this.send_chat(chat_msg);*/
 	var tank = this.world.tanks[tank_id];
-	if (tank.flag_id > -1 && tank.flag_id != tank.team) {
+	if (tank.flag_team > -1 && tank.flag_team != tank.team) {
 		var team_name = (["red", "blue"])[tank.flag_id];
 		var team_color = (['#e04945', '#2374cf'])[tank.flag_id];
 
