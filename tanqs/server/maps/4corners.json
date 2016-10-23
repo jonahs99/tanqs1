@@ -1,5 +1,5 @@
 {
-	"size": {"width": 2600, "height": 2600},
+	"size": {"width": 2600, "height": 2600, "grid": 100},
 
 	"teams": [
 

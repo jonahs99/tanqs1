@@ -58,7 +58,12 @@ grid_input_form.onsubmit = function() {
 
 export_input.onsubmit = function() {
 
-	var map_object = {};
+	var map_object = {
+		size: {width: config.width, height: config.height, grid: config.major},
+		teams: map.teams,
+		rectangles: map.rects,
+		flags: map.flags
+	};
 
 	var string_out = JSON.stringify(map_object);
 	console.log(string_out);
