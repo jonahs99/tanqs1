@@ -46,7 +46,7 @@ Renderer.prototype.render_world = function() {
 		} else {
 			this.game.camera.rotate = 0;
 		}
-		scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
+		scl = this.game.player_tank.flag == 'sniper' ? 0.6 : 1;
 	} else {
 		scl = 0.8;
 	}
@@ -142,12 +142,22 @@ Renderer.prototype.render_world = function() {
 
 Renderer.prototype.render_map = function() {
 
-	this.context.fillStyle = '#244a6f';
-	this.context.strokeStyle = '#444';
 	this.context.lineWidth = 4;
 
 	for (var i = 0; i < this.world.map.rectangles.length; i++) {
 		var rect = this.world.map.rectangles[i];
+
+		if (rect.team == -1) {
+			this.context.fillStyle = '#777';
+			this.context.strokeStyle = '#444';
+		} else if (rect.team == 0) {
+			this.context.fillStyle = '#e04945';
+			this.context.strokeStyle = '#e77471';
+		} else if (rect.team == 1) {
+			this.context.fillStyle = '#195496';
+			this.context.strokeStyle = '#195496';
+		}
+
 		this.context.beginPath();
 		this.context.rect(rect.x - rect.hwidth, rect.y - rect.hheight, rect.hwidth * 2, rect.hheight * 2);
 		this.context.fill();
@@ -190,7 +200,11 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rotate(tank.draw.dir);
 
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
-	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#666';
+
+	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#777';
+	if (tank.flag_team > -1) {
+		this.context.strokeStyle = (['#e04945', '#2374cf'])[tank.flag_team];
+	}
 
 	if (tank.corpse) {
 		var scl = (tank.death_anim) / 3;
@@ -268,11 +282,27 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 Renderer.prototype.render_flag = function(flag) {
 
+	var colors = {bg: '', flag: ''};
+	switch (flag.team) {
+		case -1:
+			colors.bg = '#aaa';
+			colors.flag = '#fff';
+			break;
+		case 0:
+			colors.bg = '#e04945';
+			colors.flag = '#e77471';
+			break;
+		case 1:
+			colors.bg = '#2374cf';
+			colors.flag = '#458ee0';
+			break;
+	}
+
 	this.context.translate(flag.pos.x, flag.pos.y);
 
-	this.context.fillStyle = '#aaa';
+	this.context.fillStyle = colors.bg;
 	this.context.lineWidth = 4;
-	this.context.strokeStyle = '#aaa';
+	this.context.strokeStyle = colors.bg;
 
 	var flag_rad = flag.rad * 0.8;
 
@@ -282,8 +312,8 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.fill();
 	this.context.stroke();
 
-	this.context.strokeStyle = '#fff';
-	this.context.fillStyle = '#fff';
+	this.context.strokeStyle = colors.flag;
+	this.context.fillStyle = colors.flag;
 
 	this.context.beginPath();
 	this.context.moveTo(-0.5 * flag_rad, flag_rad);
@@ -309,7 +339,7 @@ Renderer.prototype.render_leaderboard = function() {
 		var client = this.game.leaderboard[i];
 		var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 
-		this.context.fillStyle = i == 0 ? '#3c3' : '#fff';
+		this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 		this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
 
 		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*i);

@@ -129,9 +129,14 @@ function Flags(world) {
 	this.sniper = {
 		name: "sniper",
 		kill_verb: "sniped",
-		tank_attr: this.default.tank_attr,
+		tank_attr: {
+			rad: 16,
+			max_vel: 5,
+			max_acc: 3,
+			wall_collide: true
+		},
 		weapon_attr: {
-			max_bullets: 2,
+			max_bullets: 3,
 			reload_ticks: 180
 		},
 		bullet_attr: {
@@ -257,7 +262,7 @@ function Flags(world) {
 	};
 	this.back_fire.shoot = function(tank) {
 		if (tank.use_reload()) {
-			shoot(world, tank, this.bullet_attr);
+			//shoot(world, tank, this.bullet_attr);
 			shoot(world, tank, this.back_bullet_attr, Math.PI, 0, true, true);
 		}
 	};
@@ -273,13 +278,13 @@ function Flags(world) {
 			reload_ticks: 125
 		},
 		bullet_attr: {
-			rad: 20,
+			rad: 24,
 			speed: 0,
 			life: 30,
 			ricochet: 0,
 			wall_collide: false,
 			pass_thru: true,
-			expansion: 9
+			expansion: 12
 		}
 	};
 	this.shock_wave.shoot = function(tank) {

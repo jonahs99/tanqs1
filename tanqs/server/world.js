@@ -16,15 +16,16 @@ function World() {
 	this.flags = [];
 	this.map = {};
 
+	this.teams = [];
+
 	this.n_tanks = 24;
 	this.n_bullets = 72;
-	this.n_flags = 12;
+	this.n_flags = 20;
 
 	//this.generate_map();
 	this.reset();
 
 	this.flag_types = new Flags(this);
-	//console.log(this.flag_types);
 
 };
 
@@ -50,17 +51,48 @@ World.prototype.reset = function() {
 
 World.prototype.parse_map = function(map) {
 
-	this.map = {size: map.size, rectangles: map.rectangles};
+	this.map = {size: map.size, rectangles: []};
+
+	for (var i = 0; i < map.teams.length; i++) {
+
+		var team_data = map.teams[i];
+
+		var flag = this.flags[i];
+		flag.alive = true;
+		flag.type = "team";
+		flag.spawn.set_xy(team_data.flag.x, team_data.flag.y);
+		flag.pos.set(flag.spawn);
+		flag.team = i;
+		flag.rad = 14;
+
+		var pad = {x: team_data.pad.x, y: team_data.pad.y, hwidth: team_data.pad.hwidth, hheight: team_data.pad.hheight, team: i};
+		this.map.rectangles.push(pad);
+
+		this.teams[i] = {
+			spawn: new Vec2(team_data.spawn.x, team_data.spawn.y),
+			tanks: []
+		};
+
+	}
 
 	for (var i = 0; i < map.flags.length; i++) {
 
 		var flag_data = map.flags[i];
-		var flag = this.flags[i];
+		var flag = this.flags[i + map.teams.length];
 
 		flag.alive = true;
 		flag.type = flag_data.type;
 		flag.spawn.set_xy(flag_data.x, flag_data.y);
 		flag.pos.set(flag.spawn);
+		flag.team = -1;
+
+	}
+
+	for (var i = 0; i < map.rectangles.length; i++) {
+
+		var rect_data = map.rectangles[i];
+		var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
+		this.map.rectangles.push(rect);
 
 	}
 
@@ -117,7 +149,16 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 			tank.alive = false;
 			tank.client = client;
 
-			var tries = 12;
+			if (this.teams[0].tanks.length < this.teams[1].tanks.length) {
+				this.assign_tank_team(i, 0);
+
+			} else if (this.teams[1].tanks.length < this.teams[0].tanks.length) {
+				this.assign_tank_team(i, 1);
+			} else {
+				this.assign_tank_team(i, Math.floor(Math.random() * 2));
+			}
+
+			/*var tries = 12;
 			var repeat_color = true;
 			while (repeat_color && tries > 0) {
 				repeat_color = false;
@@ -129,7 +170,7 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 						break;
 					}
 				}
-			}
+			}*/
 
 			return i;
 		}
@@ -141,6 +182,19 @@ World.prototype.free_tank = function(id) {
 	var tank = this.tanks[id];
 	tank.reserved = false;
 	tank.alive = false;
+	if (this.teams[tank.team]) {
+		var index = this.teams[tank.team].tanks.indexOf(id);
+		if (index > -1) {
+			this.teams[tank.team].tanks.splice(index, 1);
+		}
+	}
+};
+
+World.prototype.assign_tank_team = function(id, team) {
+	var tank = this.tanks[id];
+	tank.team = team;
+	tank.color = (['#f66', '#6bf'])[team];
+	this.teams[team].tanks.push(id);
 };
 
 World.prototype.spawn_tank = function(id) {
@@ -154,7 +208,12 @@ World.prototype.spawn_tank = function(id) {
 		tank.reload[i] = tank.reload_ticks;
 	}
 
-	tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
+	if (this.teams[tank.team]) {
+		tank.pos.set(this.teams[tank.team].spawn);
+	} else {
+		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
+	}
+
 	tank.steer_target.set_xy(0, 0);
 };
 
@@ -176,20 +235,46 @@ World.prototype.shoot = function(tank_id) {
 		tank.flag.shoot(tank);
 	}
 	return -1;
-
 };
 
 World.prototype.drop_flag = function(tank_id) {
 
 	var tank = this.tanks[tank_id];
-	if (tank.flag.name != "default") {
+	if (tank.flag_id > -1) {
 		this.server.player_flag_drop(tank_id);
 		tank.set_flag(this.flag_types.default);
 		var flag = this.flags[tank.flag_id];
 		flag.pos.set(tank.pos);
 		flag.alive = true;
 		flag.cooldown = 50;
+		tank.flag_id = -1;
+		tank.flag_team = -1;
 	}
+
+};
+
+World.prototype.flag_capture = function(tank_id, team_id) {
+
+	var tank = this.tanks[tank_id];
+
+	tank.set_flag(this.flag_types.default);
+
+	var flag = this.flags[tank.flag_id];
+	flag.alive = true;
+	flag.pos.set(flag.spawn);
+	tank.flag_id = -1;
+	tank.flag_team = -1;
+
+	var team = this.teams[team_id];
+	for (var i = 0; i < team.tanks.length; i++) {
+		var enemy_tank = this.tanks[team.tanks[i]];
+		if (enemy_tank.alive) {
+			this.kill_tank(team.tanks[i]);
+			this.server.player_kill(tank_id, team.tanks[i]);
+		}
+	}
+
+	this.server.flag_capture(tank_id, team_id);
 
 };
 
@@ -246,7 +331,7 @@ World.prototype.update_bullets = function() {
 			bullet.drive();
 			bullet.rad += bullet.expansion;
 			if (bullet.expansion > 0) {
-				bullet.expansion -= 8 / 30;
+				bullet.expansion -= 0.5;
 			}
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				this.kill_bullet(i);
@@ -265,7 +350,6 @@ World.prototype.update_flags = function() {
 			flag.update();
 		}
 	}
-
 };
 
 World.prototype.handle_collisions = function() {
@@ -312,18 +396,25 @@ World.prototype.handle_collisions = function() {
 				var tot_height = tank.rad + rect.hheight;
 				var x_overlap = tot_width - Math.abs(rect.x - tank.pos.x);
 				var y_overlap = tot_height - Math.abs(rect.y - tank.pos.y);
-				if (x_overlap > 0 && y_overlap > 0) {
-					if (x_overlap < y_overlap) { // fix x
-						if (tank.pos.x > rect.x) {
-							tank.pos.x += x_overlap;
-						} else {
-							tank.pos.x -= x_overlap;
+				if (x_overlap > 0 && y_overlap > 0) { // Collision
+					if (rect.team == -1) {
+						if (x_overlap < y_overlap) { // fix x
+							if (tank.pos.x > rect.x) {
+								tank.pos.x += x_overlap;
+							} else {
+								tank.pos.x -= x_overlap;
+							}
+						} else { // fix y
+							if (tank.pos.y > rect.y) {
+								tank.pos.y += y_overlap;
+							} else {
+								tank.pos.y -= y_overlap;
+							}
 						}
-					} else { // fix y
-						if (tank.pos.y > rect.y) {
-							tank.pos.y += y_overlap;
-						} else {
-							tank.pos.y -= y_overlap;
+					} else {
+						// Tank-pad collision
+						if (tank.flag_team > -1 && tank.flag_team != tank.team && tank.team == rect.team) {
+							this.flag_capture(tank_id, tank.flag_team);
 						}
 					}
 				}
@@ -338,6 +429,7 @@ World.prototype.handle_collisions = function() {
 		if (bullet.alive && bullet.wall_collide) {
 			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
 				var rect = this.map.rectangles[rect_id];
+				if (rect.team != -1) continue;
 				var tot_width = bullet.rad + rect.hwidth;
 				var tot_height = bullet.rad + rect.hheight;
 				var x_overlap = tot_width - Math.abs(rect.x - bullet.pos.x);
@@ -399,7 +491,7 @@ World.prototype.handle_collisions = function() {
 
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
-		if (tank.alive && tank.flag.name == "default") {
+		if (tank.alive && tank.flag_id < 0) {
 			for (var flag_id = 0; flag_id < this.flags.length; flag_id++) {
 				var flag = this.flags[flag_id];
 				if (flag.alive && flag.cooldown <= 0) {
@@ -407,13 +499,14 @@ World.prototype.handle_collisions = function() {
 					var rad2 = Math.pow((tank.rad*1.25) + flag.rad, 2);
 					if (dist2 < rad2) {
 						flag.alive = false;
+						tank.flag_id = flag_id;
 						var flag_type = this.flag_types[flag.type];
 						if (flag_type) {
 							tank.set_flag(flag_type);
-							tank.flag_id = flag_id;
 							this.server.player_flag_pickup(tank_id);
 							break;
 						}
+						tank.flag_team = flag.team;
 					}
 				}
 			}
@@ -463,6 +556,9 @@ function Tank() {
 
 	this.flag = null;
 	this.flag_id = -1;
+	this.flag_team = -1;
+
+	this.team = -1;
 
 }
 
@@ -483,7 +579,7 @@ Tank.prototype.steer = function() { // Adjusts wheel velocities based on steer_t
 	}
 
 	var wheel_dif = (1 - dot) * 2;
-	if (dot < 0.95) {
+	if (dot < 0.999) {
 		wheel_dif += 0.2;
 	}
 
@@ -599,6 +695,7 @@ function Flag() {
 	this.alive = false;
 	this.cooldown = 0;
 
+	this.team = -1;
 	this.type = '';
 
 	this.spawn = new Vec2();
@@ -610,7 +707,7 @@ function Flag() {
 
 Flag.prototype.update = function() {
 	this.cooldown--;
-	if (this.cooldown <= -1000) {
+	if (this.cooldown <= -600) {
 		this.pos.set(this.spawn);
 		this.cooldown = 0;
 	}

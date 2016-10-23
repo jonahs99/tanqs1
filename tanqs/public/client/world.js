@@ -23,7 +23,7 @@ World.prototype.reset = function() {
 	for (var i = 0; i < 72; i++) {
 		this.bullets.push(new Bullet());
 	}
-	for (var i = 0; i < 12; i++) {
+	for (var i = 0; i < 20; i++) {
 		this.flags.push(new Flag());
 	}
 
@@ -38,7 +38,7 @@ World.prototype.local_update = function() {
 	}*/
 
 	this.frame++;
-}
+};
 
 World.prototype.local_update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
@@ -113,6 +113,7 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.color = tank_data.color;
 
 			tank.flag = tank_data.flag;
+			tank.flag_team = tank_data.flag_team;
 
 			tank.alive = true;
 		} else {
@@ -166,6 +167,8 @@ World.prototype.server_update_bullets = function(msg) {
 
 World.prototype.server_update_flags = function(msg) {
 
+	console.log(msg);
+
 	for (var i = 0; i < msg.length; i++) {
 
 		var flag_data = msg[i];
@@ -175,6 +178,7 @@ World.prototype.server_update_flags = function(msg) {
 			flag.alive = true;
 			flag.pos.set_xy(flag_data.x, flag_data.y);
 			flag.rad = flag_data.rad;
+			flag.team = flag_data.team;
 		} else {
 			flag.alive = false;
 		}
@@ -225,6 +229,7 @@ function Tank() {
 	this.track = {max: 30, start: 0, left: [], right: []};
 
 	this.flag = "default";
+	this.flag_team = -1; // if carrying team flag, what team
 	this.killed_by = -1;
 }
 
@@ -275,5 +280,7 @@ function Flag() {
 
 	this.pos = new Vec2();
 	this.rad = 0;
+
+	this.team = -1;
 
 }

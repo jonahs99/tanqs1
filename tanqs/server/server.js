@@ -90,6 +90,17 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 };
 
+GameServer.prototype.flag_capture = function(tank_id, team) {
+	var tank = this.world.tanks[tank_id];
+	var team_name = (["red", "blue"])[team];
+	var team_color = (['#e04945', '#2374cf'])[team];
+
+	var chat_msg = "&gt&gt <i> <span style=\"color:" + tank.color + "\">" + tank.client.name + "</span> CAPTURED the <span style=\"color:" + 
+	team_color + "\">" + team_name + " flag</span>!</i>";
+
+	this.send_chat(chat_msg);
+};
+
 GameServer.prototype.player_flag_pickup = function(tank_id) {
 
 	/*var tank = this.world.tanks[tank_id];
@@ -97,7 +108,16 @@ GameServer.prototype.player_flag_pickup = function(tank_id) {
 	var chat_msg = "<i> <span style=\"color:" + tank.color + "\">" + tank.client.name + "</span> picked up " + tank.flag.name + ".</i>";
 
 	this.send_chat(chat_msg);*/
+	var tank = this.world.tanks[tank_id];
+	if (tank.flag_id > -1 && tank.flag_id != tank.team) {
+		var team_name = (["red", "blue"])[tank.flag_id];
+		var team_color = (['#e04945', '#2374cf'])[tank.flag_id];
 
+		var chat_msg = "&gt&gt <i> <span style=\"color:" + tank.color + "\">" + tank.client.name + "</span> has the <span style=\"color:" + 
+		team_color + "\">" + team_name + " flag</span>!</i>";
+
+		this.send_chat(chat_msg);
+	}
 };
 
 GameServer.prototype.player_flag_drop = function(tank_id) {
@@ -160,6 +180,7 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.reload_ticks = tank.reload_ticks;
 			tank_data.color = tank.color;
 			tank_data.flag = tank.flag.name;
+			tank_data.flag_team = tank.flag_team;
 		} else {
 			tank_data.killed_by = tank.killed_by;
 		}
@@ -217,6 +238,7 @@ GameServer.prototype.flag_update_msg = function() {
 			flag_data.x = flag.pos.x;
 			flag_data.y = flag.pos.y;
 			flag_data.rad = flag.rad;
+			flag_data.team = flag.team;
 		}
 		msg.push(flag_data);
 	}
@@ -241,6 +263,9 @@ GameServer.prototype.on_disconnect = function(socket) {
 	} else {
 		this.world.kill_tank(client.tank_id);
 		this.world.free_tank(client.tank_id);
+
+		var color = this.world.tanks[client.tank_id].color;
+		this.send_chat("&gt&gt <span style=\"color:" + color + "\">" + client.name + "</span> left.");
 	}
 	this.remove_client(socket.id);
 };
@@ -263,6 +288,10 @@ GameServer.prototype.on_login = function(socket, msg) {
 		console.log("A client logged in.");
 		this.world.spawn_tank(client.tank_id);
 		this.send_join(socket, client.tank_id, client.name);
+
+		var color = this.world.tanks[client.tank_id].color;
+		this.send_chat("&gt&gt <span style=\"color:" + color + "\">" + client.name + "</span> joined.");
+
 	} else {
 		console.log("A client attempted to login, but the server is full.")
 		// TODO: What happens on the client side?
