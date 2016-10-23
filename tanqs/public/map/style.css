@@ -1,0 +1,71 @@
+html, body, div, canvas {
+    margin:		0;
+    padding:	0;
+    display:	block;
+    font-family: 'Open Sans';
+    font-size: 48pt;
+    color: white;
+    overflow: hidden;
+}
+
+canvas {
+	position:	absolute;
+	
+}
+
+#sidebar {
+	font-size: 16pt;
+	
+
+	top: 2.5%;
+	bottom: 2.5%;
+	right: 10px;
+	position: fixed;
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 10px;
+
+}
+
+#grid_input {
+
+    position: relative;
+	width: 100px;
+	padding: 0px, 0px;
+	margin: 0px, 0px;
+}
+
+.textbox {
+    width: 100px;
+    height: 32px;
+    padding: 4px 4px;
+    margin: 0px 0px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    position: relative;
+}
+
+
+
+.textbox:focus {
+    border: 3px solid #555;
+}
+
+input[type="submit"] {
+	width: 100px;
+	height: 32px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 4px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    position: relative;
+}
+

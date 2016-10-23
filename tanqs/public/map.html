@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./map/style.css">
+	</head>
+
+	<body>
+
+
+
+		<canvas id="canvas">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+		
+		<div id="sidebar">
+			<form id="tool_input">
+				<input id="red_radio" type="radio" name="team">red<br>
+				<input id="blue_radio" type="radio" name="team">blue<br>
+
+				<input id="team_flag_radio" type="radio" name="tool">team flag<br>
+				<input id="team_spawn_radio" type="radio" name="tool">team spawn<br>
+				<input id="team_pad_radio" type="radio" name="tool">team pad<br>
+				<input id="flag_radio" type="radio" name="tool">flag<br>
+				<input id="wall_radio" type="radio" name="tool">wall<br>
+				<input id="erase_flag_radio" type="radio" name="tool">erase flag<br>
+				<input id="erase_wall_radio" type="radio" name="tool">erase wall<br>
+			</form>
+
+			<form id="display_input">
+				<input id="names_display_check" type="checkbox">flag names<br>
+				<input id="flags_display_check" type="checkbox">flags<br>
+			</form>
+
+			<form id="grid_input">
+				<input id="map_width" class="textbox" type="text" placeholder="enter an integer" value="400">
+				<input id="map_height" class="textbox" type="text" placeholder="enter an integer" value="400">
+				<input id="major_gridlines_size" class="textbox" type="text" placeholder="enter an integer" value="100">
+				<input id="grid_size" class="textbox" type="text" placeholder="enter an integer" value="2">
+				<input id="reset_button" type="submit" value="Reset">
+			</form>
+
+			<form id="export_input">
+				<input id="export_button" type="submit" value="Export!">
+			</form>
+
+		</div>
+
+		<script src="./map/map.js"></script>
+
+	</body>
+
+</html>
