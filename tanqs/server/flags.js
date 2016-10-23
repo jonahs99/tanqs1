@@ -238,8 +238,8 @@ function Flags(world) {
 			max_vel: 7.5,
 			max_acc: 2,
 			wall_collide: true,
-		},
-		weapon_attr: this.default.weapon_attr,
+		}
+	,	weapon_attr: this.default.weapon_attr,
 		bullet_attr: this.default.bullet_attr,
 		shoot: this.default.shoot
 	};
