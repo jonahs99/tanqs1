@@ -148,14 +148,14 @@ Renderer.prototype.render_map = function() {
 		var rect = this.world.map.rectangles[i];
 
 		if (rect.team == -1) {
-			this.context.fillStyle = '#4f2069';
-			this.context.strokeStyle = '#2f133f';
+			this.context.fillStyle = '#333';
+			this.context.strokeStyle = '#555';
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
 			this.context.strokeStyle = '#e77471';
 		} else if (rect.team == 1) {
 			this.context.fillStyle = '#195496';
-			this.context.strokeStyle = '#195496';
+			this.context.strokeStyle = '#206cc2';
 		}
 
 		this.context.beginPath();
