@@ -20,7 +20,7 @@ function World() {
 
 	this.n_tanks = 24;
 	this.n_bullets = 72;
-	this.n_flags = 20;
+	this.n_flags = 24;
 
 	//this.generate_map();
 	this.reset();
