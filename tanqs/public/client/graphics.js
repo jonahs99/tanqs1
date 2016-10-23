@@ -148,8 +148,8 @@ Renderer.prototype.render_map = function() {
 		var rect = this.world.map.rectangles[i];
 
 		if (rect.team == -1) {
-			this.context.fillStyle = '#777';
-			this.context.strokeStyle = '#444';
+			this.context.fillStyle = '#4f2069';
+			this.context.strokeStyle = '#2f133f';
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
 			this.context.strokeStyle = '#e77471';
