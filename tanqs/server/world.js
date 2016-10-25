@@ -184,6 +184,7 @@ World.prototype.free_tank = function(id) {
 	var tank = this.tanks[id];
 	tank.reserved = false;
 	tank.alive = false;
+	tank.spawn_cooldown = 0;
 	if (this.teams[tank.team]) {
 		var index = this.teams[tank.team].tanks.indexOf(id);
 		if (index > -1) {
