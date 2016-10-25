@@ -273,6 +273,20 @@ GameServer.prototype.on_disconnect = function(socket) {
 		this.send_chat("&gt&gt <span style=\"color:" + color + "\">" + client.name + "</span> left.");
 	}
 	this.remove_client(socket.id);
+
+	var reset_score = true;
+	for (var id in this.clients) {
+		var client = this.clients[id];
+		if (client.state == 'logged') {
+			reset_score = false;
+			break;
+		}
+	}
+	if (reset_score) {
+		for (var i = 0; i < this.world.teams.length; i++) {
+			this.world.teams[i].score = 0;
+		}
+	}
 };
 
 GameServer.prototype.on_login = function(socket, msg) {
