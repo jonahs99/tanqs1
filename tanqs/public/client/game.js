@@ -64,10 +64,25 @@ Game.prototype.change_state = function(state) {
 			splash_text.innerHTML = "you got blown up ;>";
 		}
 
-		splash_button.value = "respawn";
+		splash_button.value = "respawn in 3";
 		splash.style.visibility = 'visible';
 
 		chat_input.style.visibility = 'visible';
+
+		var spawn_count_interval = setInterval(function() {
+			switch (splash_button.value) {
+				case "respawn in 3":
+					splash_button.value = "respawn in 2";
+					break;
+				case "respawn in 2":
+					splash_button.value = "respawn in 1";
+					break;
+				case "respawn in 1":
+					splash_button.value = "respawn";
+					clearInterval(spawn_count_interval);
+					break;
+			}
+		}, 1000);
 
 	}
 

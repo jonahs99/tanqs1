@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": "./maps/halls.json"
+  "map": "./maps/corners_ctf.json"
 }

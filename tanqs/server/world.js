@@ -201,6 +201,9 @@ World.prototype.assign_tank_team = function(id, team) {
 
 World.prototype.spawn_tank = function(id) {
 	var tank = this.tanks[id];
+
+	if (tank.spawn_cooldown > 0) return;
+
 	tank.alive = true;
 
 	tank.set_flag(this.flag_types.default);
@@ -212,6 +215,8 @@ World.prototype.spawn_tank = function(id) {
 
 	if (this.teams[tank.team]) {
 		tank.pos.set(this.teams[tank.team].spawn);
+		tank.pos.x += Math.random() * 400 - 200;
+		tank.pos.y += Math.random() * 400 - 200;
 	} else {
 		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	}
@@ -222,6 +227,7 @@ World.prototype.spawn_tank = function(id) {
 World.prototype.kill_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	tank.alive = false;
+	tank.spawn_cooldown = 150;
 	this.drop_flag(tank_id);
 };
 
@@ -326,7 +332,10 @@ World.prototype.update_tanks = function() {
 					tank.reload[j]++;
 				}
 			}
-
+		} else {
+			if (tank.spawn_cooldown > 0) {
+				tank.spawn_cooldown--;
+			}
 		}
 	}
 };
@@ -533,6 +542,8 @@ function Tank() {
 	this.alive = false;
 	this.client = null;
 
+	this.spawn_cooldown = 0;
+
 	// State
 
 	this.last_pos = new Vec2();
@@ -715,7 +726,7 @@ function Flag() {
 
 Flag.prototype.update = function() {
 	this.cooldown--;
-	if (this.cooldown <= -600) {
+	if (this.cooldown <= -1000) {
 		this.pos.set(this.spawn);
 		this.cooldown = 0;
 	}
