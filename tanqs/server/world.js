@@ -70,7 +70,9 @@ World.prototype.parse_map = function(map) {
 
 		this.teams[i] = {
 			spawn: new Vec2(team_data.spawn.x, team_data.spawn.y),
-			tanks: []
+			tanks: [],
+			name: (["red", "blue"])[i],
+			score: 0
 		};
 
 	}
@@ -274,6 +276,11 @@ World.prototype.flag_capture = function(tank_id, team_id) {
 		}
 	}
 
+	var team = this.teams[tank.team];
+	if (team) {
+		team.score++;
+	}
+
 	this.server.flag_capture(tank_id, team_id);
 
 };
@@ -331,7 +338,9 @@ World.prototype.update_bullets = function() {
 			bullet.drive();
 			bullet.rad += bullet.expansion;
 			if (bullet.expansion > 0) {
-				bullet.expansion -= 0.5;
+				bullet.expansion -= 0.45;
+			} else {
+				bullet.expansion = 0;
 			}
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				this.kill_bullet(i);
@@ -503,10 +512,9 @@ World.prototype.handle_collisions = function() {
 						var flag_type = this.flag_types[flag.type];
 						if (flag_type) {
 							tank.set_flag(flag_type);
-							this.server.player_flag_pickup(tank_id);
-							break;
 						}
 						tank.flag_team = flag.team;
+						this.server.player_flag_pickup(tank_id);
 					}
 				}
 			}

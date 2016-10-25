@@ -114,6 +114,7 @@ World.prototype.server_update_tanks = function(msg) {
 
 			tank.flag = tank_data.flag;
 			tank.flag_team = tank_data.flag_team;
+			tank.team = tank_data.team;
 
 			tank.alive = true;
 		} else {
@@ -167,8 +168,6 @@ World.prototype.server_update_bullets = function(msg) {
 
 World.prototype.server_update_flags = function(msg) {
 
-	console.log(msg);
-
 	for (var i = 0; i < msg.length; i++) {
 
 		var flag_data = msg[i];
@@ -215,6 +214,7 @@ function TankState() {
 function Tank() {
 	this.name = '';
 	this.alive = false;
+	this.team = -1;
 
 	this.corpse = false;
 	this.death_anim = 0;

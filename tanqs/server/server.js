@@ -138,13 +138,17 @@ GameServer.prototype.send_server = function(socket) {
 };
 
 GameServer.prototype.send_who = function() {
-	var msg = [];
+	var msg = {clients: [], teams: []};
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
 			var client_msg = {name: client.name, tank_id: client.tank_id, stats: client.stats};
-			msg.push(client_msg);
+			msg.clients.push(client_msg);
 		}
+	}
+	for (var i = 0; i < this.world.teams.length; i++) {
+		var team = this.world.teams[i];
+		msg.teams.push({id: i, name: team.name, score: team.score});
 	}
 	this.io.emit('who', msg);
 };
@@ -181,6 +185,7 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.color = tank.color;
 			tank_data.flag = tank.flag.name;
 			tank_data.flag_team = tank.flag_team;
+			tank_data.team = tank.team;
 		} else {
 			tank_data.killed_by = tank.killed_by;
 		}

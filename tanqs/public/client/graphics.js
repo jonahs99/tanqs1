@@ -126,9 +126,11 @@ Renderer.prototype.render_world = function() {
 		this.render_tank(this.game.player_tank, delta);
 	}
 
-	this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
+	/*this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);
-	this.context.scale(1/this.game.camera.scale, 1/this.game.camera.scale);
+	this.context.scale(1/this.game.camera.scale, 1/this.game.camera.scale);*/
+	this.context.setTransform(1, 0, 0, 1, 0, 0);
+	this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 
 	//Draw the leader_board
 	this.render_leaderboard();
@@ -335,6 +337,25 @@ Renderer.prototype.render_leaderboard = function() {
 	this.context.textAlign = "right";
 	this.context.textBaseline = "middle";
 
+	for (var i = 0; i < this.game.team_leaderboard.length; i++) {
+		var team = this.game.team_leaderboard[i];
+		var text = team.name + " - " + team.score;
+
+		this.context.fillStyle = (['#f66', '#6bf'])[team.id];
+		this.context.font = "22px Open Sans";
+
+		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*i);
+	}
+
+	this.context.lineCap = "square";
+	this.context.strokeStyle = "rgba(255,255,255,0.5)";
+	this.context.beginPath();
+	this.context.moveTo(this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
+	this.context.lineTo(this.canvas.width/2-220, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
+	this.context.stroke();
+
+	var y_offset = this.game.team_leaderboard.length + 1;
+
 	for (var i = 0; i < this.game.leaderboard.length; i++) {
 		var client = this.game.leaderboard[i];
 		var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
@@ -342,7 +363,7 @@ Renderer.prototype.render_leaderboard = function() {
 		this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 		this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
 
-		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*i);
+		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*(i + y_offset));
 	}
 
 };
@@ -364,6 +385,20 @@ Renderer.prototype.render_ui = function() {
 		this.context.fillText(flag_name, 0, -this.canvas.height/2+60);
 		this.context.font = "18px Open Sans";
 		this.context.fillText("(right click to drop flag)", 0, -this.canvas.height/2+100);
+	} else if (this.game.player_tank.flag_team > -1) {
+		var flag_txt = "";
+		var sub_txt = "";
+		if (this.game.player_tank.flag_team == this.game.player_tank.team) {
+			flag_txt = "You have your team flag";
+			sub_text = "(right click to drop it somewhere safe)";
+		} else {
+			flag_txt = "You have the " + (this.game.player_tank.flag_team == 0 ? "red" : "blue") + " flag!";
+			sub_text = "(bring it to your base to capture)";
+		}
+
+		this.context.fillText(flag_txt, 0, -this.canvas.height/2+60);
+		this.context.font = "18px Open Sans";
+		this.context.fillText(sub_text, 0, -this.canvas.height/2+100);
 	}
 
 };
