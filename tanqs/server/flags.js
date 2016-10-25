@@ -45,6 +45,22 @@ function Flags(world) {
 		}
 	};
 
+	// TEAM
+
+	this.team = {
+		name: "",
+		kill_verb: "blew up",
+		tank_attr: {
+			rad: 16,
+			max_vel: 4,
+			max_acc: 3,
+			wall_collide: true
+		},
+		weapon_attr: this.default.weapon_attr,
+		bullet_attr: this.default.bullet_attr,
+		shoot: this.default.shoot
+	};
+
 	// SHIELD
 
 	this.shield = {
@@ -95,7 +111,7 @@ function Flags(world) {
 		weapon_attr: this.default.weapon_attr,
 		bullet_attr: {
 			rad: 8,
-			speed: 6,
+			speed: 7,
 			life: 125,
 			ricochet: 2,
 			wall_collide: false,
@@ -112,7 +128,7 @@ function Flags(world) {
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
 			max_bullets: 4,
-			reload_ticks: 125
+			reload_ticks: 100
 		},
 		bullet_attr: {
 			rad: 5,
@@ -156,7 +172,7 @@ function Flags(world) {
 		kill_verb: "blew up",
 		tank_attr: {
 			rad: 16,
-			max_vel: 6,
+			max_vel: 5,
 			max_acc: 3,
 			wall_collide: false
 		}, 
@@ -173,7 +189,7 @@ function Flags(world) {
 		tank_attr: this.default.tank_attr,
 		weapon_attr: {
 			max_bullets: 2,
-			reload_ticks: 180
+			reload_ticks: 160
 		},
 		bullet_attr: {
 			rad: 5,
@@ -262,8 +278,8 @@ function Flags(world) {
 	};
 	this.back_fire.shoot = function(tank) {
 		if (tank.use_reload()) {
-			//shoot(world, tank, this.bullet_attr);
-			shoot(world, tank, this.back_bullet_attr, Math.PI, 0, true, true);
+			shoot(world, tank, this.bullet_attr);
+			shoot(world, tank, this.bullet_attr, Math.PI, 0, true, true);
 		}
 	};
 
@@ -280,7 +296,7 @@ function Flags(world) {
 		bullet_attr: {
 			rad: 24,
 			speed: 0,
-			life: 30,
+			life: 24,
 			ricochet: 0,
 			wall_collide: false,
 			pass_thru: true,

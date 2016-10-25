@@ -46,7 +46,7 @@ Renderer.prototype.render_world = function() {
 		} else {
 			this.game.camera.rotate = 0;
 		}
-		scl = this.game.player_tank.flag == 'sniper' ? 0.6 : 1;
+		scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
 	} else {
 		scl = 0.8;
 	}

@@ -251,8 +251,6 @@ window.onkeyup = function(e) {
 	}
 }
 
-
-
 function draw() {
 	//some reset and translatin'
 	context.setTransform(1, 0, 0, 1, 0, 0);
@@ -450,3 +448,17 @@ window.onload = function() {
 };
 
 window.onresize = window.onload;
+
+function load(map_in) {
+
+	config.width = map_in.size.width;
+	config.height = map_in.size.height;
+	config.major = map_in.size.grid;
+
+	map = {
+		teams: map_in.teams,
+		rects: map_in.rectangles,
+		flags: map_in.flags
+	};
+
+}

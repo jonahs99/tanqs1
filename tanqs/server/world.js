@@ -153,11 +153,16 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 
 			if (this.teams[0].tanks.length < this.teams[1].tanks.length) {
 				this.assign_tank_team(i, 0);
-
 			} else if (this.teams[1].tanks.length < this.teams[0].tanks.length) {
 				this.assign_tank_team(i, 1);
 			} else {
-				this.assign_tank_team(i, Math.floor(Math.random() * 2));
+				if (this.teams[0].score < this.teams[1].score) {
+					this.assign_tank_team(i, 0);
+				} else if (this.teams[1].score < this.teams[0].score) {
+					this.assign_tank_team(i, 1);
+				} else {
+					this.assign_tank_team(i, Math.floor(Math.random() * 2));
+				}
 			}
 
 			/*var tries = 12;
@@ -216,8 +221,8 @@ World.prototype.spawn_tank = function(id) {
 
 	if (this.teams[tank.team]) {
 		tank.pos.set(this.teams[tank.team].spawn);
-		tank.pos.x += Math.random() * 400 - 200;
-		tank.pos.y += Math.random() * 400 - 200;
+		tank.pos.x += Math.random() * 600 - 300;
+		tank.pos.y += Math.random() * 600 - 300;
 	} else {
 		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	}
@@ -300,6 +305,7 @@ World.prototype.add_bullet = function(tank_id) {
 			bullet.alive = true;
 			bullet.new = true;
 			bullet.tank = tank_id;
+			bullet.team = tank.team;
 			return i;
 		}
 	}
@@ -380,7 +386,7 @@ World.prototype.handle_collisions = function() {
 		if (tank.alive) {
 			for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 				var bullet = this.bullets[bullet_id];
-				if (bullet.alive && bullet.tank != tank_id) {
+				if (bullet.alive && bullet.tank != tank_id && (bullet.team == -1 || bullet.team != tank.team)) {
 					var dist2 = (new Vec2()).set(tank.pos).m_sub(bullet.pos).mag2();
 					var rad2 = Math.pow((tank.rad*1.25) + bullet.rad, 2);
 					if (dist2 < rad2) {
@@ -525,6 +531,7 @@ World.prototype.handle_collisions = function() {
 						}
 						tank.flag_team = flag.team;
 						this.server.player_flag_pickup(tank_id);
+						break;
 					}
 				}
 			}
@@ -693,6 +700,7 @@ function Bullet() {
 	this.new = false;
 
 	this.tank = -1;
+	this.team = -1;
 
 	this.pos = new Vec2();
 	this.vel = new Vec2();
