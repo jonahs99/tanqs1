@@ -227,6 +227,8 @@ World.prototype.spawn_tank = function(id) {
 		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	}
 
+	tank.dir = Math.atan2(-tank.pos.y, -tank.pos.x) || 0;
+
 	tank.steer_target.set_xy(0, 0);
 };
 
