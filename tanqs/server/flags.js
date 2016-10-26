@@ -52,7 +52,7 @@ function Flags(world) {
 		kill_verb: "blew up",
 		tank_attr: {
 			rad: 16,
-			max_vel: 4,
+			max_vel: 5,
 			max_acc: 3,
 			wall_collide: true
 		},
@@ -111,7 +111,7 @@ function Flags(world) {
 		weapon_attr: this.default.weapon_attr,
 		bullet_attr: {
 			rad: 8,
-			speed: 7,
+			speed: 6.3,
 			life: 125,
 			ricochet: 2,
 			wall_collide: false,
