@@ -194,7 +194,6 @@ Renderer.prototype.render_tank_tracks = function(tank) {
 
 Renderer.prototype.render_tank = function(tank, delta) {
 
-	//tank.lerp_state(delta);
 	tank.draw_rad = lerp(tank.draw_rad, tank.rad, 0.2);
 	var rad = tank.draw_rad;
 
@@ -205,7 +204,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 
 	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#777';
 	if (tank.flag_team > -1) {
-		this.context.strokeStyle = (['#e04945', '#2374cf'])[tank.flag_team];
+		this.context.strokeStyle = (['#c00', '#06c'])[tank.flag_team];
 	}
 
 	if (tank.corpse) {
@@ -363,7 +362,12 @@ Renderer.prototype.render_leaderboard = function() {
 		this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 		this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
 
-		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*(i + y_offset));
+		this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(i + y_offset));
+
+		this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
+		this.context.beginPath();
+		this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(i + y_offset), 5, 0, Math.PI * 2);
+		this.context.fill();
 	}
 
 };

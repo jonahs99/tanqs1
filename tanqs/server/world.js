@@ -134,14 +134,16 @@ function random_color() {
 					'#58c690'
 				];
 	return colors[Math.floor(Math.random() * colors.length)];
-
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
 }
+
+var team_colors = [
+	['#ff668c','#ff6680','#ff6673','#ff6666','#ff7366','#ff8066','#ff8c66'],
+	['#66e1ff', '#66d5ff', '#66c8ff', '#66bbff', '#66aeff', '#66a2ff', '#6695ff']
+];
+function random_team_color(team_id) {
+	var colors = team_colors[team_id];
+	return colors[Math.floor(Math.random() * colors.length)];
+};
 
 World.prototype.reserve_tank = function(client) { // Returns the id of the reserved tank, or -1 if unsuccessful
 	for (var i = 0; i < this.n_tanks; i++) {
@@ -201,7 +203,21 @@ World.prototype.free_tank = function(id) {
 World.prototype.assign_tank_team = function(id, team) {
 	var tank = this.tanks[id];
 	tank.team = team;
-	tank.color = (['#f66', '#6bf'])[team];
+
+	var tries = 12;
+	var repeat_color = true;
+	while (repeat_color && tries > 0) {
+		repeat_color = false;
+		tank.color = random_team_color(team);
+		tries--;
+		for (var j = 0; j < this.n_tanks; j++) {
+			if (j != id && tank.color == this.tanks[j].color) {
+				repeat_color = true;
+				break;
+			}
+		}
+	}
+
 	this.teams[team].tanks.push(id);
 };
 

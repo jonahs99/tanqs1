@@ -161,10 +161,8 @@ Game.prototype.resize_canvas = function() {
 };
 
 Game.prototype.on_mousemove = function(evt) {
-
 	var rect = this.canvas.getBoundingClientRect();
     this.mouse.set_xy(evt.clientX - rect.left, evt.clientY - rect.top);
-
 };
 
 Game.prototype.on_mousedown = function(evt) {
@@ -207,6 +205,11 @@ window.onmousemove = game.on_mousemove.bind(game);
 window.onmousedown = game.on_mousedown.bind(game);
 window.onmouseup = game.on_mouseup.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
+
+game.canvas.ontouchstart = function() {
+	this.resize_canvas();
+	preventDefault();
+};
 
 window.oncontextmenu = function() {return false;};
 
