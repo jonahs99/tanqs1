@@ -510,7 +510,7 @@ World.prototype.handle_collisions = function() {
 			for (var j = 0; j < this.tanks.length; j++) {
 				if (i != j) {
 					var tank2 = this.tanks[j];
-					if (tank2.alive && (tank1.flag.tank_attr.kill_on_collide || tank2.flag.tank_attr.die_on_collide)) {
+					if ((tank1.team != tank2.team || tank1.team < 0) && tank2.alive && (tank1.flag.tank_attr.kill_on_collide || tank2.flag.tank_attr.die_on_collide)) {
 						var dist2 = (new Vec2()).set(tank1.pos).m_sub(tank2.pos).mag2();
 						var rad2 = Math.pow((tank1.rad*1.25) + (tank2.rad*1.25), 2);
 						if (dist2 < rad2) {
