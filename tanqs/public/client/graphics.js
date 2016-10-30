@@ -268,16 +268,39 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.lineWidth = 3;
 	this.context.strokeStyle = '#444';//'#893DCC';
 
-	this.context.beginPath();
-	this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad, 0, 2*Math.PI);
+	if (!bullet.guided) {
 
-	if (bullet.old_rad != bullet.rad) {
-		this.context.lineWidth = 6;
-		this.context.strokeStyle = bullet.color;
-		this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
+		this.context.beginPath();
+		this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad, 0, 2*Math.PI);
+
+		if (bullet.old_rad != bullet.rad) {
+			this.context.lineWidth = 6;
+			this.context.strokeStyle = bullet.color;
+			this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
+		}
+		this.context.fill();
+		this.context.stroke();
+
+	} else {
+
+		var dif = new Vec2().set(bullet.current_pos).m_sub(bullet.old_pos);
+		var dir = Math.atan2(dif.y, dif.x);
+
+		this.context.translate(bullet.draw_pos.x, bullet.draw_pos.y);
+		this.context.rotate(dir);
+
+		this.context.beginPath();
+		this.context.moveTo(bullet.rad, 0);
+		this.context.lineTo(-bullet.rad * 2, -bullet.rad * 1.2);
+		this.context.lineTo(-bullet.rad * 2, bullet.rad * 1.2);
+		this.context.closePath();
+		this.context.fill();
+		this.context.stroke();
+
+		this.context.rotate(-dir);
+		this.context.translate(-bullet.draw_pos.x, -bullet.draw_pos.y);
+
 	}
-	this.context.fill();
-	this.context.stroke();
 
 };
 

@@ -141,7 +141,7 @@ World.prototype.server_update_bullets = function(msg) {
 
 			if (bullet_data.new) { // This bullet was just shot!
 				var tank = this.tanks[bullet_data.tank];
-				tank.gun_len = 0.9;
+				tank.gun_len = 0.85;
 				bullet.color = tank.color;
 				bullet.alive = true;
 
@@ -149,6 +149,8 @@ World.prototype.server_update_bullets = function(msg) {
 				bullet.draw_pos.set(bullet.old_pos);
 				bullet.old_rad = bullet_data.rad;
 				bullet.draw_rad = bullet_data.rad;
+
+				bullet.guided = bullet_data.guided || false;
 			} else {
 				bullet.old_pos.set(bullet.draw_pos);
 				bullet.old_rad = bullet.draw_rad;

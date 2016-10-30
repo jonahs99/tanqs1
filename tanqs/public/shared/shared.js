@@ -84,6 +84,10 @@ Vec2.prototype.m_norm = function() {
 
 };
 
+Vec2.prototype.norm = function() {
+	return new Vec2(-this.y, this.x);
+};
+
 Vec2.prototype.m_rotate = function(a) {
 	var cs = Math.cos(a);
 	var sn = Math.sin(a);
@@ -138,6 +142,19 @@ Vec2.prototype.m_clampxy = function(x1, x2, y1, y2) {
 
 };
 
+Vec2.prototype.m_clamp = function(min_mag, max_mag) {
+	var mag = this.mag();
+	if (mag == 0) {
+		return this;
+	}
+	if (mag < min_mag) {
+		this.m_scale(min_mag / mag);
+	} else if (mag > max_mag) {
+		this.m_scale(max_mag / mag);
+	}
+	return this;
+};
+
 Vec2.prototype.unit = function() {
 
 	return (new Vec2()).set(this).m_unit();
@@ -147,6 +164,13 @@ Vec2.prototype.unit = function() {
 Vec2.prototype.scale = function(a) {
 
 	return (new Vec2()).set(this).m_scale(a);
+
+};
+
+Vec2.prototype.proj_on = function(b) {
+
+	var magb = b.mag();
+	return (new Vec2()).set(b).m_scale(this.dot(b) / Math.pow(magb, 2));
 
 };
 

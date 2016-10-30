@@ -208,6 +208,9 @@ GameServer.prototype.bullet_update_msg = function() {
 			var bullet_msg = {id: i, alive: true, new: bullet.new,
 				x: bullet.pos.x, y: bullet.pos.y, tank: bullet.tank,
 				rad: bullet.rad};
+			if (bullet.guided) {
+				bullet_msg.guided = true;
+			}
 			msg.push(bullet_msg);
 		} else {
 			msg.push({id: i, alive: false});

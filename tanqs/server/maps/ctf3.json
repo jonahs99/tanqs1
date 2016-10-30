@@ -64,7 +64,7 @@
 {"x":0,"y":-1100,"type":"tiny"},
 {"x":0,"y":-600,"type":"back_fire"},
 {"x":0,"y":600,"type":"back_fire"},
-{"x":-200,"y":200,"type":"super_bullet"},
+{"x":-200,"y":200,"type":"guided_missile"},
 {"x":200,"y":-200,"type":"super_bullet"},
 {"x":1000,"y":1000,"type":"steam_roller"},
 {"x":-1000,"y":-1000,"type":"steam_roller"}]}

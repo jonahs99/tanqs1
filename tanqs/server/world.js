@@ -369,6 +369,38 @@ World.prototype.update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
+
+			if (bullet.guided) {
+
+				var d = new Vec2();
+
+				var closest = null;
+				var dist = 0;
+
+				for (var j = 0; j < this.tanks.length; j++) {
+					var tank = this.tanks[j];
+					if (tank.alive && bullet.tank != j && (bullet.team == -1 || tank.team != bullet.team)) {
+						d.set(tank.pos).m_sub(bullet.pos);
+						var dot = d.dot(bullet.vel);
+						var cos = dot / bullet.vel.mag() / d.mag();
+						if (cos >= bullet.guided.min_cos) {
+							var mag = d.mag();
+							if (closest == null || mag < dist) {
+								closest = tank;
+								dist = mag;
+							}
+						}
+
+					}
+				}
+
+				if (closest) {
+					d.set(closest.pos).m_sub(bullet.pos);
+					bullet.vel.m_add(d.proj_on(bullet.vel.norm()).m_clamp(0, bullet.guided.max_acc));
+				}
+
+			}
+
 			bullet.drive();
 			bullet.rad += bullet.expansion;
 			if (bullet.expansion > 0) {

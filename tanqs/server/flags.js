@@ -47,35 +47,11 @@ function Flags(world) {
 
 	// TEAM
 
-	this.team = {
-		name: "",
-		kill_verb: "blew up",
-		tank_attr: {
-			rad: 16,
-			max_vel: 5,
-			max_acc: 3,
-			wall_collide: true
-		},
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr,
-		shoot: this.default.shoot
-	};
+	this.team = morph(this.default, {name: "", tank_attr: {max_vel: 5}});
 
 	// SHIELD
 
-	this.shield = {
-		name: "shield",
-		kill_verb: "blew up",
-		tank_attr: {
-			rad: 16,
-			max_vel: 6,
-			max_acc: 3,
-			wall_collide: true,
-			shield_rad: 40
-		},
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr
-	}
+	this.shield = morph(this.default, {name: "shield", tank_attr: {shield_rad: 40}});
 	this.shield.shoot = function(tank) {
 		if (tank.use_reload(0,this.weapon_attr.max_bullets-1)) {
 			shoot(world, tank, this.bullet_attr);
@@ -84,121 +60,48 @@ function Flags(world) {
 
 	// RICOCHET
 
-	this.ricochet = {
-		name: "ricochet",
-		kill_verb: "blew up",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: {
-			max_bullets: 3,
-			reload_ticks: 125
-		},
-		bullet_attr: {
-			rad: 5,
-			speed: 8,
-			life: 125,
-			ricochet: 3,
-			wall_collide: true
-		},
-		shoot: this.default.shoot
-	};
+	this.ricochet = morph(this.default, {name:"ricochet", bullet_attr:{ricochet: 3}});
 
 	// SUPER BULLET
 
-	this.super_bullet = {
-		name: "super bullet",
-		kill_verb: "blew up",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: {
-			rad: 8,
-			speed: 6.3,
-			life: 125,
-			ricochet: 2,
-			wall_collide: false,
-			pass_thru: true
-		},
-		shoot: this.default.shoot
-	};
+	this.super_bullet = morph(this.default, {name:"super bullet", bullet_attr:{ rad: 8, speed: 6.3, wall_collide: false, pass_thru: true }});
 
 	// EXTRA CLIP
 
-	this.extra_clip = {
-		name: "extra clip",
-		kill_verb: "blew up",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: {
-			max_bullets: 4,
-			reload_ticks: 100
-		},
-		bullet_attr: {
-			rad: 5,
-			speed: 8,
-			life: 90,
-			ricochet: 0,
-			wall_collide: true
-		},
-		shoot: this.default.shoot
-	};
+	this.extra_clip = morph(this.default,
+	{
+		name: "extra_clip",
+		weapon_attr: {max_bullets:4, reload_ticks:110},
+		bullet_attr: { life: 80 }
+	});
 
 	// SNIPER
 
-	this.sniper = {
+	this.sniper = morph(this.default,
+	{
 		name: "sniper",
 		kill_verb: "sniped",
-		tank_attr: {
-			rad: 16,
-			max_vel: 5,
-			max_acc: 3,
-			wall_collide: true
-		},
-		weapon_attr: {
-			max_bullets: 3,
-			reload_ticks: 180
-		},
-		bullet_attr: {
-			rad: 5,
-			speed: 14,
-			life: 180,
-			ricochet: 0,
-			wall_collide: true
-		},
-		shoot: this.default.shoot
-	};
+		tank_attr: {max_vel: 5},
+		weapon_attr: {reload_ticks: 170},
+		bullet_attr: {speed: 14, life: 170}
+	});
 
 	// TUNNELER
 
-	this.tunneler = {
+	this.tunneler = morph(this.default,
+	{
 		name: "tunneler",
-		kill_verb: "blew up",
-		tank_attr: {
-			rad: 16,
-			max_vel: 5,
-			max_acc: 3,
-			wall_collide: false
-		}, 
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr,
-		shoot: this.default.shoot
-	};
+		tank_attr: {max_vel: 5.3, wall_collide: false}
+	});
 
 	// TRIPLE SHOT
 
-	this.triple_shot = {
+	this.triple_shot = morph(this.default,
+	{
 		name: "triple shot",
-		kill_verb: "blew up",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: {
-			max_bullets: 2,
-			reload_ticks: 160
-		},
-		bullet_attr: {
-			rad: 5,
-			speed: 6,
-			life: 100,
-			ricochet: 0,
-			wall_collide: true
-		},
-	};
+		weapon_attr: {max_bullets: 2, reload_ticks: 150},
+		bullet_attr: {life: 100}
+	});
 	this.triple_shot.shoot = function(tank) {
 		if (tank.use_reload()) {
 			shoot(world, tank, this.bullet_attr, -Math.PI / 5);
@@ -209,73 +112,34 @@ function Flags(world) {
 
 	// STEAM ROLLER
 
-	this.steam_roller = {
+	this.steam_roller = morph(this.default,
+	{
 		name: "steam roller",
 		kill_verb: "flattened",
-		tank_attr: {
-			rad: 20,
-			max_vel: 7,
-			max_acc: 3,
-			wall_collide: true,
-			kill_on_collide: true,
-		},
-		weapon_attr: {
-			max_bullets: 3,
-			reload_ticks: 125,
-		},
-		bullet_attr: this.default.bullet_attr,
-		shoot: this.default.shoot
-	};
+		tank_attr: {rad: 19, max_vel: 6.6, kill_on_collide: true},
+	});
 	
 	// TINY
 
-	this.tiny = {
+	this.tiny = morph(this.default,
+	{
 		name: "tiny",
-		kill_verb: "blew up",
-		tank_attr: {
-			rad: 10,
-			max_vel: 6,
-			max_acc: 3,
-			wall_collide: true,
-			die_on_collide: true
-		},
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr,
-		shoot: this.default.shoot
-	};
+		tank_attr: {rad: 10, die_on_collide: true},
+		bullet_attr: {rad: 4}
+	});
 
 	// SPEED
 
-	this.speed = {
+	this.speed = morph(this.default,
+	{
 		name: "speed",
-		kill_verb: "blew up",
-		tank_attr: {
-			rad: 16,
-			max_vel: 7.5,
-			max_acc: 2,
-			wall_collide: true,
-		}
-	,	weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr,
-		shoot: this.default.shoot
-	};
+		tank_attr: {speed: 7.5},
+	});
 
 	// BACKFIRE
 
-	this.back_fire = {
-		name: "back fire",
-		kill_verb: "blew up",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: this.default.weapon_attr,
-		bullet_attr: this.default.bullet_attr,
-		back_bullet_attr: {
-			rad: 5,
-			speed: 6,
-			life: 125,
-			ricochet: 0,
-			wall_collide: true
-		}
-	};
+	this.back_fire = morph(this.default, {name: "back fire"});
+
 	this.back_fire.shoot = function(tank) {
 		if (tank.use_reload()) {
 			shoot(world, tank, this.bullet_attr);
@@ -285,29 +149,33 @@ function Flags(world) {
 
 	// SHOCK WAVE
 
-	this.shock_wave = {
-		name: "shock wave",
+	this.shock_wave = morph(this.default,
+	{
+		name: "shock_wave",
 		kill_verb: "incinerated",
-		tank_attr: this.default.tank_attr,
-		weapon_attr: {
-			max_bullets: 2,
-			reload_ticks: 125
-		},
-		bullet_attr: {
-			rad: 24,
-			speed: 0,
-			life: 24,
-			ricochet: 0,
-			wall_collide: false,
-			pass_thru: true,
-			expansion: 12
-		}
-	};
+		weapon_attr: {max_bullets: 2, reload_ticks: 125},
+		bullet_attr: {rad: 24, speed: 0, life: 20, wall_collide: false, pass_thru: true, expansion: 13}
+	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
 			shoot(world, tank, this.bullet_attr, 0, true, false, true);
 		}
 	};
+
+	// GUIDED MISSILE
+
+	this.guided_missile = morph(this.default,
+	{
+		name: "guided missile",
+		kill_verb: "missiled",
+		weapon_attr: {max_bullets: 3, reload_ticks: 200},
+		bullet_attr: {speed: 2, guided: {min_cos: 0.92, max_acc: 0.5, max_vel: 8}}
+	});
+	/*this.guided_missile.shoot = function(tank) {
+		if (tank.use_reload()) {
+			shoot(world, tank, this.bullet_attr, 0, true);
+		}
+	};*/
 
 }
 
@@ -353,6 +221,50 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 
 		bullet.expansion = bullet_attr.expansion || 0;
 
+		if (bullet_attr.guided) {
+			bullet.guided = bullet_attr.guided;
+		}
+
+	}
+
+}
+
+function morph(base, changes) {
+
+	if (!(typeof changes === 'object')) {
+		return changes;
+	}
+
+	var morphed = {};
+
+	var n_props = 0;
+	for (var prop in base) {
+
+		if (!base.hasOwnProperty(prop)) continue;
+
+		if (changes.hasOwnProperty(prop)) {
+			morphed[prop] = morph(base[prop], changes[prop]);
+		} else {
+			morphed[prop] = base[prop];
+		}
+
+		n_props++;
+	}
+
+	for (var prop in changes) {
+
+		if (!changes.hasOwnProperty(prop)) continue;
+		if (base.hasOwnProperty(prop)) continue;
+
+		morphed[prop] = changes[prop];
+
+		n_props++;
+	}
+
+	if (!n_props) {
+		return changes;
+	} else {
+		return morphed;
 	}
 
 }
