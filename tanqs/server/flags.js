@@ -221,9 +221,7 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 
 		bullet.expansion = bullet_attr.expansion || 0;
 
-		if (bullet_attr.guided) {
-			bullet.guided = bullet_attr.guided;
-		}
+		bullet.guided = bullet_attr.guided || false;
 
 	}
 
