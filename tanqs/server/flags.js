@@ -70,7 +70,7 @@ function Flags(world) {
 
 	this.extra_clip = morph(this.default,
 	{
-		name: "extra_clip",
+		name: "extra clip",
 		weapon_attr: {max_bullets:4, reload_ticks:110},
 		bullet_attr: { life: 80 }
 	});
@@ -151,7 +151,7 @@ function Flags(world) {
 
 	this.shock_wave = morph(this.default,
 	{
-		name: "shock_wave",
+		name: "shock wave",
 		kill_verb: "incinerated",
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
 		bullet_attr: {rad: 24, speed: 0, life: 20, wall_collide: false, pass_thru: true, expansion: 13}
