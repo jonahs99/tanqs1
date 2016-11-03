@@ -169,7 +169,7 @@ function Flags(world) {
 		name: "guided missile",
 		kill_verb: "missiled",
 		weapon_attr: {max_bullets: 3, reload_ticks: 200},
-		bullet_attr: {speed: 2, guided: {min_cos: 0.92, max_acc: 0.2, max_vel: 8}}
+		bullet_attr: {speed: 2, guided: {min_cos: 0.92, max_acc: 0.28, max_vel: 8}}
 	});
 	/*this.guided_missile.shoot = function(tank) {
 		if (tank.use_reload()) {
