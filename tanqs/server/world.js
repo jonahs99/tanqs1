@@ -5,6 +5,8 @@ var clamp = shared.clamp;
 
 var Flags = new require('./flags.js');
 
+var Physics = require('./physics.js');
+
 // World class with all the nitty gritty server simulation code
 
 function World() {
@@ -51,7 +53,7 @@ World.prototype.reset = function() {
 
 World.prototype.parse_map = function(map) {
 
-	this.map = {size: map.size, rectangles: []};
+	this.map = {size: map.size, rectangles: [], polys: []};
 
 	for (var i = 0; i < map.teams.length; i++) {
 
@@ -90,11 +92,51 @@ World.prototype.parse_map = function(map) {
 
 	}
 
+	if (!map.polys) map.polys = [];
+
 	for (var i = 0; i < map.rectangles.length; i++) {
 
 		var rect_data = map.rectangles[i];
-		var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
-		this.map.rectangles.push(rect);
+		/*var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
+		this.map.rectangles.push(rect);*/
+
+		map.polys.push({v: [
+			{x:(rect_data.x - rect_data.hwidth), y:(rect_data.y - rect_data.hheight)},
+			{x:(rect_data.x - rect_data.hwidth), y:(rect_data.y + rect_data.hheight)},
+			{x:(rect_data.x + rect_data.hwidth), y:(rect_data.y + rect_data.hheight)},
+			{x:(rect_data.x + rect_data.hwidth), y:(rect_data.y - rect_data.hheight)}
+			]});
+
+	}
+
+	for (var i = 0; i < map.polys.length; i++) {
+
+		var poly_data = map.polys[i];
+		var poly = {v:[], l:[], n:[]};
+
+		var x1, x2, y1, y2;
+
+		for (var j = 0; j < poly_data.v.length; j++) {
+			var v = poly_data.v[j];
+			poly.v[j] = new Vec2(v.x, v.y);
+			if (v.x < x1 || j == 0) x1 = v.x;
+			if (v.x > x2 || j == 0) x2 = v.x;
+			if (v.y < y1 || j == 0) y1 = v.y;
+			if (v.y > y2 || j == 0) y2 = v.y;
+		}
+
+		// Bounding box calculation
+		poly.pos = new Vec2((x1 + x2) / 2, (y1 + y2) / 2)
+		poly.hwidth = Math.abs(x2 - x1);
+		poly.hheight = Math.abs(y2 - y1);
+
+		for (var j = 0; j < poly_data.v.length; j++) {
+			var k = (j + 1) % poly_data.v.length;
+			poly.l[j] = (new Vec2()).set(poly.v[k]).m_sub(poly.v[j]).m_unit();
+			poly.n[j] = poly.l[j].norm().m_unit();
+		}
+
+		this.map.polys.push(poly);
 
 	}
 
@@ -166,20 +208,6 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 					this.assign_tank_team(i, Math.floor(Math.random() * 2));
 				}
 			}
-
-			/*var tries = 12;
-			var repeat_color = true;
-			while (repeat_color && tries > 0) {
-				repeat_color = false;
-				tank.color = random_color();
-				tries--;
-				for (var j = 0; j < this.n_tanks; j++) {
-					if (j != i && tank.color == this.tanks[j].color) {
-						repeat_color = true;
-						break;
-					}
-				}
-			}*/
 
 			return i;
 		}
@@ -497,6 +525,21 @@ World.prototype.handle_collisions = function() {
 		}
 	}
 
+	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
+		var tank = this.tanks[tank_id];
+		if (!tank.alive || !tank.flag.tank_attr.wall_collide) continue;
+
+		for (var poly_id = 0; poly_id < this.map.polys.length; poly_id++) {
+			var poly = this.map.polys[poly_id];
+			var collide = Physics.circle_poly_collide(tank, poly);
+			if (collide) {
+				tank.pos.x += collide.n.x * collide.overlap;
+				tank.pos.y += collide.n.y * collide.overlap;
+			}
+		}
+
+	}
+
 	// Bullet-wall
 
 	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
@@ -532,6 +575,26 @@ World.prototype.handle_collisions = function() {
 				}
 			}
 		}
+	}
+
+	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
+		var bullet = this.bullets[bullet_id];
+		if (!bullet.alive || !bullet.wall_collide) continue;
+
+		for (var poly_id = 0; poly_id < this.map.polys.length; poly_id++) {
+			var poly = this.map.polys[poly_id];
+			var collide = Physics.circle_poly_collide(bullet, poly, bullet.vel);
+			if (collide) {
+				if (bullet.ricochet > 0) {
+					bullet.vel.m_sub(collide.n.scale(2*bullet.vel.dot(collide.n)));
+					bullet.ricochet--;
+				} else {
+					this.kill_bullet(bullet_id);
+				}
+				break;
+			}
+		}
+
 	}
 
 	// Tank-tank

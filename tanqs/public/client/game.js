@@ -16,6 +16,7 @@ function Game() {
 	this.mouse = new Vec2();
 	this.mouse_down = false;
 	this.leaderboard = [];
+	this.team_leaderboard = [];
 
 	// Graphics
 

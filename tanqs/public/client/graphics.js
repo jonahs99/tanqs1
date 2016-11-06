@@ -166,6 +166,24 @@ Renderer.prototype.render_map = function() {
 		this.context.stroke();
 	}
 
+	this.context.fillStyle = '#333';
+	this.context.strokeStyle = '#555';
+
+	for (var i = 0; i < this.world.map.polys.length; i++) {
+
+		var poly = this.world.map.polys[i];
+
+		this.context.beginPath();
+		this.context.moveTo(poly.v[0].x, poly.v[0].y);
+		for (var j = 1; j < poly.v.length; j++) {
+			this.context.lineTo(poly.v[j].x, poly.v[j].y);
+		}
+		this.context.closePath();
+		this.context.fill();
+		this.context.stroke();
+
+	}
+
 };
 
 Renderer.prototype.render_tank_tracks = function(tank) {

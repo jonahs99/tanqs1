@@ -67,4 +67,9 @@
 {"x":-200,"y":200,"type":"guided_missile"},
 {"x":200,"y":-200,"type":"super_bullet"},
 {"x":1000,"y":1000,"type":"steam_roller"},
-{"x":-1000,"y":-1000,"type":"steam_roller"}]}
+{"x":-1000,"y":-1000,"type":"steam_roller"}],
+"polys": [
+
+		{"v": [{"x": 0, "y":0}, {"x": 100, "y":0}, {"x": 200, "y":-200}, {"x": -100, "y":-300}]}
+
+	]}
