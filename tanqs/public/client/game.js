@@ -206,9 +206,8 @@ window.onmousedown = game.on_mousedown.bind(game);
 window.onmouseup = game.on_mouseup.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
 
-game.canvas.ontouchstart = function() {
-	this.resize_canvas();
-	preventDefault();
+game.canvas.ontouchmove = function(e) {
+	e.preventDefault();
 };
 
 window.oncontextmenu = function() {return false;};

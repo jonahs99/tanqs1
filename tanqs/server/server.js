@@ -266,7 +266,10 @@ GameServer.prototype.on_disconnect = function(socket) {
 	console.log("A client disconnected.");
 
 	var client = this.clients[socket.id];
-	if (client.state == 'pre-login') {
+
+	console.log(client.tank_id);
+
+	if (client.state == 'pre-login' || client.tank_id < 0) {
 
 	} else {
 		this.world.kill_tank(client.tank_id);
