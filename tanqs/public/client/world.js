@@ -92,10 +92,8 @@ World.prototype.server_update_tanks = function(msg) {
 		var tank_data = msg[i];
 		var tank = this.tanks[tank_data.id];
 
-		if (tank_data.reserved) {
-			tank.name = tank_data.name;
-			tank.color = tank_data.color;
-		}
+		tank.name = tank_data.name || tank.name;
+		tank.color = tank_data.color || tank.color;
 
 		if (tank_data.alive) {
 			
