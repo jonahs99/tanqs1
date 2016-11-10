@@ -187,8 +187,10 @@ GameServer.prototype.tank_update_msg = function() {
 		} else {
 			tank_data.killed_by = tank.killed_by;
 		}
-		tank_data.name = tank.client.name; // Send even if dead so that leaderboards are not messed up
-		tank_data.color = tank.color;
+		if (tank.reserved) {
+			tank_data.name = tank.client.name; // Send even if dead so that leaderboards are not messed up
+			tank_data.color = tank.color;
+		}
 		msg.push(tank_data);
 	}
 	return msg;
