@@ -177,18 +177,18 @@ GameServer.prototype.tank_update_msg = function() {
 		var tank = this.world.tanks[i];
 		var tank_data = {id: i, alive: tank.alive, rad: tank.rad};
 		if (tank.alive) {
-			tank_data.name = tank.client.name;
 			tank_data.pos = {x: tank.pos.x, y: tank.pos.y};
 			tank_data.dir = tank.dir;
 			tank_data.reload = tank.reload;
 			tank_data.reload_ticks = tank.reload_ticks;
-			tank_data.color = tank.color;
 			tank_data.flag = tank.flag.name;
 			tank_data.flag_team = tank.flag_team;
 			tank_data.team = tank.team;
 		} else {
 			tank_data.killed_by = tank.killed_by;
 		}
+		tank_data.name = tank.client.name; // Send even if dead so that leaderboards are not messed up
+		tank_data.color = tank.color;
 		msg.push(tank_data);
 	}
 	return msg;
