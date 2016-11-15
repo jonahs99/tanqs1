@@ -91,7 +91,7 @@ function Flags(world) {
 	this.tunneler = morph(this.default,
 	{
 		name: "tunneler",
-		tank_attr: {max_vel: 5.3, wall_collide: false}
+		tank_attr: {max_vel: 4.8, wall_collide: false}
 	});
 
 	// TRIPLE SHOT
@@ -154,7 +154,7 @@ function Flags(world) {
 		name: "shock wave",
 		kill_verb: "incinerated",
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
-		bullet_attr: {rad: 24, speed: 0, life: 20, wall_collide: false, pass_thru: true, expansion: 13}
+		bullet_attr: {rad: 24, speed: 0, life: 15, wall_collide: false, pass_thru: true, expansion: 13}
 	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
