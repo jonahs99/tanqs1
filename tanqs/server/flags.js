@@ -64,7 +64,7 @@ function Flags(world) {
 
 	// SUPER BULLET
 
-	this.super_bullet = morph(this.default, {name:"super bullet", bullet_attr:{ rad: 8, speed: 6.3, wall_collide: false, pass_thru: true }});
+	this.super_bullet = morph(this.default, {name:"super bullet", bullet_attr:{ rad: 8, speed: 5.6, wall_collide: false, pass_thru: true }});
 
 	// EXTRA CLIP
 
