@@ -4,6 +4,7 @@ html, body, div, canvas {
     display:	block;
     font-family: 'Open Sans';
     font-size: 48pt;
+    background: #111;
 }
 
 canvas {
