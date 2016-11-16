@@ -195,7 +195,10 @@ Game.prototype.on_keydown = function(evt) {
 	    link.rel = 'shortcut icon';
 	    link.href = 'http://www.wikipedia.org/favicon.ico';
 	    document.getElementsByTagName('head')[0].appendChild(link);
-	    document.title = "Relevant School Work";
+	    document.title = (["Relevant School Work",
+	    	"Important Information",
+	    	"Genuine Research"
+	    ])[Math.floor(Math.random() * 3)];
 	}
 };
 
