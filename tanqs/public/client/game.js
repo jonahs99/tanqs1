@@ -189,6 +189,13 @@ Game.prototype.on_mouseup = function(evt) {
 Game.prototype.on_keydown = function(evt) {
 	if (evt.keyCode == 86) {
 		this.renderer.fpv = !this.renderer.fpv;
+	} else if (evt.keyCode == 27) {
+		var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+	    link.type = 'image/x-icon';
+	    link.rel = 'shortcut icon';
+	    link.href = 'http://www.wikipedia.org/favicon.ico';
+	    document.getElementsByTagName('head')[0].appendChild(link);
+	    document.title = "Relevant School Work";
 	}
 };
 
