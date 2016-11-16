@@ -361,6 +361,7 @@ World.prototype.update_tanks = function() {
 			if (tank.reserverd) {
 				tank.spawn_cooldown--;
 				if (tank.spawn_cooldown < -600) {
+					this.server.remove_client(tank.client.id);
 					this.free_tank(tank.id);
 				}
 			}
