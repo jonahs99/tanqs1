@@ -358,11 +358,10 @@ World.prototype.update_tanks = function() {
 				}
 			}
 		} else {
-			if (tank.reserverd) {
+			if (tank.reserved) {
 				tank.spawn_cooldown--;
 				if (tank.spawn_cooldown < -600) {
-					this.server.remove_client(tank.client.id);
-					this.free_tank(tank.id);
+					this.server.on_disconnect({id: tank.client.id});
 				}
 			}
 		}
