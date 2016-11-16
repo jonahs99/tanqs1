@@ -360,7 +360,7 @@ World.prototype.update_tanks = function() {
 		} else {
 			if (tank.reserved) {
 				tank.spawn_cooldown--;
-				if (tank.spawn_cooldown < -600) {
+				if (tank.spawn_cooldown < -5000) {
 					this.server.send_kick(tank.client.id);
 					this.server.on_disconnect({id: tank.client.id});
 					tank.spawn_cooldown = 0;
