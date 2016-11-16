@@ -56,6 +56,7 @@ Client.prototype.setup_socket_events = function() {
 	this.socket.on('update', this.on_update.bind(this));
 	this.socket.on('who', this.on_who.bind(this));
 	this.socket.on('chat', this.on_chat.bind(this));
+	this.socket.on('kick', this.on_kick.bind(this));
 
 };
 
@@ -122,4 +123,8 @@ Client.prototype.on_who = function(msg) {
 
 Client.prototype.on_chat = function(msg) {
 	this.game.add_chat_message("<br>" + msg.text);
+};
+
+Client.prototype.on_kick = function(msg) {
+	reload();
 };
