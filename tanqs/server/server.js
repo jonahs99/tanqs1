@@ -60,10 +60,10 @@ GameServer.prototype.setup_socket_events = function(socket) {
 
 };
 
-GameServer.prototype.add_client = function(socket_id) {
-	var client = {id: socket_id, tank_id: -1, name: '', state: 'pre-login',
+GameServer.prototype.add_client = function(socket) {
+	var client = {id: socket.id, socket: socket, tank_id: -1, name: '', state: 'pre-login',
 	 stats: {kills: 0, deaths: 0}};
-	this.clients[socket_id] = client;
+	this.clients[socket.id] = client;
 };
 
 GameServer.prototype.remove_client = function(socket_id) {
@@ -160,6 +160,15 @@ GameServer.prototype.send_join = function(socket, player_id, name) {
 
 GameServer.prototype.send_chat = function(text) {
 	this.io.emit('chat', {text: text});
+};
+
+GameServer.prototype.send_kick = function(socket_id) {
+	var client = this.clients[socket_id];
+	if (client) {
+		if (client.socket) {
+			client.socket.emit('kick',{});
+		}
+	}
 };
 
 GameServer.prototype.update_clients = function() {
@@ -260,7 +269,7 @@ GameServer.prototype.flag_update_msg = function() {
 // Events
 
 GameServer.prototype.on_connection = function(socket) {
-	this.add_client(socket.id);
+	this.add_client(socket);
 	this.send_server(socket);
 };
 
@@ -269,6 +278,8 @@ GameServer.prototype.on_disconnect = function(socket) {
 
 	var client = this.clients[socket.id];
 
+	if (!client) return;
+	
 	console.log(client.tank_id);
 
 	if (client.state == 'pre-login' || client.tank_id < 0) {
@@ -305,8 +316,8 @@ GameServer.prototype.on_login = function(socket, msg) {
 	if (client.name == "") {
 		client.name = "Anon";
 	}
-	if (client.name.length > 25) {
-		client.name = client.name.substring(0, 24) + "...";
+	if (client.name.length > 20) {
+		client.name = client.name.substring(0, 23) + "...";
 	}
 
 	client.state = 'logged';
@@ -328,8 +339,10 @@ GameServer.prototype.on_login = function(socket, msg) {
 
 GameServer.prototype.on_respawn = function(socket, msg) {
 	var client = this.clients[socket.id];
-	if (client.state == 'logged') {
-		this.world.spawn_tank(client.tank_id);
+	if (client) {
+		if (client.state == 'logged') {
+			this.world.spawn_tank(client.tank_id);
+		}
 	}
 };
 

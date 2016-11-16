@@ -358,8 +358,13 @@ World.prototype.update_tanks = function() {
 				}
 			}
 		} else {
-			if (tank.spawn_cooldown > 0) {
+			if (tank.reserved) {
 				tank.spawn_cooldown--;
+				if (tank.spawn_cooldown < -5000) {
+					this.server.send_kick(tank.client.id);
+					this.server.on_disconnect({id: tank.client.id});
+					tank.spawn_cooldown = 0;
+				}
 			}
 		}
 	}
@@ -436,7 +441,7 @@ World.prototype.handle_collisions = function() {
 		if (tank.alive) {
 			for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 				var bullet = this.bullets[bullet_id];
-				if (bullet.alive && bullet.tank != tank_id && (bullet.team == -1 || bullet.team != tank.team)) {
+				if (bullet.alive && bullet.tank != tank_id && (bullet.team == -1 || bullet.team != tank.team || bullet.team == tank.flag_team)) {
 					var dist2 = (new Vec2()).set(tank.pos).m_sub(bullet.pos).mag2();
 					var rad2 = Math.pow((tank.rad*1.25) + bullet.rad, 2);
 					if (dist2 < rad2) {
