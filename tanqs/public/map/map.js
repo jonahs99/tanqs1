@@ -65,7 +65,7 @@ export_input.onsubmit = function() {
 		flags: map.flags
 	};
 
-	var string_out = JSON.stringify(map_object);
+	var string_out = JSON.stringify(map_object, null, "\t");
 	console.log(string_out);
 
 	return false;
