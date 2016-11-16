@@ -305,8 +305,8 @@ GameServer.prototype.on_login = function(socket, msg) {
 	if (client.name == "") {
 		client.name = "Anon";
 	}
-	if (client.name.length > 25) {
-		client.name = client.name.substring(0, 24) + "...";
+	if (client.name.length > 20) {
+		client.name = client.name.substring(0, 23) + "...";
 	}
 
 	client.state = 'logged';
