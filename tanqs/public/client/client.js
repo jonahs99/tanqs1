@@ -126,5 +126,5 @@ Client.prototype.on_chat = function(msg) {
 };
 
 Client.prototype.on_kick = function(msg) {
-	reload();
+	location.reload(true);
 };
