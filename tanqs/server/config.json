@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": "./maps/mux.json"
+  "map": "./maps/box.json"
 }
