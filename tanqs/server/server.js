@@ -278,6 +278,8 @@ GameServer.prototype.on_disconnect = function(socket) {
 
 	var client = this.clients[socket.id];
 
+	if (!client) return;
+	
 	console.log(client.tank_id);
 
 	if (client.state == 'pre-login' || client.tank_id < 0) {
