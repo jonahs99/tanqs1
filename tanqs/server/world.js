@@ -790,7 +790,10 @@ function Flag() {
 
 Flag.prototype.update = function() {
 	this.cooldown--;
-	if (this.cooldown <= -1000) {
+	if (this.team == -1 && this.cooldown <= -1000) {
+		this.pos.set(this.spawn);
+		this.cooldown = 0;
+	} else if (this.cooldown <= -4500) {
 		this.pos.set(this.spawn);
 		this.cooldown = 0;
 	}
