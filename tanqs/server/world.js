@@ -450,6 +450,7 @@ World.prototype.handle_collisions = function() {
 						if (!bullet.pass_thru) {
 							this.kill_bullet(bullet_id);
 						}
+						break;
 					}
 					if (tank.flag.tank_attr.shield_rad && !bullet.pass_thru) {
 						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
