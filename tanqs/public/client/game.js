@@ -193,8 +193,13 @@ Game.prototype.on_keydown = function(evt) {
 		var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
 	    link.type = 'image/x-icon';
 	    link.rel = 'shortcut icon';
-	    link.href = 'http://www.wikipedia.org/favicon.ico';
+	    link.href = (['http://www.wikipedia.org/favicon.ico',
+			'http://google.com/favicon.ico',
+			'https://www.microsoft.com/favicon.ico',
+		])[Math.floor(Math.random() * 3)];
+		
 	    document.getElementsByTagName('head')[0].appendChild(link);
+		
 	    document.title = (["Relevant School Work",
 	    	"Important Information",
 	    	"Genuine Research"
