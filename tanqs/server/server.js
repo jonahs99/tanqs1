@@ -146,6 +146,10 @@ GameServer.prototype.send_server = function(socket) {
 	socket.emit('server', msg);
 };
 
+GameServer.prototype.send_refuse = function(socket) {
+	socket.emit('refuse', {});
+};
+
 GameServer.prototype.send_who = function() {
 	var msg = {clients: [], teams: []};
 	for (var id in this.clients) {
@@ -286,7 +290,7 @@ GameServer.prototype.on_connection = function(socket) {
 	if (this.add_client(socket, user_string)) {
 		this.send_server(socket);
 	} else {
-
+		this.send_refuse(socket);
 	}
 };
 

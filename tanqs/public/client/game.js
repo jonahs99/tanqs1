@@ -1,5 +1,5 @@
 
-var GameState = { DISCONNECTED: 1, LOGIN: 2, GAME: 3, RESPAWN: 4 };
+var GameState = { DISCONNECTED: 1, LOGIN: 2, GAME: 3, RESPAWN: 4, REFUSED: 5 };
 
 function Game() {
 
@@ -45,6 +45,16 @@ Game.prototype.change_state = function(state) {
 		splash_text.innerHTML = "tanqs.io";
 		splash_button.value = "join";
 
+		chat_input.style.visibility = 'hidden';
+
+	} else if (state == GameState.REFUSED) {
+
+		splash_input.style.display = 'block';
+		splash.style.visibility = 'visible';
+
+		splash_text.innerHTML = "Sorry, I can't let you connect again.";
+		
+		splash_button.style.visibility = "hidden";
 		chat_input.style.visibility = 'hidden';
 
 	} else if (state == GameState.GAME) {

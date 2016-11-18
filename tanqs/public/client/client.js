@@ -53,6 +53,7 @@ Client.prototype.setup_socket_events = function() {
 	this.socket.on('server', this.on_server.bind(this));
 	this.socket.on('disconnect', this.on_disconnect.bind(this));
 	this.socket.on('join', this.on_join.bind(this));
+	this.socket.on('refuse', this.on_refuse.bind(this));
 	this.socket.on('update', this.on_update.bind(this));
 	this.socket.on('who', this.on_who.bind(this));
 	this.socket.on('chat', this.on_chat.bind(this));
@@ -70,6 +71,11 @@ Client.prototype.on_server = function(msg) {
 	this.game.time_step = msg.config.ms_frame * msg.config.frames_update;
 	this.game.world.map = msg.map;
 	this.game.begin_simulation();
+};
+
+Client.prototype.on_refuse = function(msg) {
+	console.log("Server refused socket connection.");
+	this.game.change_state(GameState.REFUSED);
 };
 
 Client.prototype.on_disconnect = function() {
