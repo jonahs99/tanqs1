@@ -274,7 +274,7 @@ GameServer.prototype.on_connection = function(socket) {
 	var ip_string = address.address + ":" + address.port;
 	console.log(ip_string);
 
-	console.log(socket.handshake.address);
+	console.log(socket.handshake);
 
 	this.add_client(socket);
 	this.send_server(socket);
