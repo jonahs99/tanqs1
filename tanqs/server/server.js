@@ -60,10 +60,18 @@ GameServer.prototype.setup_socket_events = function(socket) {
 
 };
 
-GameServer.prototype.add_client = function(socket) {
-	var client = {id: socket.id, socket: socket, tank_id: -1, name: '', state: 'pre-login',
+GameServer.prototype.add_client = function(socket, user_string) {
+	var client = {id: socket.id, socket: socket, user: user_string, tank_id: -1, name: '', state: 'pre-login',
 	 stats: {kills: 0, deaths: 0}};
+
+	for (var i = 0; i < this.clients.length; i++) {
+		if (this.clients[i].user == client.user) {
+			return false;
+		}
+	}
+
 	this.clients[socket.id] = client;
+	return true;
 };
 
 GameServer.prototype.remove_client = function(socket_id) {
@@ -270,11 +278,15 @@ GameServer.prototype.flag_update_msg = function() {
 
 GameServer.prototype.on_connection = function(socket) {
 
+	// Identifier to stop multi-boxing
 	var user_string = socket.handshake.headers['user-agent'] + socket.handshake.address;
 	console.log(user_string);
 
-	this.add_client(socket);
-	this.send_server(socket);
+	if (this.add_client(socket, user_string)) {
+		this.send_server(socket);
+	} else {
+
+	}
 };
 
 GameServer.prototype.on_disconnect = function(socket) {
