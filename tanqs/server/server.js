@@ -66,6 +66,7 @@ GameServer.prototype.add_client = function(socket, user_string) {
 
 	for (var i = 0; i < this.clients.length; i++) {
 		if (this.clients[i].user == client.user) {
+			console.log("Tried to connect again.");
 			return false;
 		}
 	}
