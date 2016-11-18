@@ -49,11 +49,11 @@ Game.prototype.change_state = function(state) {
 
 	} else if (state == GameState.REFUSED) {
 
-		splash_input.style.display = 'block';
+		splash_input.style.display = 'none';
 		splash.style.visibility = 'visible';
 
 		splash_text.innerHTML = "Sorry, I can't let you connect again.";
-		
+
 		splash_button.style.visibility = "hidden";
 		chat_input.style.visibility = 'hidden';
 
