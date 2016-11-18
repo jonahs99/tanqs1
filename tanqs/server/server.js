@@ -64,9 +64,8 @@ GameServer.prototype.add_client = function(socket, user_string) {
 	var client = {id: socket.id, socket: socket, user: user_string, tank_id: -1, name: '', state: 'pre-login',
 	 stats: {kills: 0, deaths: 0}};
 
-	for (var i = 0; i < this.clients.length; i++) {
-		console.log(i + ":  " + this.clients[i].user);
-		if (this.clients[i].user == user_string) {
+	for (var id in this.clients) {
+		if (this.clients[id].user == user_string) {
 			console.log("Tried to connect again.");
 			return false;
 		}
