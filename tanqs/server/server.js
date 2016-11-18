@@ -270,7 +270,7 @@ GameServer.prototype.flag_update_msg = function() {
 
 GameServer.prototype.on_connection = function(socket) {
 
-	var user_string = socket.handshake['user-agent'] + socket.handshake.address;
+	var user_string = socket.handshake.headers['user-agent'] + socket.handshake.address;
 	console.log(user_string);
 
 	this.add_client(socket);
