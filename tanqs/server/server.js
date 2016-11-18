@@ -270,11 +270,11 @@ GameServer.prototype.flag_update_msg = function() {
 
 GameServer.prototype.on_connection = function(socket) {
 
-	/*var address = socket.handshake.address;
-	var ip_string = address.adress + ":" + address.port;
+	var address = socket.handshake.address;
+	var ip_string = address.address + ":" + address.port;
 	console.log(ip_string);
 
-	console.log(socket);*/
+	console.log(socket.handshake.address);
 
 	this.add_client(socket);
 	this.send_server(socket);
