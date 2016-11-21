@@ -52,7 +52,7 @@ Game.prototype.change_state = function(state) {
 		splash_input.style.display = 'none';
 		splash.style.visibility = 'visible';
 
-		splash_text.innerHTML = "Sorry, I can't let you connect again.";
+		splash_text.innerHTML = "Sorry, you're already connected.";
 
 		splash_button.style.visibility = "hidden";
 		chat_input.style.visibility = 'hidden';
