@@ -520,11 +520,6 @@
 			"type": "ricochet"
 		},
 		{
-			"x": -1000,
-			"y": 1000,
-			"type": "back_fir"
-		},
-		{
 			"x": 1000,
 			"y": -1000,
 			"type": "back_fire"
@@ -648,6 +643,11 @@
 			"x": -500,
 			"y": 200,
 			"type": "shield"
+		},
+		{
+			"x": -1000,
+			"y": 1000,
+			"type": "back_fire"
 		}
 	]
 }
