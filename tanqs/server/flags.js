@@ -81,7 +81,7 @@ function Flags(world) {
 	{
 		name: "sniper",
 		kill_verb: "sniped",
-		tank_attr: {max_vel: 5},
+		tank_attr: {max_vel: 5.5},
 		weapon_attr: {reload_ticks: 170},
 		bullet_attr: {speed: 14, life: 170}
 	});
@@ -116,7 +116,7 @@ function Flags(world) {
 	{
 		name: "steam roller",
 		kill_verb: "flattened",
-		tank_attr: {rad: 19, max_vel: 6.6, kill_on_collide: true},
+		tank_attr: {rad: 19, max_vel: 6.4, kill_on_collide: true},
 	});
 	
 	// TINY

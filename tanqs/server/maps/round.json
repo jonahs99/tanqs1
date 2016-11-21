@@ -1,0 +1,653 @@
+{
+	"size": {
+		"width": 3000,
+		"height": 3000,
+		"grid": 100
+	},
+	"teams": [
+		{
+			"pad": {
+				"x": -1100,
+				"y": -1100,
+				"hwidth": 100,
+				"hheight": 100
+			},
+			"spawn": {
+				"x": -1000,
+				"y": -1000
+			},
+			"flag": {
+				"x": -1000,
+				"y": -700
+			}
+		},
+		{
+			"pad": {
+				"x": 1200,
+				"y": 1200,
+				"hwidth": 100,
+				"hheight": 100
+			},
+			"spawn": {
+				"x": 1100,
+				"y": 1100
+			},
+			"flag": {
+				"x": 1100,
+				"y": 800
+			}
+		}
+	],
+	"rectangles": [
+		{
+			"x": 1475,
+			"y": 1475,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -1475,
+			"y": -1475,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -375,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": 375,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": 0,
+			"y": -375,
+			"hwidth": 200,
+			"hheight": 25
+		},
+		{
+			"x": 0,
+			"y": 375,
+			"hwidth": 200,
+			"hheight": 25
+		},
+		{
+			"x": -675,
+			"y": 200,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": -200,
+			"y": 675,
+			"hwidth": 200,
+			"hheight": 25
+		},
+		{
+			"x": -550,
+			"y": 550,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -450,
+			"y": 625,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": -625,
+			"y": 450,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": 200,
+			"y": -675,
+			"hwidth": 200,
+			"hheight": 25
+		},
+		{
+			"x": 675,
+			"y": -200,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": 625,
+			"y": -450,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": 450,
+			"y": -625,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": 550,
+			"y": -550,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -675,
+			"y": -675,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -425,
+			"y": -425,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -675,
+			"y": -425,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -425,
+			"y": -675,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -550,
+			"y": -675,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": -550,
+			"y": -425,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": -675,
+			"y": -550,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": -425,
+			"y": -550,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 675,
+			"y": 675,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 550,
+			"y": 675,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": 425,
+			"y": 675,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 425,
+			"y": 550,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 425,
+			"y": 425,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 550,
+			"y": 425,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": 675,
+			"y": 425,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 675,
+			"y": 550,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 425,
+			"y": 1075,
+			"hwidth": 25,
+			"hheight": 275
+		},
+		{
+			"x": -425,
+			"y": -1075,
+			"hwidth": 25,
+			"hheight": 275
+		},
+		{
+			"x": 50,
+			"y": 100,
+			"hwidth": 0,
+			"hheight": 0
+		},
+		{
+			"x": -200,
+			"y": 200,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 200,
+			"y": -200,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -375,
+			"y": 375,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"hwidth": 100,
+			"hheight": 100
+		},
+		{
+			"x": 250,
+			"y": 250,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -250,
+			"y": -250,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 675,
+			"y": 200,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": -675,
+			"y": -200,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 1025,
+			"y": 125,
+			"hwidth": 325,
+			"hheight": 25
+		},
+		{
+			"x": -1025,
+			"y": -125,
+			"hwidth": 325,
+			"hheight": 25
+		},
+		{
+			"x": 1350,
+			"y": -1350,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 1425,
+			"y": -1250,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": 1250,
+			"y": -1425,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": -1350,
+			"y": 1350,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -1250,
+			"y": 1425,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": -1425,
+			"y": 1250,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": 125,
+			"y": 1475,
+			"hwidth": 1325,
+			"hheight": 25
+		},
+		{
+			"x": 1475,
+			"y": 125,
+			"hwidth": 25,
+			"hheight": 1325
+		},
+		{
+			"x": -125,
+			"y": -1475,
+			"hwidth": 1325,
+			"hheight": 25
+		},
+		{
+			"x": -1475,
+			"y": -125,
+			"hwidth": 25,
+			"hheight": 1325
+		},
+		{
+			"x": 1075,
+			"y": 325,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": -1075,
+			"y": -325,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": -625,
+			"y": -1075,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": -75,
+			"y": 875,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 75,
+			"y": -875,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 1025,
+			"y": -600,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 975,
+			"y": -750,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": 750,
+			"y": -975,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": 600,
+			"y": -1025,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": 875,
+			"y": -875,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 50,
+			"y": -1075,
+			"hwidth": 450,
+			"hheight": 25
+		},
+		{
+			"x": -750,
+			"y": 975,
+			"hwidth": 50,
+			"hheight": 25
+		},
+		{
+			"x": -600,
+			"y": 1025,
+			"hwidth": 100,
+			"hheight": 25
+		},
+		{
+			"x": -875,
+			"y": 875,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": -975,
+			"y": 750,
+			"hwidth": 25,
+			"hheight": 50
+		},
+		{
+			"x": -1025,
+			"y": 600,
+			"hwidth": 25,
+			"hheight": 100
+		},
+		{
+			"x": 1075,
+			"y": -250,
+			"hwidth": 25,
+			"hheight": 250
+		},
+		{
+			"x": -1075,
+			"y": 250,
+			"hwidth": 25,
+			"hheight": 250
+		},
+		{
+			"x": -50,
+			"y": 1075,
+			"hwidth": 450,
+			"hheight": 25
+		},
+		{
+			"x": 1125,
+			"y": -1125,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": -1125,
+			"y": 1125,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 625,
+			"y": 1075,
+			"hwidth": 75,
+			"hheight": 75
+		},
+		{
+			"x": 375,
+			"y": -375,
+			"hwidth": 75,
+			"hheight": 75
+		}
+	],
+	"flags": [
+		{
+			"x": 0,
+			"y": -550,
+			"type": "ricochet"
+		},
+		{
+			"x": 0,
+			"y": 550,
+			"type": "ricochet"
+		},
+		{
+			"x": 1000,
+			"y": -1000,
+			"type": "back_fire"
+		},
+		{
+			"x": -1250,
+			"y": 1250,
+			"type": "sniper"
+		},
+		{
+			"x": 1250,
+			"y": -1250,
+			"type": "sniper"
+		},
+		{
+			"x": 800,
+			"y": 250,
+			"type": "super_bullet"
+		},
+		{
+			"x": -800,
+			"y": -250,
+			"type": "super_bullet"
+		},
+		{
+			"x": -700,
+			"y": 700,
+			"type": "guided_missile"
+		},
+		{
+			"x": 700,
+			"y": -700,
+			"type": "guided_missile"
+		},
+		{
+			"x": 350,
+			"y": 350,
+			"type": "tiny"
+		},
+		{
+			"x": -350,
+			"y": -350,
+			"type": "tiny"
+		},
+		{
+			"x": -200,
+			"y": 0,
+			"type": "shock_wave"
+		},
+		{
+			"x": 200,
+			"y": 0,
+			"type": "shock_wave"
+		},
+		{
+			"x": 0,
+			"y": -200,
+			"type": "triple_shot"
+		},
+		{
+			"x": 0,
+			"y": 200,
+			"type": "triple_shot"
+		},
+		{
+			"x": -800,
+			"y": -800,
+			"type": "back_fire"
+		},
+		{
+			"x": 1000,
+			"y": 1000,
+			"type": "back_fire"
+		},
+		{
+			"x": -1300,
+			"y": -500,
+			"type": "extra_clip"
+		},
+		{
+			"x": 1300,
+			"y": 500,
+			"type": "extra_clip"
+		},
+		{
+			"x": 200,
+			"y": 900,
+			"type": "tunneler"
+		},
+		{
+			"x": -200,
+			"y": -900,
+			"type": "tunneler"
+		},
+		{
+			"x": 1300,
+			"y": -200,
+			"type": "speed"
+		},
+		{
+			"x": -1300,
+			"y": 200,
+			"type": "speed"
+		},
+		{
+			"x": -600,
+			"y": -1300,
+			"type": "steam_roller"
+		},
+		{
+			"x": 600,
+			"y": 1300,
+			"type": "steam_roller"
+		},
+		{
+			"x": 500,
+			"y": -200,
+			"type": "shield"
+		},
+		{
+			"x": -500,
+			"y": 200,
+			"type": "shield"
+		},
+		{
+			"x": -1000,
+			"y": 1000,
+			"type": "back_fire"
+		}
+	]
+}
