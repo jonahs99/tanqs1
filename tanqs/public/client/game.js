@@ -7,6 +7,7 @@ function Game() {
 
 	this.state = GameState.DISCONNECTED;
 	this.world = new World(this);
+	this.particles = new Particles();
 
 	this.last_update_time = (new Date()).getTime();
 

@@ -31,6 +31,7 @@ World.prototype.reset = function() {
 
 World.prototype.local_update = function() {
 	this.local_update_tanks();
+	this.game.particles.update();
 	//this.local_update_bullets();
 
 	/*if (this.frame % 4 == 0) {
@@ -123,6 +124,7 @@ World.prototype.server_update_tanks = function(msg) {
 				tank.corpse = true;
 				tank.death_anim = 3;
 				tank.killed_by = tank_data.killed_by;
+				this.game.particles.add_tank_explosion(tank);
 			}
 			tank.alive = false;
 		}

@@ -11,6 +11,7 @@ function Renderer(game, canvas) {
 
 	this.game = game;
 	this.world = game.world;
+	this.particles = game.particles;
 	this.canvas = canvas;
 	this.context = canvas.getContext('2d');
 
@@ -125,6 +126,9 @@ Renderer.prototype.render_world = function() {
 	if (this.game.player_tank && (this.game.player_tank.alive || this.game.player_tank.corpse)) {
 		this.render_tank(this.game.player_tank, delta);
 	}
+
+	//Draw the particles
+	this.particles.render(this.context);
 
 	/*this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);

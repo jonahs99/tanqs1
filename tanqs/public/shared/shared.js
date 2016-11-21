@@ -5,6 +5,10 @@ function clamp(a, min, max) {
 
 }
 
+function random_float(min, max) {
+	return Math.random() * (max - min) + min;
+}
+
 function lerp(a, b, delta) {
 
 	return (1 - delta) * a + delta * b;
@@ -119,6 +123,10 @@ Vec2.prototype.m_add = function(v) {
 	return this;
 
 };
+
+Vec2.prototype.m_addxy = function(x, y) {
+	this.x += x; this.y += y; return this;
+}
 
 Vec2.prototype.m_sub = function(v) {
 
