@@ -199,6 +199,7 @@ GameServer.prototype.tank_update_msg = function() {
 		var tank = this.world.tanks[i];
 		var tank_data = {id: i, alive: tank.alive, rad: tank.rad};
 		if (tank.alive) {
+			tank_data.new = tank.new; tank.new = false;
 			tank_data.pos = {x: tank.pos.x, y: tank.pos.y};
 			tank_data.dir = tank.dir;
 			tank_data.reload = tank.reload;

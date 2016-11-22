@@ -227,6 +227,7 @@ World.prototype.spawn_tank = function(id) {
 	if (tank.spawn_cooldown > 0) return;
 
 	tank.alive = true;
+	tank.new = true;
 
 	tank.set_flag(this.flag_types.default);
 	tank.flag_id = -1;

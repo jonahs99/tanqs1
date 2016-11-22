@@ -101,7 +101,7 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.rad = tank_data.rad;
 
 			if (tank.alive) {
-				tank.old.pos.set(tank.current.pos);//tank.draw.pos);
+				tank.old.pos.set(tank.draw.pos);
 				tank.old.dir = tank.draw.dir;
 			} else {
 				tank.old.pos.set(tank_data.pos);
@@ -117,6 +117,8 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.flag = tank_data.flag;
 			tank.flag_team = tank_data.flag_team;
 			tank.team = tank_data.team;
+
+			if (tank_data.new) this.game.particles.add_tank_mist(tank);
 
 			tank.alive = true;
 		} else {
@@ -150,6 +152,7 @@ World.prototype.server_update_bullets = function(msg) {
 
 				bullet.old_pos.set(tank.draw.pos);
 				bullet.draw_pos.set(bullet.old_pos);
+				bullet.current_pos.set(bullet.old_pos);
 				bullet.old_rad = bullet_data.rad;
 				bullet.draw_rad = bullet_data.rad;
 
@@ -164,6 +167,9 @@ World.prototype.server_update_bullets = function(msg) {
 			bullet.current_pos.set_xy(bullet_data.x, bullet_data.y);
 			
 		} else {
+			if (bullet.alive) { // Bullet just died!
+				if (bullet.rad < 50) this.game.particles.add_bullet_explosion(bullet);
+			}
 			bullet.alive = false;
 		}
 
