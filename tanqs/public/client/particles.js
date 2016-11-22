@@ -17,7 +17,6 @@ Particles.prototype.update = function() {
 
 		if (particle.rad * particle.scale < this.min_rad) {
 			this.particles.splice(i, 1);
-			console.log(this.particles.length);
 		}
 	}
 

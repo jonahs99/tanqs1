@@ -397,6 +397,39 @@ Renderer.prototype.render_leaderboard = function() {
 		this.context.fill();
 	}
 
+	// Draw the arrow if the enemy has the team flag
+
+	if (this.game.player_tank.team != -1) {
+		for (var i = 0; i < this.world.tanks.length; i++) {
+			var tank = this.world.tanks[i];
+			if (tank.alive && tank.team != this.game.player_tank.team) {
+				if (tank.flag_team == this.game.player_tank.team) {
+					var d = new Vec2().set(tank.draw.pos).m_sub(this.game.player_tank.draw.pos);
+					var mag2 = d.mag2();
+					if (mag2 > Math.pow(this.canvas.height / 2, 2) || mag2 > Math.pow(this.canvas.width / 2, 2)) {
+						var rad = 200;
+						var ang = Math.atan2(d.y, d.x);
+						var pulse = Math.sin(Date.now() / 120);
+						d.m_scale(rad / d.mag());
+						this.context.fillStyle = (['#c00', '#06c'])[tank.flag_team];
+						this.context.strokeStyle = this.context.fillStyle;
+						this.lineWidth = 4;
+						this.context.beginPath();
+						this.context.moveTo(d.x, d.y);
+						d.set_rt(rad - 20, ang - 0.1);
+						this.context.lineTo(d.x, d.y);
+						d.set_rt(rad - 20, ang + 0.1);
+						this.context.lineTo(d.x, d.y);
+						this.context.closePath();
+						this.context.fill();
+						this.context.stroke();
+					}
+					break;
+				}
+			}
+		}
+	}
+
 };
 
 Renderer.prototype.render_ui = function() {
