@@ -77,6 +77,16 @@ Game.prototype.change_state = function(state) {
 
 		splash_button.value = "respawn in 3";
 		splash.style.visibility = 'visible';
+		splash.style.opacity = 0;
+		setTimeout(function() {
+			var splash_fade_interval = setInterval(function() {
+				splash.style.opacity = parseFloat(splash.style.opacity) + 0.01;
+				if (splash.style.opacity >= 0.6) {
+					splash.style.opacity = 0.6;
+					clearInterval(splash_fade_interval);
+				}
+			}, 50);
+		}, 800);
 
 		chat_input.style.visibility = 'visible';
 
