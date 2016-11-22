@@ -399,7 +399,7 @@ Renderer.prototype.render_leaderboard = function() {
 
 	// Draw the arrow if the enemy has the team flag
 
-	if (this.game.player_tank.team != -1) {
+	if (this.game.player_tank.alive && this.game.player_tank.team != -1) {
 		for (var i = 0; i < this.world.tanks.length; i++) {
 			var tank = this.world.tanks[i];
 			if (tank.alive && tank.team != this.game.player_tank.team) {
