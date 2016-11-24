@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	<link rel="icon" href="icon.png">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./style.css">
+	</head>
+
+	<body>
+
+		<canvas id="canvas">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
+		<div id="chat_output"></div>
+		<form id="chat_form">
+			<input id="chat_input" type="text" placeholder="have a chat" autocomplete="off">
+		</form>
+
+		<div id="splash">
+			<p id="splash_text">tanqs.io</p>
+			<form id="splash_form">
+				<input id="splash_input" type="text" placeholder="enter a nickname">
+				<input id="splash_button" type="submit" value="join">
+			</form>
+		</div>
+
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="./shared/shared.js"></script>
+		<script src="./client/world.js"></script>
+		<script src="./client/graphics.js"></script>
+		<script src="./client/client.js"></script>
+		<script src="./client/game.js"></script>
+
+	</body>
+
+</html>

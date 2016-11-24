@@ -11,29 +11,40 @@
 
 	<body>
 
+		<!-- THE GAME CANVAS -->
+
 		<canvas id="canvas">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
 
-		<div id="chat_output"></div>
-		<form id="chat_form">
-			<input id="chat_input" type="text" placeholder="have a chat" autocomplete="off">
-		</form>
+		<!-- THE SPLASH BOX -->
 
-		<div id="splash">
-			<p id="splash_text">tanqs.io</p>
-			<form id="splash_form">
-				<input id="splash_input" type="text" placeholder="enter a nickname">
-				<input id="splash_button" type="submit" value="join">
-			</form>
+		<div id="splash_container">
+			<div id="splash_box">
+				<h1>welcome to tanqs</h1>
+				<input id="nick_input" type="text" placeholder="enter a nickname" autocomplete="off">
+				<input id="pass_input" type="text" placeholder="your password" autocomplete="off" style="display:none">
+				<input id="confirm_input" type="text" placeholder="confirm password" autocomplete="off" style="display:none"> <br>
+				<button id="join_button" type="button">join the game</button>
+				<div id="account_container">
+					<p class="account_link">Have an account? <a id="login_link" href="#">log in</a></p>
+					<p class="account_link">Want an account? <a id="signup_link" href="#">signup</a></p>
+				</div>
+			</div>
+			<p>inspired by <a href="http://bzflag.org">bzflag</a><p>
 		</div>
 
+		<!-- SCRIPTS -->
+
 		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-		<script src="./shared/shared.js"></script>
-		<script src="./client/world.js"></script>
-		<script src="./client/graphics.js"></script>
-		<script src="./client/client.js"></script>
-		<script src="./client/game.js"></script>
+
+		<script src="js/math.js"></script>
+		<script src="js/interface.js"></script>
+		<script src="js/snapshot.js"></script>
+		<script src="js/colors.js"></script>
+		<script src="js/graphics.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/client.js"></script>
 
 	</body>
 

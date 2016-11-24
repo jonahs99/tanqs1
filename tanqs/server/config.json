@@ -1,4 +1,19 @@
 {
-  "port": 3000,
-  "map": "./maps/ctf3.json"
+
+	"server": { "port":3000 },
+
+	"game": {
+		"rates": {
+			"ms_frame": 20,
+			"frames_update": 2
+		},
+		"capacity": {
+			"n_tanks": 4,
+			"n_bullets": 12,
+			"n_flags": 3
+		},
+
+		"map": "ctf"
+	}
+
 }
