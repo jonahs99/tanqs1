@@ -80,13 +80,6 @@ World.prototype.parse_map = function() {
 
 	}
 
-	this.arcs.push({pos: new Vec2(-100, 300), rad: 100});
-	this.arcs.push({pos: new Vec2(-200, 600), rad: 200});
-
-	for (var i = 0; i < 100; i++) {
-		this.arcs.push({pos: new Vec2(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000), rad: Math.random() * 30 + 20});
-	}
-
 	this.map = {
 		width: this.size.x,
 		height: this.size.y,
