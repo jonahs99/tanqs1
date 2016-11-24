@@ -5,7 +5,8 @@ var clamp = XMath.clamp;
 module.exports = {
 
 	bb_collide: bb_collide,
-	circle_poly_collide: circle_poly_collide
+	circle_poly_collide: circle_poly_collide,
+	circle_arc_collide: circle_arc_collide
 
 };
 
@@ -28,6 +29,25 @@ function circle_circle_collide(a, b) {
 
 	var tot_rad2 = Math.pow(a.rad + b.rad, 2);
 	return dist2(a, b) < tot_rad2;
+
+}
+
+// Does return resolution information {n, overlap}
+function circle_arc_collide(circle, arc, vel) {
+
+	if (!bb_collide(circle, arc)) return false;
+
+	var d = new Vec2().set(circle.col_pos).m_sub(arc.pos);
+
+	var tot_rad = circle.rad + arc.rad;
+	var tot_rad2 = Math.pow(tot_rad, 2);
+	var mag2 = d.mag2();
+
+	if (mag2 < tot_rad2) {
+		var mag = Math.sqrt(mag2);
+		d.m_div(mag);
+		return {n: d, overlap: tot_rad - mag};
+	}
 
 }
 
@@ -56,7 +76,7 @@ function circle_poly_collide(circle, poly, vel) {
 
 	var d = [];
 	for (var i = 0; i < poly.v.length; i++) {
-		d[i] = (new Vec2()).set(circle.col_pos).m_sub(poly.v[i]);
+		d[i] = new Vec2().set(circle.col_pos).m_sub(poly.v[i]);
 	}
 
 	// First check intersection of circle with edges of each line

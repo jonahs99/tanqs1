@@ -34,6 +34,7 @@ Renderer.prototype.render_frame = function(frame) {
 	this.render_background();
 
 	this.render_polys();
+	this.render_arcs();
 	this.render_bullets();
 	this.render_tanks();
 
@@ -82,7 +83,22 @@ Renderer.prototype.render_polys = function() {
 		this.context.stroke();
 
 	}
-}
+};
+
+Renderer.prototype.render_arcs = function() {
+	this.context.fillStyle = '#333';
+	this.context.strokeStyle = '#555';
+	this.context.lineWidth = 3;
+
+	for (var i = 0; i < this.game.map.arcs.length; i++) {
+		var arc = this.game.map.arcs[i];
+
+		this.context.beginPath();
+		this.context.arc(arc.pos.x, arc.pos.y, arc.rad, 0, Math.PI * 2);
+		this.context.fill();
+		this.context.stroke();
+	}
+};
 
 Renderer.prototype.render_tanks = function() {
 	for (var i = 0; i < this.frame_snapshot.tanks.length; i++) {
@@ -100,7 +116,7 @@ Renderer.prototype.render_bullets = function() {
 			this.render_bullet(bullet);
 		}
 	}
-}
+};
 
 Renderer.prototype.render_names = function() {
 

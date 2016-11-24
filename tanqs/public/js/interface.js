@@ -13,8 +13,18 @@ html.nick_input = document.getElementById('nick_input');
 html.pass_input = document.getElementById('pass_input');
 html.confirm_input = document.getElementById('confirm_input');
 html.join_button = document.getElementById('join_button');
+
 html.login_link = document.getElementById('login_link');
 html.signup_link = document.getElementById('signup_link');
+html.login_link2 = document.getElementById('login_link2');
+html.signup_link2 = document.getElementById('signup_link2');
+html.join_link = document.getElementById('join_link');
+
+html.question1 = document.getElementById('question_1');
+html.question2 = document.getElementById('question_2');
+html.question3 = document.getElementById('question_3');
+html.question4 = document.getElementById('question_4');
+html.question5 = document.getElementById('question_5');
 
 html.canvas.style.background = '#222';
 
@@ -77,17 +87,65 @@ html.join_button.onclick = function() {
 	if (nick_input.value) {
 		socket.emit('login', {name:nick_input.value});
 	}
-	html.pass_input.style.display = "none";
-	html.confirm_input.style.display = "none";
 };
 
-html.login_link.onclick = function() {
-	html.pass_input.style.display = "block";
+html.join_link.onclick = function() {
+	html.set_splash_join();
 	return false;
-}
+};
 
-html.signup_link.onclick = function() {
+html.login_link.onclick = html.login_link2.onclick = function() {
+	html.set_splash_login();
+	return false;
+};
+
+html.signup_link.onclick = html.signup_link2.onclick = function() {
+	html.set_splash_signup();
+	return false;
+};
+
+html.set_splash_join = function() {
+	html.splash_container.style.display = "block";
+
+	html.nick_input.style.display = "block";
+	html.pass_input.style.display = "none";
+	html.confirm_input.style.display = "none";
+
+	html.join_button.innerHTML = "join the game";
+
+	html.question1.style.display = "block";
+	html.question2.style.display = "block";
+	html.question3.style.display = "none";
+	html.question4.style.display = "none";
+	html.question5.style.display = "none";
+}
+html.set_splash_login = function() {
+	html.splash_container.style.display = "block";
+
+	html.nick_input.style.display = "block";
+	html.pass_input.style.display = "block";
+	html.confirm_input.style.display = "none";
+
+	html.join_button.innerHTML = "log in";
+
+	html.question1.style.display = "none";
+	html.question2.style.display = "none";
+	html.question3.style.display = "block";
+	html.question4.style.display = "none";
+	html.question5.style.display = "block";
+}
+html.set_splash_signup = function() {
+	html.splash_container.style.display = "block";
+
+	html.nick_input.style.display = "block";
 	html.pass_input.style.display = "block";
 	html.confirm_input.style.display = "block";
-	return false;
+
+	html.join_button.innerHTML = "create account";
+
+	html.question1.style.display = "none";
+	html.question2.style.display = "none";
+	html.question3.style.display = "none";
+	html.question4.style.display = "block";
+	html.question5.style.display = "block";
 }

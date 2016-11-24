@@ -14,6 +14,7 @@ function World(config) {
 	this.bullets = [];
 	this.flags = [];
 	this.polys = [];
+	this.arcs = [];
 
 	this.frame = 0;
 
@@ -28,6 +29,7 @@ World.prototype.reset = function(config) {
 	this.bullets = [];
 	this.flags = [];
 	this.polys = [];
+	this.arcs = [];
 
 	for (var i = 0; i < config.capacity.n_tanks; i++) {
 		this.tanks[i] = new Tank();
@@ -78,10 +80,18 @@ World.prototype.parse_map = function() {
 
 	}
 
+	this.arcs.push({pos: new Vec2(-100, 300), rad: 100});
+	this.arcs.push({pos: new Vec2(-200, 600), rad: 200});
+
+	for (var i = 0; i < 100; i++) {
+		this.arcs.push({pos: new Vec2(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000), rad: Math.random() * 30 + 20});
+	}
+
 	this.map = {
 		width: this.size.x,
 		height: this.size.y,
-		polys: this.polys
+		polys: this.polys,
+		arcs: this.arcs
 	};
 
 };
@@ -217,6 +227,24 @@ World.prototype.resolve_collisions = function() {
 				} else if (collide.length == 1) {
 					tank.phys.vel.x += collide[0].n.x * collide[0].overlap;
 					tank.phys.vel.y += collide[0].n.y * collide[0].overlap;
+				}
+
+			}
+
+		}
+	}
+
+	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
+		var tank = this.tanks[tank_id];
+		if (tank.alive) {
+
+			for (var j = 0; j < this.arcs.length; j++) {
+				var arc = this.arcs[j];
+
+				var collide = Physics.circle_arc_collide(tank.phys, arc);
+				if (collide) {
+					tank.phys.vel.x += collide.n.x * collide.overlap;
+					tank.phys.vel.y += collide.n.y * collide.overlap;
 				}
 
 			}

@@ -65,7 +65,7 @@ p {
 #splash_container {
 	position: absolute;
 
-	display: inline-block;
+	display: block;
 
     top: 50%;
     left: 50%;
@@ -78,7 +78,7 @@ p {
 
 #splash_box {
 
-	display: inline-block;
+	display: block;
 	padding-left: 80px;
 	padding-right: 80px;
 	padding-top: 60px;
@@ -100,9 +100,10 @@ p {
 	background-color: transparent;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
 	display: block;
-	margin: 8px;
+	margin-left: 0;
+	margin-bottom: 8px;
 	width: 100%;
 	font-family: sans-serif;
 	font-size: 18px;
@@ -110,11 +111,11 @@ input[type="text"] {
 	box-shadow: none;
 	border-radius: 5px;
 }
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="password"]:focus {
 	outline: none;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 10px;
@@ -122,8 +123,12 @@ input[type="text"] {
 	border-bottom: solid 2px #c9c9c9;
 	transition: border 0.3s;
 }
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="password"]:focus {
 	border-bottom: solid 2px #969696;
+}
+
+input[type="password"] {
+	background-color: #9fc;
 }
 
 button {
