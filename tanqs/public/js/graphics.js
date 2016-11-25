@@ -42,6 +42,8 @@ Renderer.prototype.render_frame = function(frame) {
 
 	this.context.translate(this.camera.translate.x, this.camera.translate.y);
 
+	this.render_ui();
+
 };
 
 Renderer.prototype.render_background = function() {
@@ -138,7 +140,7 @@ Renderer.prototype.render_names = function() {
 
 Renderer.prototype.render_tank = function(tank) {
 
-	var rad = tank.rad;
+	var rad = tank.rad * 0.85;
 
 	this.context.translate(tank.pos.x, tank.pos.y);
 	this.context.rotate(tank.dir);
@@ -183,4 +185,58 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.fill();
 	this.context.stroke();
 
+};
+
+Renderer.prototype.render_ui = function() {
+
+	if (this.game.player_tank_id > -1) {
+		var player_tank = this.frame_snapshot.tanks[this.game.player_tank_id];
+		if (player_tank.alive) {
+
+			this.context.font = "40px Open Sans";
+			this.context.fillStyle = '#fff'
+			this.context.textAlign = "center";
+			this.context.textBaseline = "middle";
+			var text = this.game.player_name;
+			this.context.fillText(text, 0, this.canvas.height/2-60);
+
+			var text_length = this.context.measureText(text).width;
+			this.render_reload_bars(text_length, player_tank);
+
+		}
+	}
+
+};
+
+Renderer.prototype.render_reload_bars = function(text_length, tank) {
+	if (!tank.reloads) return;
+
+	var n_bars = tank.chambers;
+	var length = 70;
+	var x = text_length / 2 + 30;
+	var y = this.canvas.height / 2 - 60;
+	var spacing = 14;
+	var height = y - (n_bars - 1) * spacing / 2;
+
+	this.context.lineWidth = 12;
+	this.context.lineCap = "round";
+	this.context.strokeStyle = '#eee';
+	for (var i = 0; i < n_bars; i++) {
+		this.context.beginPath();
+		this.context.moveTo(x, height + spacing * i);
+		this.context.lineTo(x + length, height + spacing * i);
+		this.context.stroke();
+	}
+
+	this.context.lineWidth = 8;
+	for (var i = 0; i < n_bars; i++) {
+		var x2 = x + tank.reloads[i] / tank.reload_ticks * length;
+
+		this.context.strokeStyle = (tank.reloads[i] == tank.reload_ticks)? '#3c3' : '#fc0';
+
+		this.context.beginPath();
+		this.context.moveTo(x, height + spacing * i);
+		this.context.lineTo(x2, height + spacing * i);
+		this.context.stroke();
+	}
 };

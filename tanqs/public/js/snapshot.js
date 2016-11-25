@@ -54,6 +54,9 @@ Snapshot.prototype.set = function(data) {
 			tank.rad = tank_data.rad;
 			tank.dir = tank_data.dir;
 			tank.pos.set_xy(tank_data.x, tank_data.y);
+			tank.reloads = tank_data.reloads;
+			tank.reload_ticks = tank_data.reload_ticks;
+			tank.chambers = tank_data.chambers;
 		}
 	}
 
@@ -97,6 +100,9 @@ Snapshot.prototype.set_lerp = function(s1, s2, delta) {
 				tank.pos.set(t1.pos);
 			}
 		}
+		tank.chambers = t1.chambers;
+		tank.reloads = t1.reloads;
+		tank.reload_ticks = t1.reload_ticks;
 	}
 
 	for (var i = 0; i < s1.bullets.length; i++) {
@@ -124,6 +130,10 @@ function Tank() {
 	this.rad = 0;
 	this.pos = new Vec2();
 	this.dir = 0;
+
+	this.chamber = 0;
+	this.reloads = [];
+	this.reload_ticks = 0;
 
 }
 

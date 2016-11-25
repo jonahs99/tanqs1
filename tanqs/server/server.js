@@ -48,7 +48,7 @@ TanqServer.prototype.on_login = function(socket, msg) {
 		if (this.game.add_player(name, socket)) {
 			console.log(name + " logged in!");
 		} else {
-			console.log(name + " tried to log in, but the server is full.");
+			console.log(name + " tried to log in, but was unable.");
 		}
 
 	}

@@ -8,9 +8,9 @@
 			"frames_update": 2
 		},
 		"capacity": {
-			"n_tanks": 4,
-			"n_bullets": 12,
-			"n_flags": 3
+			"n_tanks": 16,
+			"n_bullets": 64,
+			"n_flags": 32
 		},
 
 		"map": "ctf"

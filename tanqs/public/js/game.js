@@ -9,6 +9,7 @@ function Game(server_info) {
 	this.last_update = 0;
 
 	this.players = [];
+	this.player_name = '';
 	this.player_tank_id = -1;
 
 	this.map = server_info.map;
@@ -22,6 +23,7 @@ function Game(server_info) {
 
 Game.prototype.on_join = function(data) {
 
+	this.player_name = data.name;
 	this.player_tank_id = data.tank_id;
 	this.renderer.tracking_tank = data.tank_id;
 

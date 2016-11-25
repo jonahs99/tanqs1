@@ -31,7 +31,10 @@ function snap_tank(tank) {
 		x: tank.phys.pos.x,
 		y: tank.phys.pos.y,
 		dir: tank.phys.dir,
-		rad: tank.phys.rad
+		rad: tank.phys.rad,
+		chambers: tank.power.weapon.n_chambers,
+		reload_ticks: tank.power.weapon.reload_ticks,
+		reloads: tank.weapon.reloads
 	};
 
 	return data;

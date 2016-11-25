@@ -3,9 +3,14 @@ var Vec2 = XMath.Vec2;
 
 // Bullet Class
 
-function Bullet() {
+function Bullet(id) {
+
+	this.id = id;
 
 	this.alive = false;
+	this.team = 0;
+	this.tank = -1;
+
 	this.life = 0;
 
 	this.flag = '';

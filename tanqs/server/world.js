@@ -1,14 +1,20 @@
 var Vec2 = require('../public/js/math.js').Vec2;
 
+var Powers = require('./flags/powers.js');
+
 var Tank = require('./objects/tank.js');
 var Bullet = require('./objects/bullet.js');
 var Flag = require('./objects/flag.js');
 
 var Physics = require('./physics.js');
 
+var Team = {ROGUE: 0, RED: 1, BLUE: 2};
+
 function World(config) {
 
 	this.config = config;
+
+	this.powers = new Powers(this);
 
 	this.tanks = [];
 	this.bullets = [];
@@ -32,10 +38,10 @@ World.prototype.reset = function(config) {
 	this.arcs = [];
 
 	for (var i = 0; i < config.capacity.n_tanks; i++) {
-		this.tanks[i] = new Tank();
+		this.tanks[i] = new Tank(i);
 	}
 	for (var i = 0; i < config.capacity.n_bullets; i++) {
-		this.bullets[i] = new Bullet();
+		this.bullets[i] = new Bullet(i);
 	}
 
 }
@@ -119,9 +125,7 @@ World.prototype.spawn_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	if (tank) {
 		tank.phys.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
-
-		tank.phys.rad = 16;
-
+		tank.set_power(this.powers.default);
 		tank.alive = true;
 	}
 };
@@ -150,38 +154,48 @@ World.prototype.kill_bullet = function(bullet_id) {
 	this.bullets[bullet_id].alive = false;
 };
 
+World.prototype.is_enemy = function(team1, team2) {
+	if (team1 == 0 || team2 == 0) return true;
+	return team1 != team2;
+};
+
 World.prototype.update = function() {
 
+	// State Update
+	
+	this.update_tank_weapons();
+
+	// Physics Update
+
 	this.apply_tank_input();
-
 	this.calculate_movement();
-
-	this.resolve_collisions();
-
-	this.handle_deaths();
-
+	var kill_events = this.resolve_collisions();
+	this.handle_deaths(kill_events);
 	this.apply_movement();
 
 	this.frame++;
 
 };
 
-World.prototype.apply_tank_input = function() {
+World.prototype.update_tank_weapons = function() {
+	for (var i = 0; i < this.tanks.length; i++) {
+		var tank = this.tanks[i];
+		if (tank.alive) {
+			tank.update_weapon();
+		}
+	}
+};
 
+World.prototype.apply_tank_input = function() {
 	for (var i = 0; i < this.tanks.length; i++) {
 		var tank = this.tanks[i];
 		if (tank.alive) {
 			if (tank.input.shoot) {
-				var bullet_id = this.add_bullet();
-				if (bullet_id > -1) {
-					var bullet = this.bullets[bullet_id];
-					bullet.phys.pos.set(tank.phys.pos);
-				}
+				tank.power.weapon.shoot(tank);
 				tank.input.shoot = false;
 			}
 		}
 	}
-
 };
 
 World.prototype.calculate_movement = function() {
@@ -204,43 +218,62 @@ World.prototype.calculate_movement = function() {
 
 World.prototype.resolve_collisions = function() {
 
+	var kill_events = [];
+
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
 		if (tank.alive) {
 
-			for (var j = 0; j < this.polys.length; j++) {
+			for (var j = 0; j < this.polys.length; j++) { // Tank wall collisions
 				var poly = this.polys[j];
-
 				var collide = Physics.circle_poly_collide(tank.phys, poly);
-				if (collide.length > 1) {
-					for (var i = 0; i < collide.length; i++) {
-						tank.phys.vel.x += collide[i].n.x * collide[i].overlap;
-						tank.phys.vel.y += collide[i].n.y * collide[i].overlap;
-					}
-				} else if (collide.length == 1) {
-					tank.phys.vel.x += collide[0].n.x * collide[0].overlap;
-					tank.phys.vel.y += collide[0].n.y * collide[0].overlap;
+				for (var i = 0; i < collide.length; i++) {
+					tank.phys.vel.x += collide[i].n.x * collide[i].overlap;
+					tank.phys.vel.y += collide[i].n.y * collide[i].overlap;
 				}
+			}
 
+			for (var j = 0; j < this.bullets.length; j++) { // Bullet tank kills
+				var bullet = this.bullets[j];
+				if (bullet.alive) {
+					if (bullet.tank != tank_id && this.is_enemy(bullet.team, tank.team)) {
+						if (Physics.circle_circle_collide(bullet.phys, tank.phys)) {
+							kill_events.push({killer: bullet, killed: tank});
+						}
+					}
+				}
+			}
+
+			for (var i = tank_id + 1; i < this.tanks.length; i++) { // Tank tank kills
+				var enemy_tank = this.tanks[i];
+				if (enemy_tank.alive) {
+					if (i != tank_id && this.is_enemy(enemy_tank.team, tank.team)) {
+						if (Physics.circle_circle_collide(enemy_tank.phys, tank.phys)) {
+							kill_events.push({killer: enemy_tank, killed: tank});
+							kill_events.push({killer: tank, killed: enemy_tank});
+						}
+					}
+				}
 			}
 
 		}
 	}
 
-	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
-		var tank = this.tanks[tank_id];
-		if (tank.alive) {
+	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
+		var bullet = this.bullets[bullet_id];
+		if (bullet.alive) {
 
-			for (var j = 0; j < this.arcs.length; j++) {
-				var arc = this.arcs[j];
-
-				var collide = Physics.circle_arc_collide(tank.phys, arc);
-				if (collide) {
-					tank.phys.vel.x += collide.n.x * collide.overlap;
-					tank.phys.vel.y += collide.n.y * collide.overlap;
+			for (var j = 0; j < this.polys.length; j++) {
+				var poly = this.polys[j];
+				var collide = Physics.circle_poly_collide(bullet.phys, poly);
+				if (collide.length) {
+					kill_events.push({killed: bullet});
 				}
-
 			}
+
+			if (bullet.phys.col_pos.x < -this.size.x / 2 || bullet.phys.col_pos.x > this.size.x / 2 || 
+				bullet.phys.col_pos.y < -this.size.y / 2 || bullet.phys.col_pos.y > this.size.y / 2)
+				kill_events.push({killed: bullet});
 
 		}
 	}
@@ -259,9 +292,24 @@ World.prototype.resolve_collisions = function() {
 		}
 	}
 
+	return kill_events;
+
 };
 
-World.prototype.handle_deaths = function() {};
+World.prototype.handle_deaths = function(kill_events) {
+
+	for (var i = 0; i < kill_events.length; i++) {
+		var evt = kill_events[i];
+		if (evt.killed.alive) {
+			if (evt.killed instanceof Bullet) {
+				this.kill_bullet(evt.killed.id);
+			} else {
+				this.kill_tank(evt.killed.id);
+			}
+		}
+	}
+
+};
 
 World.prototype.apply_movement = function() {
 
@@ -281,3 +329,11 @@ World.prototype.apply_movement = function() {
 
 };
 
+World.prototype.in_wall = function(point) {
+	for (var i = 0; i < this.polys.length; i++) {
+		if (Physics.point_in_poly(point, this.polys[i])) {
+			return true;
+		}
+	}
+	false;
+}

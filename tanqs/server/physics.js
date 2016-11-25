@@ -5,6 +5,8 @@ var clamp = XMath.clamp;
 module.exports = {
 
 	bb_collide: bb_collide,
+	circle_circle_collide: circle_circle_collide,
+	point_in_poly: point_in_poly,
 	circle_poly_collide: circle_poly_collide,
 	circle_arc_collide: circle_arc_collide
 
@@ -28,7 +30,36 @@ function circle_circle_collide(a, b) {
 	if (!bb_collide(a, b)) return false;
 
 	var tot_rad2 = Math.pow(a.rad + b.rad, 2);
-	return dist2(a, b) < tot_rad2;
+	return dist2(a.pos, b.pos) < tot_rad2;
+
+}
+
+// To check if tanks gun is in a wall
+function point_in_poly(point, poly) {
+
+	var crossings = 0;
+
+	var d = new Vec2();
+	var n = new Vec2();
+
+	for (var i = 0; i < poly.v.length; i++) {
+
+		var j = (i + 1) % poly.v.length; // The index of the next point in the polygon
+
+		var vi = poly.v[i];
+		var vj = poly.v[j];
+
+		if (vi.y < point.y && vj.y > point.y) {
+			d.set(point).m_sub(vi);
+			if (n.set(vi).m_sub(vj).m_norm().dot(d) > 0) crossings ++;
+		} else if (vi.y > point.y && vj.y < point.y) {
+			d.set(point).m_sub(vj);
+			if (n.set(vj).m_sub(vi).m_norm().dot(d) > 0) crossings ++;
+		}
+
+	}
+
+	return crossings % 2 == 1;
 
 }
 
@@ -66,7 +97,7 @@ A poly object has arrays {
 */
 
 // Returns resolution information {n, overlap}
-function circle_poly_collide(circle, poly, vel) {
+function circle_poly_collide(circle, poly) {
 
 	// Do a bounding box check to avoid pointless calculations
 
@@ -93,7 +124,7 @@ function circle_poly_collide(circle, poly, vel) {
 		if (d[i].dot(l) >= 0 && d[j].dot(l) <= 0) { // If point makes <=90 deg angle with each point on line (in edge-colliding region)
 
 			var overlap = circle.rad - d[i].dot(n);
-			var vn = vel ? vel.dot(n) : 0; // An adjustment factor to account for the bullet thru paper problem
+			var vn = circle.vel ? circle.vel.dot(n) : 0; // An adjustment factor to account for the bullet thru paper problem
 			if (overlap > 0 && overlap < 2 * circle.rad - vn) { // If the circle is no more than v.n past the far side of the line, it must have collided
 				collisions.push({n: n, overlap: overlap}); // The resolution function can add n * overlap to the col_pos for nice sliding motion
 			}

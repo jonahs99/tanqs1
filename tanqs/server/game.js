@@ -43,6 +43,8 @@ Game.prototype.update = function() {
 
 Game.prototype.add_player = function(name, socket) {
 
+	if (this.players[socket.id]) return false;
+
 	var tank_id = this.world.reserve_tank();
 
 	if (tank_id > -1) {
