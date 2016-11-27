@@ -3,6 +3,7 @@ var html = {};
 
 html.mouse = new Vec2();
 html.mousepress = {left: false, right: false};
+html.joystick_pos = new Vec2();
 
 html.canvas = document.getElementById('canvas');
 html.context = canvas.getContext('2d');
@@ -27,29 +28,31 @@ html.question5 = document.getElementById('question_5');
 html.canvas.style.background = '#222';
 
 window.onresize = window.onload = resize_canvas;
-window.onmousemove = on_mousemove;
-window.onmousedown = on_mousedown;
 
 function resize_canvas() {
 	html.canvas.width = window.innerWidth;
 	html.canvas.height = window.innerHeight;
 }
 
-function on_mousemove(evt) {
+console.log('adding touch events...');
+
+html.canvas.addEventListener('touchstart', function(evt) {
 	var rect = html.canvas.getBoundingClientRect();
-    html.mouse.set_xy(evt.clientX - rect.left - canvas.width / 2, evt.clientY - rect.top - canvas.height / 2);
-    html.keymode = false;
-};
+    html.joystick_pos.set_xy(evt.clientX - rect.left, evt.clientY - rect.top);
+	html.mouse.set_xy(0, 0);
+	console.log("touchstart");
+}, false);
 
-function on_mousedown(evt) {
+html.canvas.addEventListener('touchend', function(evt) {
+	html.mouse.set_xy(0, 0);
+	console.log("touchend");
+}, false);
 
-	if (evt.which == 3) {
-		html.mousepress.right = true;
-	} else {
-		html.mousepress.left = true;
-	}
-
-};
+html.canvas.addEventListener('touchmove', function(evt) {
+	var rect = html.canvas.getBoundingClientRect();
+    html.mouse.set_xy(evt.clientX - rect.left, evt.clientY - rect.top).m_sub(html.joystick_pos);
+    console.log("touchmove");
+}, false);
 
 html.join_button.onclick = function() {
 	if (nick_input.value) {

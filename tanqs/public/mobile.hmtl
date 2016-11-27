@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	<link rel="icon" href="icon.png">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./style.css">
+	</head>
+
+	<body ondragstart="return false;" ondrop="return false;">
+
+		<!-- THE GAME CANVAS -->
+
+		<canvas id="canvas">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
+		<!-- THE SPLASH BOX -->
+
+		<div id="splash_container">
+			<div id="splash_box">
+				<h1>welcome to tanqs</h1>
+				<input id="nick_input" type="text" placeholder="enter a nickname" autocomplete="off">
+				<input id="pass_input" type="password" placeholder="your password" autocomplete="off" style="display:none">
+				<input id="confirm_input" type="password" placeholder="confirm password" autocomplete="off" style="display:none"> <br>
+				<button id="join_button" type="button">join the game</button>
+				<div id="account_container">
+					<p id="question_1" class="account_link">Have an account? <a id="login_link" href="#">log in</a></p>
+					<p id="question_2" class="account_link">Want an account? <a id="signup_link" href="#">sign up</a></p>
+					<p id="question_3" class="account_link" style="display:none">No account? <a id="signup_link2" href="#">sign up</a></p>
+					<p id="question_4" class="account_link" style="display:none">Got an account? <a id="login_link2" href="#">log in</a></p>
+					<p id="question_5" class="account_link" style="display:none">Nevermind? <a id="join_link" href="#">go back</a></p>
+				</div>
+			</div>
+			<p>inspired by <a href="http://bzflag.org">bzflag</a><p>
+		</div>
+
+		<!-- SCRIPTS -->
+
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+		<script src="js/math.js"></script>
+		<script src="js/mobile_interface.js"></script>
+		<script src="js/snapshot.js"></script>
+		<script src="js/colors.js"></script>
+		<script src="js/graphics.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/client.js"></script>
+
+	</body>
+
+</html>

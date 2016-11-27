@@ -249,8 +249,8 @@ World.prototype.resolve_collisions = function() {
 				if (enemy_tank.alive) {
 					if (i != tank_id && this.is_enemy(enemy_tank.team, tank.team)) {
 						if (Physics.circle_circle_collide(enemy_tank.phys, tank.phys)) {
-							kill_events.push({killer: enemy_tank, killed: tank});
-							kill_events.push({killer: tank, killed: enemy_tank});
+							//kill_events.push({killer: enemy_tank, killed: tank});
+							//kill_events.push({killer: tank, killed: enemy_tank});
 						}
 					}
 				}
@@ -305,6 +305,7 @@ World.prototype.handle_deaths = function(kill_events) {
 				this.kill_bullet(evt.killed.id);
 			} else {
 				this.kill_tank(evt.killed.id);
+
 			}
 		}
 	}

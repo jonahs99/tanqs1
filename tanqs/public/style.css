@@ -74,6 +74,9 @@ p {
     background-color: transparent;
     opacity: 0.8;
     transition: opacity 0.3s;
+
+    max-width: 95%;
+    max-height: 95%;
 }
 
 #splash_box {
@@ -88,6 +91,12 @@ p {
 	background-color: #e2e2e2;
 
 	border-radius: 10px;
+}
+
+@media {
+	#splash_box {
+		padding: 20px;
+	}
 }
 
 #account_container {

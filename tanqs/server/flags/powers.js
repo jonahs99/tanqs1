@@ -3,8 +3,6 @@ function Powers(world) {
 	var Weapons = require('./weapons.js');
 	var weapons = new Weapons(world);
 
-	console.log(Weapons);
-
 	// DEFAULT
 	this.default = {
 		name: "default",
@@ -12,7 +10,6 @@ function Powers(world) {
 		mvmt: {max_vel: 6, max_acc: 3},
 		weapon: weapons.default
 	}
-
 
 }
 module.exports = Powers;
