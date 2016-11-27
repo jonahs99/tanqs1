@@ -3,6 +3,8 @@ var html = {};
 
 html.mouse = new Vec2();
 html.mousepress = {left: false, right: false};
+html.joystick = false;
+html.joystick_id = 0;
 html.joystick_pos = new Vec2();
 
 html.canvas = document.getElementById('canvas');
@@ -37,21 +39,38 @@ function resize_canvas() {
 console.log('adding touch events...');
 
 html.canvas.addEventListener('touchstart', function(evt) {
-	var rect = html.canvas.getBoundingClientRect();
-    html.joystick_pos.set_xy(evt.clientX - rect.left, evt.clientY - rect.top);
-	html.mouse.set_xy(0, 0);
-	console.log("touchstart");
+	evt.preventDefault();
+
+	if (html.joystick) {
+		html.mousepress.left = true;
+	} else {
+		var rect = html.canvas.getBoundingClientRect();
+	    html.joystick_pos.set_xy(evt.changedTouches[0].clientX - rect.left, evt.changedTouches[0].clientY - rect.top);
+		html.mouse.set_xy(0, 0);
+		html.joystick = true;
+		html.joystick_id = evt.changedTouches[0].identifier;
+	}
+
 }, false);
 
 html.canvas.addEventListener('touchend', function(evt) {
-	html.mouse.set_xy(0, 0);
-	console.log("touchend");
+	evt.preventDefault();
+	for (var i = 0; i < evt.changedTouches.length; i++) {
+		if (html.joystick && evt.changedTouches[i].identifier == html.joystick_id) {
+			html.mouse.set_xy(0, 0)
+			html.joystick = false;
+		}
+	}
 }, false);
 
 html.canvas.addEventListener('touchmove', function(evt) {
-	var rect = html.canvas.getBoundingClientRect();
-    html.mouse.set_xy(evt.clientX - rect.left, evt.clientY - rect.top).m_sub(html.joystick_pos);
-    console.log("touchmove");
+	evt.preventDefault();
+	for (var i = 0; i < evt.changedTouches.length; i++) {
+		if (html.joystick && evt.changedTouches[i].identifier == html.joystick_id) {
+			var rect = html.canvas.getBoundingClientRect();
+		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos).m_scl(3);
+		}
+	}
 }, false);
 
 html.join_button.onclick = function() {

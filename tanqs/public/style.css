@@ -93,7 +93,7 @@ p {
 	border-radius: 10px;
 }
 
-@media {
+@media only screen and (max-device-width: 480px) {
 	#splash_box {
 		padding: 20px;
 	}

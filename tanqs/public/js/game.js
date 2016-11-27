@@ -28,6 +28,7 @@ Game.prototype.on_join = function(data) {
 	this.renderer.tracking_tank = data.tank_id;
 
 	html.splash_container.style.opacity = 0;
+	html.splash_container.style.display = 'none';
 
 };
 

@@ -39,6 +39,7 @@ Vec2.prototype.m_clamp_xy = function(xmin, xmax, ymin, ymax) { this.x = clamp(th
 Vec2.prototype.m_scl = function(a) { this.x *= a; this.y *= a; return this; };
 Vec2.prototype.m_div = function(a) { this.x /= a; this.y /= a; return this; };
 Vec2.prototype.m_add = function(v) { this.x += v.x; this.y += v.y; return this; };
+Vec2.prototype.m_addxy = function(x, y) {this.x += x; this.y += y; return this; };
 Vec2.prototype.m_sub = function(v) { this.x -= v.x; this.y -= v.y; return this; };
 
 Vec2.prototype.mag2 = function() { return Math.pow(this.x, 2) + Math.pow(this.y, 2); };

@@ -204,6 +204,24 @@ Renderer.prototype.render_ui = function() {
 			this.render_reload_bars(text_length, player_tank);
 
 		}
+
+		if (html.joystick) {
+			this.context.strokeStyle = 'rgba(255,255,255,0.6)';
+			this.context.fillStyle = 'rgba(255,255,255,0.6)';
+			this.context.lineWidth = 4;
+			var joy_screen = new Vec2().set(html.joystick_pos).m_addxy(-this.canvas.width / 2, -this.canvas.height / 2);
+			var mouse_screen = new Vec2().set(html.mouse).m_div(3).m_add(joy_screen);
+			this.context.beginPath();
+			this.context.arc(joy_screen.x, joy_screen.y, 50, 0, Math.PI * 2);
+			this.context.stroke();
+			this.context.beginPath();
+			this.context.arc(joy_screen.x, joy_screen.y, 8, 0, Math.PI * 2);
+			this.context.fill();
+			this.context.beginPath();
+			this.context.arc(mouse_screen.x, mouse_screen.y, 16, 0, Math.PI * 2);
+			this.context.fill();
+		}
+
 	}
 
 };
