@@ -64,13 +64,13 @@ Particles.prototype.add_tank_explosion = function(tank) {
 	for (var i = 0; i < random_float(12, 18); i++) {
 		var pos = new Vec2().set(tank.current.pos);//.m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
 		var vel = new Vec2(max_vel * Math.sin(random_float(-Math.PI, Math.PI)), max_vel * Math.sin(random_float(-Math.PI, Math.PI)));
-		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.98, 0.992), '#444');
+		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.97, 0.992), '#444');
 	}
 
 	for (var i = 0; i < random_float(18, 30); i++) {
 		var pos = new Vec2().set(tank.current.pos).m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
 		var vel = new Vec2(max_vel * Math.sin(random_float(-Math.PI, Math.PI)), max_vel * Math.sin(random_float(-Math.PI, Math.PI)));
-		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.98, 0.992), tank.color);
+		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.97, 0.992), tank.color);
 	}
 
 };
