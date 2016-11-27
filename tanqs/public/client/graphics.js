@@ -363,43 +363,49 @@ Renderer.prototype.render_leaderboard = function() {
 	this.context.textAlign = "right";
 	this.context.textBaseline = "middle";
 
-	for (var i = 0; i < this.game.team_leaderboard.length; i++) {
-		var team = this.game.team_leaderboard[i];
-		var text = team.name + " - " + team.score;
+	if (this.game.team_leaderboard) {
+		for (var i = 0; i < this.game.team_leaderboard.length; i++) {
+			var team = this.game.team_leaderboard[i];
+			var text = team.name + " - " + team.score;
 
-		this.context.fillStyle = (['#f66', '#6bf'])[team.id];
-		this.context.font = "22px Open Sans";
+			this.context.fillStyle = (['#f66', '#6bf'])[team.id];
+			this.context.font = "22px Open Sans";
 
-		this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*i);
+			this.context.fillText(text, this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*i);
+		}
+
+		this.context.lineCap = "square";
+		this.context.strokeStyle = "rgba(255,255,255,0.5)";
+		this.context.beginPath();
+		this.context.moveTo(this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
+		this.context.lineTo(this.canvas.width/2-220, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
+		this.context.stroke();
+
+		var y_offset = this.game.team_leaderboard.length + 1;
+	} else {
+		var y_offset = 0;
 	}
 
-	this.context.lineCap = "square";
-	this.context.strokeStyle = "rgba(255,255,255,0.5)";
-	this.context.beginPath();
-	this.context.moveTo(this.canvas.width/2-20, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
-	this.context.lineTo(this.canvas.width/2-220, -this.canvas.height/2 + 20 + 30*this.game.team_leaderboard.length);
-	this.context.stroke();
+	if (this.game.leaderboard) {
+		for (var i = 0; i < this.game.leaderboard.length; i++) {
+			var client = this.game.leaderboard[i];
+			var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 
-	var y_offset = this.game.team_leaderboard.length + 1;
+			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
+			this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
 
-	for (var i = 0; i < this.game.leaderboard.length; i++) {
-		var client = this.game.leaderboard[i];
-		var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
+			this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(i + y_offset));
 
-		this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
-		this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
-
-		this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(i + y_offset));
-
-		this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
-		this.context.beginPath();
-		this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(i + y_offset), 5, 0, Math.PI * 2);
-		this.context.fill();
+			this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
+			this.context.beginPath();
+			this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(i + y_offset), 5, 0, Math.PI * 2);
+			this.context.fill();
+		}
 	}
 
 	// Draw the arrow if the enemy has the team flag
 
-	if (this.game.player_tank.alive && this.game.player_tank.team != -1) {
+	if (this.game.player_tank && this.game.player_tank.alive && this.game.player_tank.team != -1) {
 		for (var i = 0; i < this.world.tanks.length; i++) {
 			var tank = this.world.tanks[i];
 			if (tank.alive && tank.team != this.game.player_tank.team) {

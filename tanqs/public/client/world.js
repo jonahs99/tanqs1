@@ -185,10 +185,19 @@ World.prototype.server_update_flags = function(msg) {
 		var flag = this.flags[flag_data.id];
 
 		if (flag_data.alive) {
-			flag.alive = true;
-			flag.pos.set_xy(flag_data.x, flag_data.y);
+
+			if (flag.alive && (flag.pos.x != flag_data.x || flag.pos.y != flag_data.y)) { // Flag reset
+				this.game.particles.add_flag_mist(flag);
+				flag.pos.set_xy(flag_data.x, flag_data.y);
+				this.game.particles.add_flag_mist(flag);
+			} else {
+				flag.pos.set_xy(flag_data.x, flag_data.y);
+			}
+
 			flag.rad = flag_data.rad;
 			flag.team = flag_data.team;
+
+			flag.alive = true;
 		} else {
 			flag.alive = false;
 		}

@@ -43,20 +43,33 @@ Particles.prototype.add_tank_mist = function(tank) {
 
 };
 
+Particles.prototype.add_flag_mist = function(flag) {
+
+	var max_vel = 2;
+	var max_rad = flag.rad * 0.7;
+
+	for (var i = 0; i < random_float(10, 12); i++) {
+		var pos = new Vec2().set(flag.pos).m_addxy(random_float(-flag.rad*1.5, flag.rad*1.5), random_float(-flag.rad*1.5, flag.rad*1.5));
+		var vel = new Vec2(random_float(-max_vel, max_vel), random_float(-max_vel, max_vel));
+		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.97), random_float(0.94, 0.95), '#ddd');
+	}
+
+};
+
 Particles.prototype.add_tank_explosion = function(tank) {
 
 	var max_vel = 4;
 	var max_rad = tank.rad / 2;
 
-	for (var i = 0; i < random_float(8, 15); i++) {
-		var pos = new Vec2().set(tank.current.pos).m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
-		var vel = new Vec2(random_float(-max_vel, max_vel), random_float(-max_vel, max_vel));
+	for (var i = 0; i < random_float(12, 18); i++) {
+		var pos = new Vec2().set(tank.current.pos);//.m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
+		var vel = new Vec2(max_vel * Math.sin(random_float(-Math.PI, Math.PI)), max_vel * Math.sin(random_float(-Math.PI, Math.PI)));
 		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.98, 0.992), '#444');
 	}
 
-	for (var i = 0; i < random_float(12, 24); i++) {
+	for (var i = 0; i < random_float(18, 30); i++) {
 		var pos = new Vec2().set(tank.current.pos).m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
-		var vel = new Vec2(random_float(-max_vel, max_vel), random_float(-max_vel, max_vel));
+		var vel = new Vec2(max_vel * Math.sin(random_float(-Math.PI, Math.PI)), max_vel * Math.sin(random_float(-Math.PI, Math.PI)));
 		this.add_particle(pos, vel, random_float(5, max_rad), 3, random_float(0.96, 0.99), random_float(0.98, 0.992), tank.color);
 	}
 
@@ -64,11 +77,11 @@ Particles.prototype.add_tank_explosion = function(tank) {
 
 Particles.prototype.add_bullet_explosion = function(bullet) {
 
-	var max_vel = 2;
+	var max_vel = 1.6;
 	var max_rad = bullet.rad;
 
-	for (var i = 0; i < random_float(3, 6); i++) {
-		var pos = new Vec2().set(bullet.current_pos).m_addxy(random_float(-bullet.rad, bullet.rad), random_float(-bullet.rad, bullet.rad));
+	for (var i = 0; i < random_float(4, 10); i++) {
+		var pos = new Vec2().set(bullet.current_pos);//.m_addxy(random_float(-bullet.rad, bullet.rad), random_float(-bullet.rad, bullet.rad));
 		var vel = new Vec2(random_float(-max_vel, max_vel), random_float(-max_vel, max_vel));
 		this.add_particle(pos, vel, random_float(2, max_rad), 1.5, random_float(0.96, 0.97), random_float(0.94, 0.95), bullet.color);
 	}
@@ -84,6 +97,8 @@ Particles.prototype.render = function(context) {
 
 		context.beginPath();
 		context.arc(particle.pos.x, particle.pos.y, particle.rad * particle.scale, 0, Math.PI * 2);
+		var r = particle.rad * particle.scale;
+		//context.rect(particle.pos.x-r, particle.pos.y-r, r*2, r*2);
 		context.fill();
 
 	}
