@@ -48,7 +48,7 @@ Renderer.prototype.render_frame = function(frame) {
 
 Renderer.prototype.render_background = function() {
 	this.context.strokeStyle = '#333';
-	this.context.lineWidth = 1;
+	this.context.lineWidth = 3;
 
 	var grid_spacing = 100;
 	var map_width = this.game.map.width;
@@ -208,17 +208,17 @@ Renderer.prototype.render_ui = function() {
 		if (html.joystick) {
 			this.context.strokeStyle = 'rgba(255,255,255,0.6)';
 			this.context.fillStyle = 'rgba(255,255,255,0.6)';
-			this.context.lineWidth = 4;
+			this.context.lineWidth = 8;
 			var joy_screen = new Vec2().set(html.joystick_pos).m_addxy(-this.canvas.width / 2, -this.canvas.height / 2);
-			var mouse_screen = new Vec2().set(html.mouse).m_div(3).m_add(joy_screen);
+			var mouse_screen = new Vec2().set(html.mouse).m_add(joy_screen);
 			this.context.beginPath();
-			this.context.arc(joy_screen.x, joy_screen.y, 50, 0, Math.PI * 2);
+			this.context.arc(joy_screen.x, joy_screen.y, 150, 0, Math.PI * 2);
 			this.context.stroke();
 			this.context.beginPath();
-			this.context.arc(joy_screen.x, joy_screen.y, 8, 0, Math.PI * 2);
+			this.context.arc(joy_screen.x, joy_screen.y, 16, 0, Math.PI * 2);
 			this.context.fill();
 			this.context.beginPath();
-			this.context.arc(mouse_screen.x, mouse_screen.y, 16, 0, Math.PI * 2);
+			this.context.arc(mouse_screen.x, mouse_screen.y, 24, 0, Math.PI * 2);
 			this.context.fill();
 		}
 

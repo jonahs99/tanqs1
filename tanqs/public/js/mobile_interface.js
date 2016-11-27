@@ -68,7 +68,7 @@ html.canvas.addEventListener('touchmove', function(evt) {
 	for (var i = 0; i < evt.changedTouches.length; i++) {
 		if (html.joystick && evt.changedTouches[i].identifier == html.joystick_id) {
 			var rect = html.canvas.getBoundingClientRect();
-		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos).m_scl(3);
+		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos);
 		}
 	}
 }, false);
@@ -139,10 +139,3 @@ html.set_splash_signup = function() {
 	html.question4.style.display = "block";
 	html.question5.style.display = "block";
 }
-
-if(html.canvas.webkitRequestFullScreen) {
-	html.canvas.webkitRequestFullScreen();
-}
-else {
-	html.canvas.mozRequestFullScreen();
-} 

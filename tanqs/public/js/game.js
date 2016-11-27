@@ -58,22 +58,6 @@ Game.prototype.on_server_update = function(data) {
 
 Game.prototype.send_input = function() {
 
-	if (html.keymode) {
-		if (html.keydown.W || html.keydown.A || html.keydown.S || html.keydown.D) {
-			var keyspeed = 10;
-			if (html.keydown.W)
-				html.mouse.y -= keyspeed;
-			if (html.keydown.A)
-				html.mouse.x -= keyspeed;
-			if (html.keydown.S)
-				html.mouse.y += keyspeed;
-			if (html.keydown.D)
-				html.mouse.x += keyspeed;
-			//html.mouse.m_clamp_xy(-150, 150, -150, 150);
-		}
-		html.mouse.m_scl(0.95);
-	}
-
 	var input = {
 		sx: html.mouse.x,
 		sy: html.mouse.y,
