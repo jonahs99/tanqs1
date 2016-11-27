@@ -58,7 +58,7 @@ Particles.prototype.add_flag_mist = function(flag) {
 
 Particles.prototype.add_tank_explosion = function(tank) {
 
-	var max_vel = 4;
+	var max_vel = 3;
 	var max_rad = tank.rad / 2;
 
 	for (var i = 0; i < random_float(12, 18); i++) {
