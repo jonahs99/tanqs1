@@ -139,3 +139,10 @@ html.set_splash_signup = function() {
 	html.question4.style.display = "block";
 	html.question5.style.display = "block";
 }
+
+if(html.canvas.webkitRequestFullScreen) {
+	html.canvas.webkitRequestFullScreen();
+}
+else {
+	html.canvas.mozRequestFullScreen();
+} 
