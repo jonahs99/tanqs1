@@ -28,6 +28,7 @@ TanqServer.prototype.on_connection = function(socket) {
 
 	socket.on('login', this.on_login.bind(this, socket));
 	socket.on('input', this.on_input.bind(this, socket));
+	socket.on('respawn', this.on_respawn.bind(this, socket));
 
 };
 
@@ -51,6 +52,15 @@ TanqServer.prototype.on_login = function(socket, msg) {
 			console.log(name + " tried to log in, but was unable.");
 		}
 
+	}
+
+};
+
+TanqServer.prototype.on_respawn = function(socket) {
+
+	if (this.game.players[socket.id]) {
+		var tank_id = this.game.players[socket.id].tank_id;
+		this.game.world.spawn_tank(tank_id);
 	}
 
 };

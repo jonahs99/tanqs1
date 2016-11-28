@@ -21,8 +21,14 @@ function on_server_info(msg) {
 
 }
 
+function send_login(name) {
+	socket.emit('login', {name: name});
+}
+
+function send_respawn() {
+	socket.emit('respawn', {});
+}
+
 function send_input(input) {
-
 	socket.emit('input', input);
-
 }

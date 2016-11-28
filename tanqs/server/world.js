@@ -123,7 +123,7 @@ World.prototype.free_tank = function(tank_id) {
 
 World.prototype.spawn_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
-	if (tank) {
+	if (tank && !tank.alive) {
 		tank.phys.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 		tank.set_power(this.powers.default);
 		tank.alive = true;

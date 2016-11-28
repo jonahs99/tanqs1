@@ -10,6 +10,7 @@ html.joystick_pos = new Vec2();
 html.canvas = document.getElementById('canvas');
 html.context = canvas.getContext('2d');
 html.splash_container = document.getElementById('splash_container');
+html.splash_header = document.getElementById('splash_header');
 html.nick_input = document.getElementById('nick_input');
 html.pass_input = document.getElementById('pass_input');
 html.confirm_input = document.getElementById('confirm_input');
@@ -90,12 +91,6 @@ html.canvas.addEventListener('touchmove', function(evt) {
 	}
 }, false);
 
-html.join_button.onclick = function() {
-	if (nick_input.value) {
-		socket.emit('login', {name:nick_input.value});
-	}
-};
-
 html.join_link.onclick = function() {
 	html.set_splash_join();
 	return false;
@@ -111,8 +106,14 @@ html.signup_link.onclick = html.signup_link2.onclick = function() {
 	return false;
 };
 
+html.hide_splash = function() {
+	html.splash_container.style.display = "none";
+};
+
 html.set_splash_join = function() {
 	html.splash_container.style.display = "block";
+
+	html.splash_header.innerHTML = "welcome to tanqs";
 
 	html.nick_input.style.display = "block";
 	html.pass_input.style.display = "none";
@@ -125,9 +126,11 @@ html.set_splash_join = function() {
 	html.question3.style.display = "none";
 	html.question4.style.display = "none";
 	html.question5.style.display = "none";
-}
+};
 html.set_splash_login = function() {
 	html.splash_container.style.display = "block";
+
+	html.splash_header.innerHTML = "welcome to tanqs"
 
 	html.nick_input.style.display = "block";
 	html.pass_input.style.display = "block";
@@ -140,9 +143,11 @@ html.set_splash_login = function() {
 	html.question3.style.display = "block";
 	html.question4.style.display = "none";
 	html.question5.style.display = "block";
-}
+};
 html.set_splash_signup = function() {
 	html.splash_container.style.display = "block";
+
+	html.splash_header.innerHTML = "welcome to tanqs"
 
 	html.nick_input.style.display = "block";
 	html.pass_input.style.display = "block";
@@ -155,4 +160,23 @@ html.set_splash_signup = function() {
 	html.question3.style.display = "none";
 	html.question4.style.display = "block";
 	html.question5.style.display = "block";
-}
+};
+html.set_splash_respawn = function() {
+	html.splash_container.style.display = "block";
+
+	html.splash_container.style.display = "block";
+
+	html.splash_header.innerHTML = "You got killed!"
+
+	html.nick_input.style.display = "none";
+	html.pass_input.style.display = "none";
+	html.confirm_input.style.display = "none";
+
+	html.join_button.innerHTML = "respawn";
+
+	html.question1.style.display = "none";
+	html.question2.style.display = "none";
+	html.question3.style.display = "none";
+	html.question4.style.display = "none";
+	html.question5.style.display = "none";
+};

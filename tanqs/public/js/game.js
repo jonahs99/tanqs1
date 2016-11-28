@@ -1,9 +1,12 @@
+var GameState = { LOGIN: 0, GAME: 1, RESPAWN: 2 };
 
 function Game(server_info) {
 
 	this.n_snaps = 5;
 	this.delay = 60;
 	this.server_info = server_info.config;
+
+	this.state = GameState.LOGIN;
 
 	this.snapring = new SnapshotRing(this.n_snaps, this.server_info.capacity);
 	this.last_update = 0;
@@ -16,6 +19,14 @@ function Game(server_info) {
 
 	this.renderer = new Renderer(this, html.canvas, html.context);
 
+	html.join_button.onclick = (function() {
+		if (this.state == GameState.LOGIN) {
+			send_login(html.nick_input.value);
+		} else if (this.state == GameState.RESPAWN) {
+			send_respawn();
+		}
+	}).bind(this);
+
 	setInterval(this.render_frame.bind(this), 20);
 	setInterval(this.send_input.bind(this), 60);
 
@@ -27,8 +38,8 @@ Game.prototype.on_join = function(data) {
 	this.player_tank_id = data.tank_id;
 	this.renderer.tracking_tank = data.tank_id;
 
-	html.splash_container.style.opacity = 0;
-	html.splash_container.style.display = 'none';
+	html.hide_splash();
+	this.state = GameState.GAME;
 
 };
 
@@ -51,6 +62,24 @@ Game.prototype.on_server_update = function(data) {
 		this.snapring.snaps[ring_index].time = Date.now();
 
 		this.last_update = update;
+
+		var player_tank = this.snapring.snaps[ring_index].tanks[this.player_tank_id];
+
+		if (this.state == GameState.GAME) {
+
+			if (!player_tank.alive) {
+				html.set_splash_respawn();
+				this.state = GameState.RESPAWN;
+			}
+
+		} else if (this.state == GameState.RESPAWN) {
+
+			if (player_tank.alive) {
+				html.hide_splash();
+				this.state = GameState.GAME;
+			}
+
+		}
 
 	}
 
