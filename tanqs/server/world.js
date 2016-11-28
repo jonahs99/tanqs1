@@ -315,6 +315,7 @@ World.prototype.handle_deaths = function(kill_events) {
 			if (evt.killed instanceof Bullet) {
 				this.kill_bullet(evt.killed.id);
 			} else {
+				if (this.ondeath) this.ondeath(evt.killed.id);
 				this.kill_tank(evt.killed.id);
 				if (evt.killer instanceof Bullet) {
 					this.kill_bullet(evt.killed.id);

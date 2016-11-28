@@ -14,6 +14,11 @@ function Game(config, http) {
 	this.server = new TanqServer(http, this);
 	this.players = [];
 
+	this.world.ondeath = function(tank_id) {
+		var pos = this.world.tanks[tank_id].phys.pos;
+		this.server.push_event({type: 'death', tank: tank_id, x: pos.x, y: pos.y});
+	}.bind(this);
+
 }
 module.exports = Game;
 
@@ -38,7 +43,7 @@ Game.prototype.update = function() {
 		var snapshot = Snapshot.snap_world(this.world);
 
 		this.server.send_update(players, snapshot);
-		
+
 	}
 
 };

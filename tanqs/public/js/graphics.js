@@ -41,6 +41,8 @@ Renderer.prototype.render_frame = function(frame) {
 
 	this.render_names();
 
+	particles.render(this.context);
+
 	this.context.translate(this.camera.translate.x, this.camera.translate.y);
 	this.context.scale(1 / html.scale, 1 / html.scale);
 

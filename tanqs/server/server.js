@@ -3,10 +3,16 @@ function TanqServer(http, game) {
 
 	this.game = game;
 
+	this.events = [];
+
 	this.setup_socket(http);
 
 }
 module.exports = TanqServer;
+
+TanqServer.prototype.push_event = function(event) {
+	this.events.push(event);
+};
 
 TanqServer.prototype.setup_socket = function(http) {
 
@@ -89,8 +95,10 @@ TanqServer.prototype.send_update = function(players, snapshot) {
 
 	var msg = {
 		players: players,
-		snapshot: snapshot
+		snapshot: snapshot,
+		events: this.events
 	};
+	this.events = [];
 
 	this.io.emit('update', msg);
 };

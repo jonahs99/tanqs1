@@ -81,6 +81,14 @@ Game.prototype.on_server_update = function(data) {
 
 		}
 
+		for (var i = 0; i < data.events.length; i++) {
+			var evt = data.events[i];
+			if (evt.type == 'death') {
+				console.log('event: death');
+				particles.add_explosion({x: evt.x, y: evt.y}, '#f66');
+			}
+		}
+
 	}
 
 };
@@ -102,6 +110,9 @@ Game.prototype.send_input = function() {
 };
 
 Game.prototype.render_frame = function() {
+
+	// update the particle effects!
+	particles.update();
 
 	var avg_update = 0; var avg_time = 0;
 	for (var i = 0; i < this.n_snaps; i++) {
