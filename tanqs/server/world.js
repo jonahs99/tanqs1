@@ -305,7 +305,9 @@ World.prototype.handle_deaths = function(kill_events) {
 				this.kill_bullet(evt.killed.id);
 			} else {
 				this.kill_tank(evt.killed.id);
-
+				if (evt.killer instance of Bullet) {
+					this.kill_bullet(evt.killed.id);
+				}
 			}
 		}
 	}
