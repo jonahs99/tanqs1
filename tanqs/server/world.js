@@ -70,6 +70,17 @@ World.prototype.parse_map = function() {
 			if (v.y > y2 || j == 0) y2 = v.y;
 		}
 
+		// Make sure points are listed ccw
+
+		var area_sum = 0;
+		for (var i1 = 0; i1 < poly.v.length; i1++) {
+			var i2 = (i1 + 1) % poly.v.length;
+			area_sum += (poly.v[i2].x - poly.v[i1].x) * (poly.v[i1].y + poly.v[i2].y);
+		}
+		if (area_sum < 0) { // flip order of points
+			poly.v.reverse();
+		}
+
 		// Bounding box calculation
 		poly.bb = {}
 		poly.bb.pos = new Vec2((x1 + x2) / 2, (y1 + y2) / 2)
