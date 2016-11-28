@@ -178,7 +178,7 @@ Renderer.prototype.render_tank = function(tank) {
 
 Renderer.prototype.render_bullet = function(bullet) {
 
-	this.context.fillStyle = colors.fill[Math.floor(Date.now() / 2000) % 21];
+	this.context.fillStyle = colors.fill[0];
 	this.context.strokeStyle = colors.bullet_stroke;
 	this.context.lineWidth = 3;
 
