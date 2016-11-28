@@ -28,6 +28,7 @@ Game.prototype.update = function() {
 	this.world.update();
 
 	if (this.world.frame % this.frames_update == 0) {
+
 		var players = [];
 		for (var id in this.players) {
 			var player = this.players[id];
@@ -37,6 +38,7 @@ Game.prototype.update = function() {
 		var snapshot = Snapshot.snap_world(this.world);
 
 		this.server.send_update(players, snapshot);
+		
 	}
 
 };

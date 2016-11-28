@@ -36,6 +36,7 @@ window.onmousedown = on_mousedown;
 function resize_canvas() {
 	html.canvas.width = window.innerWidth;
 	html.canvas.height = window.innerHeight;
+	html.scale = Math.max(html.canvas.width / 1366, html.canvas.height / 768);
 }
 
 function on_mousemove(evt) {
@@ -84,7 +85,7 @@ html.canvas.addEventListener('touchmove', function(evt) {
 	for (var i = 0; i < evt.changedTouches.length; i++) {
 		if (html.joystick && evt.changedTouches[i].identifier == html.joystick_id) {
 			var rect = html.canvas.getBoundingClientRect();
-		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos);
+		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos).m_scl(2);
 		}
 	}
 }, false);

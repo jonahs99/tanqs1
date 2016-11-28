@@ -36,8 +36,6 @@ function resize_canvas() {
 	html.canvas.height = window.innerHeight;
 }
 
-console.log('adding touch events...');
-
 html.canvas.addEventListener('touchstart', function(evt) {
 	evt.preventDefault();
 

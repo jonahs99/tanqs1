@@ -24,6 +24,7 @@ Renderer.prototype.render_frame = function(frame) {
 	this.context.clearRect(0, 0, canvas.width, canvas.height);
 
 	this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+	this.context.scale(html.scale, html.scale);
 
 	if (this.tracking_tank > -1) {
 		var tank = this.frame_snapshot.tanks[this.tracking_tank];
@@ -41,6 +42,7 @@ Renderer.prototype.render_frame = function(frame) {
 	this.render_names();
 
 	this.context.translate(this.camera.translate.x, this.camera.translate.y);
+	this.context.scale(1 / html.scale, 1 / html.scale);
 
 	this.render_ui();
 
@@ -145,7 +147,7 @@ Renderer.prototype.render_tank = function(tank) {
 	this.context.translate(tank.pos.x, tank.pos.y);
 	this.context.rotate(tank.dir);
 
-	this.context.fillStyle = colors.fill[Math.floor(Date.now() / 2000) % 21];
+	this.context.fillStyle = colors.fill[0];//colors.fill[Math.floor(Date.now() / 2000) % 21];
 
 	this.context.strokeStyle = colors.tank_stroke;
 
@@ -191,6 +193,7 @@ Renderer.prototype.render_ui = function() {
 
 	if (this.game.player_tank_id > -1) {
 		var player_tank = this.frame_snapshot.tanks[this.game.player_tank_id];
+
 		if (player_tank.alive) {
 
 			this.context.font = "40px Open Sans";
@@ -210,9 +213,9 @@ Renderer.prototype.render_ui = function() {
 			this.context.fillStyle = 'rgba(255,255,255,0.6)';
 			this.context.lineWidth = 8;
 			var joy_screen = new Vec2().set(html.joystick_pos).m_addxy(-this.canvas.width / 2, -this.canvas.height / 2);
-			var mouse_screen = new Vec2().set(html.mouse).m_add(joy_screen);
+			var mouse_screen = new Vec2().set(html.mouse).m_scl(0.5).m_add(joy_screen);
 			this.context.beginPath();
-			this.context.arc(joy_screen.x, joy_screen.y, 150, 0, Math.PI * 2);
+			this.context.arc(joy_screen.x, joy_screen.y, 75, 0, Math.PI * 2);
 			this.context.stroke();
 			this.context.beginPath();
 			this.context.arc(joy_screen.x, joy_screen.y, 16, 0, Math.PI * 2);
@@ -220,9 +223,16 @@ Renderer.prototype.render_ui = function() {
 			this.context.beginPath();
 			this.context.arc(mouse_screen.x, mouse_screen.y, 24, 0, Math.PI * 2);
 			this.context.fill();
+			//this.context.beginPath();
+			//this.context.moveTo(joy_screen.x, joy_screen.y);
+			//this.context.arc(joy_screen.x, joy_screen.y, 75, player_tank.dir + 2.36, player_tank.dir + 3.92);
+			//this.context.closePath();
+			//this.context.fill();
 		}
 
 	}
+
+	this.render_leaderboard();
 
 };
 
@@ -257,4 +267,26 @@ Renderer.prototype.render_reload_bars = function(text_length, tank) {
 		this.context.lineTo(x2, height + spacing * i);
 		this.context.stroke();
 	}
+};
+
+Renderer.prototype.render_leaderboard = function() {
+
+	this.context.textAlign = "right";
+	this.context.textBaseline = "middle";
+
+	for (var i = 0; i < this.game.players.length; i++) {
+		var player = this.game.players[i];
+		var text = player.name;
+
+		this.context.fillStyle = '#fff';
+		this.context.font = (this.game.player_tank_id == player.tank) ? "bold 20px Open Sans" : "20px Open Sans";
+
+		this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*i);
+
+		this.context.fillStyle = this.frame_snapshot.tanks[player.tank].alive ? '#6f6' : '#f06';
+		this.context.beginPath();
+		this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*i, 5, 0, Math.PI * 2);
+		this.context.fill();
+	}
+
 };
