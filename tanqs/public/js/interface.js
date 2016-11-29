@@ -90,8 +90,8 @@ html.canvas.addEventListener('touchmove', function(evt) {
 			var rect = html.canvas.getBoundingClientRect();
 		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos).m_scl(2);
 		    var mag = html.mouse.mag();
-		    if (mag > 150) {
-		    	var drag = new Vec2().set(html.mouse).m_scl((mag - 150) / mag);
+		    if (mag > 160) {
+		    	var drag = new Vec2().set(html.mouse).m_scl((mag - 160) / mag / 2);
 		    	html.joystick_pos.m_add(drag);
 		    }
 		}

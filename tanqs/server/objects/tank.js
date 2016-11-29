@@ -15,7 +15,7 @@ function Tank(id) {
 	this.input = {steer_target: new Vec2(), shoot: false, drop: false};
 
 	this.phys = {rad: 0, pos: new Vec2(), dir: 0, vel: new Vec2(), rot_vel: 0, col_pos: new Vec2()};
-	this.mvmt = {leftv: 0, rightv: 0, backwards: false, max_vel: 6, max_acc: 3};
+	this.mvmt = {leftv: 0, rightv: 0, backwards: false, max_vel: 0, max_acc: 0, agility: 0};
 
 	this.power = null;
 	this.weapon = {reloads: new Array(4).fill(0)};
@@ -28,6 +28,7 @@ Tank.prototype.set_power = function(power) {
 
 	this.mvmt.max_vel = power.mvmt.max_vel;
 	this.mvmt.max_acc = power.mvmt.max_acc;
+	this.mvmt.agility = power.mvmt.agility;
 
 	this.phys.rad = power.phys.rad;
 };
@@ -106,7 +107,7 @@ Tank.prototype.calculate_movement = function() {
 	// Convert wheel velocities to linear and rotational velocities
 
 	this.phys.vel.set_rt((this.mvmt.leftv + this.mvmt.rightv) / 2, this.phys.dir);
-	this.phys.rot_vel = (this.mvmt.leftv - this.mvmt.rightv) / 2 / this.phys.rad;
+	this.phys.rot_vel = (this.mvmt.leftv - this.mvmt.rightv) / 2 / this.phys.rad * this.mvmt.agility;
 
 	// Set the col_pos so the collision handler knows where the tank wants to be
 	this.phys.col_pos.set(this.phys.pos);
