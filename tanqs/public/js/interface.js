@@ -28,6 +28,8 @@ html.question3 = document.getElementById('question_3');
 html.question4 = document.getElementById('question_4');
 html.question5 = document.getElementById('question_5');
 
+html.ad_banner = document.getElementById('ap_iframe');
+
 html.canvas.style.background = '#222';
 
 window.onresize = window.onload = resize_canvas;
@@ -108,6 +110,7 @@ html.signup_link.onclick = html.signup_link2.onclick = function() {
 
 html.hide_splash = function() {
 	html.splash_container.style.display = "none";
+	if (html.ad_banner) html.ad_banner.style.display = "none";
 };
 
 html.set_splash_join = function() {
@@ -126,6 +129,8 @@ html.set_splash_join = function() {
 	html.question3.style.display = "none";
 	html.question4.style.display = "none";
 	html.question5.style.display = "none";
+
+	if (html.ad_banner) html.ad_banner.style.display = "none";
 };
 html.set_splash_login = function() {
 	html.splash_container.style.display = "block";
@@ -143,6 +148,8 @@ html.set_splash_login = function() {
 	html.question3.style.display = "block";
 	html.question4.style.display = "none";
 	html.question5.style.display = "block";
+
+	if (html.ad_banner) html.ad_banner.style.display = "none";
 };
 html.set_splash_signup = function() {
 	html.splash_container.style.display = "block";
@@ -160,6 +167,8 @@ html.set_splash_signup = function() {
 	html.question3.style.display = "none";
 	html.question4.style.display = "block";
 	html.question5.style.display = "block";
+
+	if (html.ad_banner) html.ad_banner.style.display = "none";
 };
 
 html.set_splash_respawn = function() {
@@ -180,6 +189,8 @@ html.set_splash_respawn = function() {
 	html.question3.style.display = "none";
 	html.question4.style.display = "none";
 	html.question5.style.display = "none";
+
+	if (html.ad_banner) html.ad_banner.style.display = "block";
 };
 
 function toggleFullScreen() {
