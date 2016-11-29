@@ -89,6 +89,11 @@ html.canvas.addEventListener('touchmove', function(evt) {
 		if (html.joystick && evt.changedTouches[i].identifier == html.joystick_id) {
 			var rect = html.canvas.getBoundingClientRect();
 		    html.mouse.set_xy(evt.touches[0].clientX - rect.left, evt.touches[0].clientY - rect.top).m_sub(html.joystick_pos).m_scl(2);
+		    var mag = html.mouse.mag();
+		    if (mag > 150) {
+		    	var drag = new Vec2().set(html.mouse).m_scl((mag - 150) / mag);
+		    	html.joystick_pos.m_add(drag);
+		    }
 		}
 	}
 }, false);
