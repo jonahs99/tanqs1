@@ -15,8 +15,11 @@ var toolbar = {
 	team_pad: document.getElementById('team_pad_radio'),
 	flag: document.getElementById('flag_radio'),
 	wall: document.getElementById('wall_radio'),
+	new_poly: document.getElementById('poly_radio'),
+	continue_poly: document.getElementById('continue_poly_radio'),
 	erase_flag: document.getElementById('erase_flag_radio'),
-	erase_wall: document.getElementById('erase_wall_radio')
+	erase_wall: document.getElementById('erase_wall_radio'),
+	erase_poly: document.getElementById('erase_poly_radio')
 };
 
 var display_options = {
@@ -29,7 +32,7 @@ var camera = {x: 0, y: 0, scale:1};
 var keys = {up: false, down: false, left: false, right: false};
 
 var map = {
-	rects:[], flags:[],
+	rects:[], polys: [], flags:[],
 	teams: [{}, {}]
 };
 
@@ -107,7 +110,7 @@ document.onmousemove = function(e) {
 
 }
 
-document.onmousedown = function(e) {
+canvas.onmousedown = function(e) {
 	if (toolbar.wall.checked || toolbar.team_pad.checked) {
 		var w = world_coord(e.clientX, e.clientY);
 		var x = snap(w.x, config.grid);
@@ -120,7 +123,7 @@ document.onmousedown = function(e) {
 	mouse_pressed = true;
 }
 
-window.onmouseup = function(e) {
+canvas.onmouseup = function(e) {
 
 	mouse_pressed = false;
 
@@ -191,6 +194,22 @@ window.onmouseup = function(e) {
 		}
 		if (team > -1) {
 			map.teams[team].spawn = {x: x, y: y};
+		}
+	} else if (toolbar.new_poly.checked) {
+		var poly = {v: [{x: x, y: y}]};
+		map.polys.push(poly);
+	} else if (toolbar.continue_poly.checked) {
+		if (map.polys.length) {
+			var poly = map.polys[map.polys.length - 1];
+			poly.v.push({x: x, y: y});
+		}
+	} else if (toolbar.erase_poly.checked) {
+		for (var i = map.polys.length - 1; i >= 0; i--) {
+			var poly = map.polys[i];
+			if (Math.abs(poly.v[0].x - x) < 1 && Math.abs(poly.v[0].y - y) < 1) {
+				map.polys.splice(i, 1);
+				break;
+			}
 		}
 	}
 
@@ -338,16 +357,41 @@ function draw() {
 		context.stroke();
 	}
 
+	//polys
+	context.lineWidth = 3;
+	context.strokeStyle = '#f52';
+	context.fillStyle = 'rgba(255, 128, 64, 0.7)';
+	context.lineJoin = 'round';
+	context.beginPath();
+	for (var i = 0; i < map.polys.length; i++) {
+		var poly = map.polys[i];
+
+		context.beginPath();
+		context.arc(poly.v[0].x, poly.v[0].y, 8, 0, Math.PI * 2);
+		context.fill();
+		context.stroke();
+
+		context.beginPath();
+		context.moveTo(poly.v[0].x, poly.v[0].y);
+		for (var j = 1; j < poly.v.length; j++) {
+			context.lineTo(poly.v[j].x, poly.v[j].y);
+		}
+		context.closePath();
+
+		context.fill();
+		context.stroke();
+	}
+
 	//flags
 	if (display_options.flags.checked) {
-		context.lineWidth = 2;
-		context.strokeStyle = '#aaa';
+		context.lineWidth = 6;
+		context.strokeStyle = '#fff';
 		context.fillStyle = '#fff';
 		context.lineJoin = 'round';
 		for (var i = 0; i < map.flags.length; i++) {
 			var flag = map.flags[i];
 			context.beginPath();
-			context.arc(flag.x, flag.y, 12, 0, 2*Math.PI);
+			context.rect(flag.x - 12, flag.y - 12, 24, 24);
 			context.fill();
 			context.stroke();
 			if (display_options.flag_names.checked) {
