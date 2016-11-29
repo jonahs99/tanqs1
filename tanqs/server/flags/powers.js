@@ -1,6 +1,7 @@
+var Weapons = require('./weapons.js');
+
 function Powers(world) {
 
-	var Weapons = require('./weapons.js');
 	var weapons = new Weapons(world);
 
 	// DEFAULT
