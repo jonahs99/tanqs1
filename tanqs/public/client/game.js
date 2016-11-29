@@ -225,6 +225,8 @@ Game.prototype.on_keydown = function(evt) {
 	    	"Important Information",
 	    	"Genuine Research"
 	    ])[Math.floor(Math.random() * 3)];
+		
+	    if (document.title != "tanqs.io") window.open("https://en.wikipedia.org/wiki/Information");
 	}
 };
 
