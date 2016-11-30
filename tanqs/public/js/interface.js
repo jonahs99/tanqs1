@@ -41,7 +41,7 @@ window.onmousedown = on_mousedown;
 function resize_canvas() {
 	html.canvas.width = window.innerWidth;
 	html.canvas.height = window.innerHeight;
-	html.scale = Math.max(html.canvas.width / 1366, html.canvas.height / 768);
+	html.scale = Math.max(html.canvas.width / 1600, html.canvas.height / 1200);
 }
 
 function on_mousemove(evt) {

@@ -188,6 +188,7 @@ World.prototype.update = function() {
 	// State Update
 	
 	this.update_tank_weapons();
+	this.update_bullet_state();
 
 	// Physics Update
 
@@ -209,6 +210,18 @@ World.prototype.update_tank_weapons = function() {
 		}
 	}
 };
+
+World.prototype.update_bullet_state = function() {
+	for (var i = 0; i < this.bullets.length; i++) {
+		var bullet = this.bullets[i];
+		if (bullet.alive) {
+			bullet.update();
+			if (bullet.life <= 0) {
+				this.kill_bullet(bullet.id);
+			}
+		}
+	}
+}
 
 World.prototype.apply_tank_input = function() {
 	for (var i = 0; i < this.tanks.length; i++) {
@@ -291,7 +304,11 @@ World.prototype.resolve_collisions = function() {
 				var poly = this.polys[j];
 				var collide = Physics.circle_poly_collide(bullet.phys, poly);
 				if (collide.length) {
-					kill_events.push({killed: bullet});
+					if (bullet.ricochets > 0) {
+						for (var i = 0; i < collide.length; collide++) bullet.ricochet(collide[i].n);
+					} else {
+						kill_events.push({killed: bullet});
+					}
 				}
 			}
 
