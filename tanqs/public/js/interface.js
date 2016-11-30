@@ -1,4 +1,6 @@
 
+document.onload = function() {window.dispatchEvent(new Event('resize'));};
+
 var html = {};
 
 html.mouse = new Vec2();

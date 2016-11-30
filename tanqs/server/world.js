@@ -54,6 +54,19 @@ World.prototype.parse_map = function() {
 
 	this.size = new Vec2(map_data.size.width, map_data.size.height);
 
+	for (var i = 0; i < map_data.rectangles.length; i++) { // Convert rects to polys
+
+		var rect_data = map_data.rectangles[i];
+		var poly_data = {v:[]};
+		poly_data.v.push({x: rect_data.x - rect_data.hwidth, y: rect_data.y - rect_data.hheight});
+		poly_data.v.push({x: rect_data.x - rect_data.hwidth, y: rect_data.y + rect_data.hheight});
+		poly_data.v.push({x: rect_data.x + rect_data.hwidth, y: rect_data.y + rect_data.hheight});
+		poly_data.v.push({x: rect_data.x + rect_data.hwidth, y: rect_data.y - rect_data.hheight});
+
+		map_data.polys.push(poly_data);
+
+	}
+
 	for (var i = 0; i < map_data.polys.length; i++) {
 
 		var poly_data = map_data.polys[i];

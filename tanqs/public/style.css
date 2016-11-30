@@ -15,7 +15,7 @@ h1 {
 	font-size: 6vw;
 	font-weight: normal;
 	margin-top: 0;
-	margin-bottom: 5%;
+	margin-bottom: 3%;
 	text-align: center;
 	white-space: nowrap;
 }
@@ -93,15 +93,9 @@ p {
 	border-radius: 10px;
 }
 
-@media only screen and (max-device-width: 480px) {
-	#splash_box {
-		padding: 20px;
-	}
-}
-
 #account_container {
 	float: right;
-	margin: 0;
+	margin-top: 10px;
 	padding: 0;
 	padding-top: 0px;
 	font-size: 24pt;
@@ -112,7 +106,7 @@ p {
 input[type="text"], input[type="password"] {
 	display: block;
 	margin-left: 0;
-	margin-bottom: 8px;
+	margin-top: 1%;
 	width: 100%;
 	font-family: sans-serif;
 	font-size: 2.5vw;
@@ -142,7 +136,7 @@ input[type="password"] {
 
 button {
 	display: inline-block;
-	margin: 0 10px 0 0;
+	margin-top: 10px;
 	padding: 0px 0px;
 	font-size: 3vw;
 	line-height: 1.8;
@@ -193,4 +187,11 @@ button:active {
 	font-size: 24px;
 	margin-top: 1px;
 	line-height: inherit;
+}
+
+@media (min-width: 1024px) {
+	h1 {font-size: 64px;}
+	p {font-size: 16px;}
+	input[type="text"], input[type="password"] {font-size: 26px;}
+	button {font-size: 32px}
 }
