@@ -149,7 +149,7 @@ World.prototype.spawn_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	if (tank && !tank.alive) {
 		tank.phys.pos.set_xy(200,-200);//(Math.random() - 0.5) * 2 * this.size.x, (Math.random() - 0.5) * 2 * this.size.y);
-		tank.set_power(this.powers.default);
+		tank.set_power(this.powers.tiny);
 		tank.alive = true;
 	}
 };
@@ -305,7 +305,15 @@ World.prototype.resolve_collisions = function() {
 				var collide = Physics.circle_poly_collide(bullet.phys, poly);
 				if (collide.length) {
 					if (bullet.ricochets > 0) {
-						for (var i = 0; i < collide.length; collide++) bullet.ricochet(collide[i].n);
+						var min_overlap = 100;
+						var n = null;
+						for (var i = 0; i < collide.length; collide++) {
+							if (collide[i].overlap < min_overlap) {
+								min_overlap = collide[i].overlap;
+								n = collide[i].n;
+							}
+						}
+						if (n) bullet.ricochet(n);
 					} else {
 						kill_events.push({killed: bullet});
 					}

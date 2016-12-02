@@ -10,7 +10,14 @@ function Powers(world) {
 		phys: {rad: 19},
 		mvmt: {max_vel: 6, max_acc: 3, agility: 1.4},
 		weapon: weapons.default
-	}
+	};
+
+	this.tiny = morph(this.default, 
+		{
+			name: "tiny",
+			phys: {rad: 10}
+		}
+	);
 
 }
 module.exports = Powers;
