@@ -149,7 +149,7 @@ World.prototype.spawn_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	if (tank && !tank.alive) {
 		tank.phys.pos.set_xy(200,-200);//(Math.random() - 0.5) * 2 * this.size.x, (Math.random() - 0.5) * 2 * this.size.y);
-		tank.set_power(this.powers.tiny);
+		tank.set_power(this.powers.default);
 		tank.alive = true;
 	}
 };
