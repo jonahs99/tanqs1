@@ -1,5 +1,15 @@
 var colors = {
 
+	flag: {
+		bg: '#0c4',
+		fg: '#fff'
+	},
+
+	wall: {
+		fill: 'rgba(255, 128, 0, 0.4)',
+		stroke: '#f60'
+	},
+
 	tank_stroke: '#444',
 	bullet_stroke: '#444',
 

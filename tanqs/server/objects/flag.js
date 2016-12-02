@@ -3,7 +3,9 @@ var Vec2 = XMath.Vec2;
 
 // Flag Class
 
-function Flag() {
+function Flag(id) {
+
+	this.id = id;
 
 	this.alive = false;
 

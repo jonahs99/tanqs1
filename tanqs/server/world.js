@@ -43,6 +43,9 @@ World.prototype.reset = function(config) {
 	for (var i = 0; i < config.capacity.n_bullets; i++) {
 		this.bullets[i] = new Bullet(i);
 	}
+	for (var i = 0; i < config.capacity.n_flags; i++) {
+		this.flags[i] = new Flag(i);
+	}
 
 }
 
@@ -108,6 +111,13 @@ World.prototype.parse_map = function() {
 
 		this.polys.push(poly);
 
+	}
+
+	for (var i = 0; i < map_data.flags.length; i++) {
+		var flag_data = map_data.flags[i];
+		this.flags[i].alive = true;
+		this.flags[i].phys.pos.set(flag_data);
+		this.flags[i].phys.rad = 12;
 	}
 
 	this.map = {

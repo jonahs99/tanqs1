@@ -41,7 +41,6 @@ function snap_tank(tank) {
 
 };
 
-// STUB!
 function snap_bullet(bullet) {
 
 	if (!bullet.alive) return {alive: false};
@@ -57,9 +56,17 @@ function snap_bullet(bullet) {
 
 };
 
-// STUB!
 function snap_flag(flag) {
 
-	return {alive: false};
+	if (!flag.alive) return {alive: false};
+
+	var data = {
+		alive: true,
+		x: flag.phys.pos.x,
+		y: flag.phys.pos.y,
+		rad: flag.phys.rad
+	};
+
+	return data;
 
 };

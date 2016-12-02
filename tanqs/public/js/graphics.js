@@ -36,6 +36,7 @@ Renderer.prototype.render_frame = function(frame) {
 
 	this.render_polys();
 	this.render_arcs();
+	this.render_flags();
 	this.render_bullets();
 	this.render_tanks();
 
@@ -52,7 +53,7 @@ Renderer.prototype.render_frame = function(frame) {
 
 Renderer.prototype.render_background = function() {
 	this.context.strokeStyle = '#333';
-	this.context.lineWidth = 3;
+	this.context.lineWidth = 4;
 
 	var grid_spacing = 100;
 	var map_width = this.game.map.width;
@@ -71,8 +72,8 @@ Renderer.prototype.render_background = function() {
 };
 
 Renderer.prototype.render_polys = function() {
-	this.context.fillStyle = '#333';
-	this.context.strokeStyle = '#555';
+	this.context.fillStyle = colors.wall.fill;
+	this.context.strokeStyle = colors.wall.stroke;
 	this.context.lineWidth = 3;
 
 	for (var i = 0; i < this.game.map.polys.length; i++) {
@@ -124,6 +125,15 @@ Renderer.prototype.render_bullets = function() {
 	}
 };
 
+Renderer.prototype.render_flags = function() {
+	for (var i = 0; i < this.frame_snapshot.flags.length; i++) {
+		var flag = this.frame_snapshot.flags[i];
+		if (flag.alive) {
+			this.render_flag(flag);
+		}
+	}
+};
+
 Renderer.prototype.render_names = function() {
 
 	this.context.fillStyle = '#fff';
@@ -149,7 +159,7 @@ Renderer.prototype.render_tank = function(tank) {
 	this.context.translate(tank.pos.x, tank.pos.y);
 	this.context.rotate(tank.dir);
 
-	this.context.fillStyle = colors.fill[0];//colors.fill[Math.floor(Date.now() / 2000) % 21];
+	this.context.fillStyle = colors.fill[9];//colors.fill[Math.floor(Date.now() / 2000) % 21];
 
 	this.context.strokeStyle = colors.tank_stroke;
 
@@ -180,7 +190,7 @@ Renderer.prototype.render_tank = function(tank) {
 
 Renderer.prototype.render_bullet = function(bullet) {
 
-	this.context.fillStyle = colors.fill[0];
+	this.context.fillStyle = colors.fill[9];
 	this.context.strokeStyle = colors.bullet_stroke;
 	this.context.lineWidth = 3;
 
@@ -188,6 +198,38 @@ Renderer.prototype.render_bullet = function(bullet) {
 	this.context.arc(bullet.pos.x, bullet.pos.y, bullet.rad, 0, Math.PI * 2);
 	this.context.fill();
 	this.context.stroke();
+
+};
+
+Renderer.prototype.render_flag = function(flag) {
+
+	var rad = flag.rad + 0.5 * Math.sin(Date.now() / 200);
+
+	this.context.fillStyle = colors.flag.bg;
+	this.context.strokeStyle = colors.flag.bg;
+	this.context.lineWidth = 10;
+	this.context.lineJoin = 'round';
+
+	this.context.beginPath();
+	this.context.rect(flag.pos.x - rad + 5, flag.pos.y - rad + 5, rad * 2 - 10, rad * 2 - 10);
+	this.context.stroke();
+	this.context.fill();
+
+	this.context.fillStyle = colors.flag.fg;
+	this.context.strokeStyle = colors.flag.fg;
+	this.context.lineWidth = 4;
+
+	rad = flag.rad - 0.5;
+
+	this.context.beginPath();
+	this.context.moveTo(flag.pos.x - rad * 0.4, flag.pos.y + rad * 0.5);
+	this.context.lineTo(flag.pos.x - rad * 0.4, flag.pos.y - rad * 0.5);
+	this.context.lineTo(flag.pos.x + rad * 0.4, flag.pos.y - rad * 0.5);
+	this.context.lineTo(flag.pos.x + rad * 0.4, flag.pos.y);
+	this.context.lineTo(flag.pos.x - rad * 0.4, flag.pos.y);
+	this.context.closePath();
+	this.context.stroke();
+	this.context.fill();
 
 };
 

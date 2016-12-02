@@ -76,7 +76,8 @@ Snapshot.prototype.set = function(data) {
 		var flag = this.flags[i];
 		flag.alive = flag_data.alive;
 		if (flag.alive) {
-			flag.pos.set(flag_data.pos);
+			flag.pos.set_xy(flag_data.x, flag_data.y);
+			flag.rad = flag_data.rad;
 		}
 	}
 
@@ -121,6 +122,16 @@ Snapshot.prototype.set_lerp = function(s1, s2, delta) {
 		}
 	}
 
+	for (var i = 0; i < s2.flags.length; i++) {
+		var f2 = s2.flags[i];
+		var flag = this.flags[i];
+		flag.alive = f2.alive;
+		if (flag.alive) {
+			flag.pos.set(f2.pos);
+			flag.rad = f2.rad;
+		}
+	}
+
 };
 
 function Tank() {
@@ -152,5 +163,6 @@ function Flag() {
 	this.alive = false;
 
 	this.pos = new Vec2();
+	this.rad = 0;
 
 }
