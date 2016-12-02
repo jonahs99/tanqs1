@@ -65,7 +65,8 @@ export_input.onsubmit = function() {
 		size: {width: config.width, height: config.height, grid: config.major},
 		teams: map.teams,
 		rectangles: map.rects,
-		flags: map.flags
+		flags: map.flags,
+		polys: map.polys
 	};
 
 	var string_out = JSON.stringify(map_object, null, "\t");
