@@ -10,7 +10,8 @@ function Flag(id) {
 	this.alive = false;
 
 	this.life = 0;
-	this.respawn_ticks = 0;
+	this.respawn_ticks = 1000;
+	this.respawn_pos = new Vec2();
 
 	this.team = -1;
 	this.type = '';
@@ -18,3 +19,13 @@ function Flag(id) {
 
 }
 module.exports = Flag;
+
+Flag.prototype.update = function() {
+
+	this.life++;
+
+	if (this.life >= this.respawn_ticks) {
+		this.phys.pos.set(this.respawn_pos)
+	}
+
+}

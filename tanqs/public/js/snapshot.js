@@ -51,6 +51,7 @@ Snapshot.prototype.set = function(data) {
 		var tank = this.tanks[i];
 		tank.alive = tank_data.alive;
 		if (tank.alive) {
+			tank.color = tank_data.color;
 			tank.rad = tank_data.rad;
 			tank.dir = tank_data.dir;
 			tank.pos.set_xy(tank_data.x, tank_data.y);
@@ -101,6 +102,7 @@ Snapshot.prototype.set_lerp = function(s1, s2, delta) {
 				tank.pos.set(t1.pos);
 			}
 		}
+		tank.color = t1.color;
 		tank.chambers = t1.chambers;
 		tank.reloads = t1.reloads;
 		tank.reload_ticks = t1.reload_ticks;
@@ -137,6 +139,8 @@ Snapshot.prototype.set_lerp = function(s1, s2, delta) {
 function Tank() {
 
 	this.alive = false;
+
+	this.color = 0;
 
 	this.rad = 0;
 	this.pos = new Vec2();

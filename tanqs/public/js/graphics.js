@@ -159,11 +159,11 @@ Renderer.prototype.render_tank = function(tank) {
 	this.context.translate(tank.pos.x, tank.pos.y);
 	this.context.rotate(tank.dir);
 
-	this.context.fillStyle = colors.fill[9];//colors.fill[Math.floor(Date.now() / 2000) % 21];
+	this.context.fillStyle = colors.fill[tank.color];//colors.fill[Math.floor(Date.now() / 2000) % 21];
 
 	this.context.strokeStyle = colors.tank_stroke;
 
-	this.context.lineWidth = 3;
+	this.context.lineWidth = 0.2 * rad;
 	this.context.lineJoin = 'round';
 
 	// Base tank square
@@ -203,11 +203,11 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 Renderer.prototype.render_flag = function(flag) {
 
-	var rad = flag.rad + 0.5 * Math.sin(Date.now() / 200);
+	var rad = flag.rad + 0.8 * Math.sin(Date.now() / 200);
 
 	this.context.fillStyle = colors.flag.bg;
 	this.context.strokeStyle = colors.flag.bg;
-	this.context.lineWidth = 10;
+	this.context.lineWidth = rad;
 	this.context.lineJoin = 'round';
 
 	this.context.beginPath();
@@ -217,9 +217,9 @@ Renderer.prototype.render_flag = function(flag) {
 
 	this.context.fillStyle = colors.flag.fg;
 	this.context.strokeStyle = colors.flag.fg;
-	this.context.lineWidth = 4;
+	this.context.lineWidth = rad * 0.4;
 
-	rad = flag.rad - 0.5;
+	rad = rad;
 
 	this.context.beginPath();
 	this.context.moveTo(flag.pos.x - rad * 0.4, flag.pos.y + rad * 0.5);

@@ -11,12 +11,14 @@ function Tank(id) {
 
 	this.alive = false;
 	this.team = 0;
+	this.color = 0;
 
 	this.input = {steer_target: new Vec2(), shoot: false, drop: false};
 
 	this.phys = {rad: 0, pos: new Vec2(), dir: 0, vel: new Vec2(), rot_vel: 0, col_pos: new Vec2()};
 	this.mvmt = {leftv: 0, rightv: 0, backwards: false, max_vel: 0, max_acc: 0, agility: 0};
 
+	this.carrying_flag = -1;
 	this.power = null;
 	this.weapon = {reloads: new Array(4).fill(0)};
 

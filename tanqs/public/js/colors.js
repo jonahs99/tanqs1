@@ -6,8 +6,8 @@ var colors = {
 	},
 
 	wall: {
-		fill: 'rgba(255, 128, 0, 0.4)',
-		stroke: '#f60'
+		fill: 'rgba(255, 255, 255, 0.2)',
+		stroke: 'rgba(255, 255, 255, 0.6)'
 	},
 
 	tank_stroke: '#444',

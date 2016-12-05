@@ -315,9 +315,9 @@
 		}
 	],
 	"flags": [
-		{"x": -200, "y": -200, "type": "speed"},
-		{"x": -200, "y": 200, "type": "speed"},
-		{"x": 200, "y": -200, "type": "speed"},
-		{"x": 200, "y": 200, "type": "speed"}
+		{"x": -200, "y": -200, "type": "agility"},
+		{"x": -200, "y": 200, "type": "steam_roller"},
+		{"x": 200, "y": -200, "type": "tiny"},
+		{"x": 200, "y": 200, "type": "tiny"}
 	]
 }

@@ -85,7 +85,7 @@ Game.prototype.on_server_update = function(data) {
 			var evt = data.events[i];
 			if (evt.type == 'death') {
 				console.log('event: death');
-				particles.add_explosion({x: evt.x, y: evt.y}, '#f66');
+				particles.add_explosion({x: evt.x, y: evt.y}, colors.fill[this.renderer.frame_snapshot.tanks[evt.tank].color]);
 			}
 		}
 

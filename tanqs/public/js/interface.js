@@ -60,11 +60,17 @@ function on_mousedown(evt) {
 
 };
 
+html.canvas.oncontextmenu = function() { return false; };
+
 html.canvas.addEventListener('touchstart', function(evt) {
 	evt.preventDefault();
 
 	if (html.joystick) {
-		html.mousepress.left = true;
+		if (evt.changedTouches[0].clientY > html.canvas.height / 2) {
+			html.mousepress.left = true;
+		} else {
+			html.mousepress.right = true;
+		}
 	} else {
 		var rect = html.canvas.getBoundingClientRect();
 	    html.joystick_pos.set_xy(evt.changedTouches[0].clientX - rect.left, evt.changedTouches[0].clientY - rect.top);

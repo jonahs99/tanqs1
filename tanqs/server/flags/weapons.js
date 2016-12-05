@@ -5,7 +5,7 @@ var Bullets = {
 
 	default: {
 		rad: 5,
-		speed: 7,
+		speed: 6,
 		life: 125,
 		ricochets: 10
 	}

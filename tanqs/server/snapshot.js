@@ -28,6 +28,7 @@ function snap_tank(tank) {
 
 	var data = {
 		alive: true,
+		color: tank.color,
 		x: tank.phys.pos.x,
 		y: tank.phys.pos.y,
 		dir: tank.phys.dir,

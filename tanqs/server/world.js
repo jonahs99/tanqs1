@@ -116,7 +116,9 @@ World.prototype.parse_map = function() {
 	for (var i = 0; i < map_data.flags.length; i++) {
 		var flag_data = map_data.flags[i];
 		this.flags[i].alive = true;
+		this.flags[i].type = flag_data.type;
 		this.flags[i].phys.pos.set(flag_data);
+		this.flags[i].respawn_pos.set(flag_data);
 		this.flags[i].phys.rad = 12;
 	}
 
@@ -158,7 +160,7 @@ World.prototype.free_tank = function(tank_id) {
 World.prototype.spawn_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	if (tank && !tank.alive) {
-		tank.phys.pos.set_xy(200,-200);//(Math.random() - 0.5) * 2 * this.size.x, (Math.random() - 0.5) * 2 * this.size.y);
+		tank.phys.pos.set_xy((Math.random() - 0.5) * 2 * this.size.x * 0.2, (Math.random() - 0.5) * 2 * this.size.y * 0.2);
 		tank.set_power(this.powers.default);
 		tank.alive = true;
 	}
@@ -193,12 +195,32 @@ World.prototype.is_enemy = function(team1, team2) {
 	return team1 != team2;
 };
 
+World.prototype.pickup_flag = function(tank, flag) {
+	flag.alive = false;
+	tank.carrying_flag = flag.id;
+	var power = this.powers[flag.type];
+	if (power) tank.set_power(power);
+};
+
+World.prototype.drop_flag = function(tank) {
+	console.log(tank.carrying_flag);
+	var flag = this.flags[tank.carrying_flag];
+	if (flag) {
+		flag.alive = true;
+		flag.life = 0;
+		flag.phys.pos.set(tank.phys.pos);
+		tank.set_power(this.powers.default);
+		tank.carrying_flag = -1;
+	}
+};
+
 World.prototype.update = function() {
 
 	// State Update
 	
 	this.update_tank_weapons();
 	this.update_bullet_state();
+	this.update_flag_state();
 
 	// Physics Update
 
@@ -231,7 +253,16 @@ World.prototype.update_bullet_state = function() {
 			}
 		}
 	}
-}
+};
+
+World.prototype.update_flag_state = function() {
+	for (var i = 0; i < this.flags.length; i++) {
+		var flag = this.flags[i];
+		if (flag.alive) {
+			flag.update();
+		}
+	}
+};
 
 World.prototype.apply_tank_input = function() {
 	for (var i = 0; i < this.tanks.length; i++) {
@@ -240,6 +271,10 @@ World.prototype.apply_tank_input = function() {
 			if (tank.input.shoot) {
 				tank.power.weapon.shoot(tank);
 				tank.input.shoot = false;
+			}
+			if (tank.input.drop) {
+				this.drop_flag(tank);
+				tank.input.drop = false;
 			}
 		}
 	}
@@ -295,9 +330,27 @@ World.prototype.resolve_collisions = function() {
 				var enemy_tank = this.tanks[i];
 				if (enemy_tank.alive) {
 					if (i != tank_id && this.is_enemy(enemy_tank.team, tank.team)) {
-						if (Physics.circle_circle_collide(enemy_tank.phys, tank.phys)) {
-							//kill_events.push({killer: enemy_tank, killed: tank});
-							//kill_events.push({killer: tank, killed: enemy_tank});
+						var kill_dir = (tank.phys.rad > enemy_tank.phys.rad) ? 1 : ((tank.phys.rad < enemy_tank.phys.rad) ? -1 : 0);
+						if (kill_dir) {
+							if (Physics.circle_circle_collide(enemy_tank.phys, tank.phys)) {
+								if (kill_dir == -1) {
+									kill_events.push({killer: enemy_tank, killed: tank});
+								}
+								else {
+									kill_events.push({killer: tank, killed: enemy_tank});
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if (tank.carrying_flag == -1) {
+				for (var i = 0; i < this.flags.length; i++) { // Flag collisions
+					var flag = this.flags[i];
+					if (flag.alive && flag.life > 50) {
+						if (Physics.circle_circle_collide(flag.phys, tank.phys)) {
+							this.pickup_flag(tank, flag);
 						}
 					}
 				}
@@ -399,4 +452,4 @@ World.prototype.in_wall = function(point) {
 		}
 	}
 	false;
-}
+};

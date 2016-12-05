@@ -1,6 +1,6 @@
 var particles = new (function() {
 
-	this.n_parts = 100;
+	this.n_parts = 400;
 
 	this.min_rad = 2;
 
@@ -21,7 +21,6 @@ var particles = new (function() {
 				part.vel_scale = vel_scale || 1;
 				part.rad = rad;
 				part.rad_scale = rad_scale;
-				console.log("add a particle");
 				return true;
 			}
 		}
@@ -29,15 +28,14 @@ var particles = new (function() {
 	}.bind(this);
 
 	this.add_explosion = function(pos, color) {
-		console.log("add an explo");
 		var vel = new Vec2();
-		for (var i = 0; i < 12; i++) {
-			vel.set_xy(Math.random() * 8 - 4, Math.random() * 8 - 4);
-			this.add_particle(pos, vel, '#666', 0.97, Math.random() * 8 + 8, 0.96);
+		for (var i = 0; i < 10; i++) {
+			vel.set_rt(Math.random() * 5, Math.random() * 2 * Math.PI);
+			this.add_particle(pos, vel, '#666', 0.99, Math.random() * 8 + 8, 0.96);
 		}
-		for (var i = 0; i < 12; i++) {
-			vel.set_xy(Math.random() * 8 - 4, Math.random() * 8 - 4);
-			this.add_particle(pos, vel, color, 0.97, Math.random() * 8 + 8, 0.96);
+		for (var i = 0; i < 16; i++) {
+			vel.set_rt(Math.random() * 5, Math.random() * 2 * Math.PI);
+			this.add_particle(pos, vel, color, 0.99, Math.random() * 8 + 8, 0.96);
 		}
 	}.bind(this);
 
