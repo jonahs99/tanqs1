@@ -23,7 +23,7 @@ World.prototype.reset = function() {
 	for (var i = 0; i < 72; i++) {
 		this.bullets.push(new Bullet());
 	}
-	for (var i = 0; i < 30; i++) {
+	for (var i = 0; i < 32; i++) {
 		this.flags.push(new Flag());
 	}
 
