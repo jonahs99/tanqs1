@@ -537,12 +537,12 @@
 		{
 			"x": 800,
 			"y": 250,
-			"type": "super_bullet"
+			"type": "speed"
 		},
 		{
 			"x": -800,
 			"y": -250,
-			"type": "super_bullet"
+			"type": "speed"
 		},
 		{
 			"x": -700,
