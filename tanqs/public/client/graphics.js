@@ -235,14 +235,19 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rect(-rad * 1.25, -rad * 1.25, rad * 2.5, rad * 0.75);
 	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	// Gun
-	if (tank.flag == "shock wave") {
-		this.context.arc(0, 0, rad * 0.5, 0, Math.PI * 2);
-	} else {
+	if (tank.flag != "shock wave") {
 		this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
 	}
 
 	this.context.fill();
 	this.context.stroke();
+	
+	if (tank.flag == "shock wave") {
+		this.context.beginPath();
+		this.context.arc(0, 0, rad * 0.5, 0, Math.PI * 2);
+		this.context.fill();
+		this.context.stroke();
+	}
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
 		this.context.strokeStyle = 'rgba(255,255,255,0.5)';
