@@ -222,6 +222,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	// Base tank square
 	this.context.beginPath();
 	this.context.rect(-rad, -rad, 2 * rad, 2 * rad);
+	if (tank.flag == "back fire") this.context.rect(2 * rad * (1 - tank.gun_len), rad * 0.2, rad * 2, rad * 0.4);
 	this.context.fill();
 	this.context.stroke();
 
@@ -230,8 +231,8 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rect(-rad * 1.25, -rad * 1.25, rad * 2.5, rad * 0.75);
 	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	// Gun
-	if (tank.flag == "back fire") {
-		this.context.rect(-2 * rad * tank.gun_len, -rad * 0.2, rad * 4 * tank.gun_len, rad * 0.4);
+	if (tank.flag == "shock wave") {
+		this.context.arc(0, 0, rad * 0.5, rad * 0.5);
 	} else {
 		this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
 	}
