@@ -244,7 +244,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	
 	if (tank.flag == "shock wave") {
 		this.context.beginPath();
-		this.context.arc(0, 0, rad * 0.5, 0, Math.PI * 2);
+		this.context.arc(0, 0, rad * 0.4, 0, Math.PI * 2);
 		this.context.fill();
 		this.context.stroke();
 	}
