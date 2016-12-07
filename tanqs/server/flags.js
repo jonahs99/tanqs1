@@ -133,7 +133,7 @@ function Flags(world) {
 	this.speed = morph(this.default,
 	{
 		name: "speed",
-		tank_attr: {speed: 7.5},
+		tank_attr: {max_vel: 7.3},
 	});
 
 	// BACKFIRE
