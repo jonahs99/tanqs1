@@ -219,10 +219,14 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.lineWidth = tank.flag == "tiny" ? 2 : 3;
 	this.context.lineJoin = 'round';
 
+	this.context.beginPath();
+	if (tank.flag == "back fire") this.context.rect(2 * rad * (1 - tank.gun_len), -rad * 0.2, -rad * 2, rad * 0.4);
+	this.context.fill();
+	this.context.stroke();
+	
 	// Base tank square
 	this.context.beginPath();
 	this.context.rect(-rad, -rad, 2 * rad, 2 * rad);
-	if (tank.flag == "back fire") this.context.rect(2 * rad * (1 - tank.gun_len), -rad * 0.2, -rad * 2, rad * 0.4);
 	this.context.fill();
 	this.context.stroke();
 
