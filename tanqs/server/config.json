@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": "./maps/round.json"
+  "map": "./maps/mux.json"
 }
