@@ -501,10 +501,10 @@ function load(map_in) {
 	config.major = map_in.size.grid;
 
 	map = {
-		teams: map_in.teams,
-		rects: map_in.rectangles,
-		flags: map_in.flags,
-		polys: map_in.polys
+		teams: map_in.teams || [],
+		rects: map_in.rectangles || [],
+		flags: map_in.flags || [],
+		polys: map_in.polys || []
 	};
 
 }
