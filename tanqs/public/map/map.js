@@ -65,6 +65,7 @@ export_input.onsubmit = function() {
 		size: {width: config.width, height: config.height, grid: config.major},
 		teams: map.teams,
 		rectangles: map.rects,
+		polys: map.polys,
 		flags: map.flags
 	};
 
