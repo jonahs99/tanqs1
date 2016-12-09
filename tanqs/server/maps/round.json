@@ -1,3 +1,4 @@
+
 {
 	"size": {
 		"width": 3000,
@@ -537,11 +538,21 @@
 		{
 			"x": 800,
 			"y": 250,
-			"type": "super_bullet"
+			"type": "speed"
 		},
 		{
 			"x": -800,
 			"y": -250,
+			"type": "speed"
+		},
+		{
+			"x": -1500,
+			"y": 1500,
+			"type": "super_bullet"
+		},
+		{
+			"x": 1500,
+			"y": -1500,
 			"type": "super_bullet"
 		},
 		{

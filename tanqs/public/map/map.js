@@ -503,7 +503,8 @@ function load(map_in) {
 	map = {
 		teams: map_in.teams,
 		rects: map_in.rectangles,
-		flags: map_in.flags
+		flags: map_in.flags,
+		polys: map_in.polys
 	};
 
 }

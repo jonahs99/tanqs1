@@ -211,7 +211,9 @@ Game.prototype.on_keydown = function(evt) {
 	if (evt.keyCode == 86) {
 		//this.renderer.fpv = !this.renderer.fpv;
 	} else if (evt.keyCode == 27) {
-		var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+		if (document.title != "tanqs.io") window.open("https://en.wikipedia.org/wiki/Information#As_a_property_in_physics");
+		
+	    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
 	    link.type = 'image/x-icon';
 	    link.rel = 'shortcut icon';
 	    link.href = (['http://www.wikipedia.org/favicon.ico',
