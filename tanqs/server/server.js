@@ -333,13 +333,16 @@ GameServer.prototype.on_disconnect = function(socket) {
 GameServer.prototype.on_login = function(socket, msg) {
 
 	var client = this.clients[socket.id];
+	
+	if(!client) return;
+	
 	client.name = msg.name;
 
 	if (client.name == "") {
 		client.name = "Anon";
 	}
 	if (client.name.length > 20) {
-		client.name = client.name.substring(0, 23) + "...";
+		client.name = client.name.substring(0, 20) + "...";
 	}
 
 	client.state = 'logged';
