@@ -5,7 +5,7 @@
 	"game": {
 		"rates": {
 			"ms_frame": 20,
-			"frames_update": 2
+			"frames_update": 3
 		},
 		"capacity": {
 			"n_tanks": 16,

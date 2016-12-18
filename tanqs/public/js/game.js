@@ -2,14 +2,15 @@ var GameState = { LOGIN: 0, GAME: 1, RESPAWN: 2 };
 
 function Game(server_info) {
 
-	this.n_snaps = 5;
-	this.delay = 60;
 	this.server_info = server_info.config;
+
+	this.n_snaps = 3;
+	this.delay = this.server_info.rates.ms_frame * this.server_info.rates.frames_update * this.n_snaps / 2;
 
 	this.state = GameState.LOGIN;
 
-	this.snapring = new SnapshotRing(this.n_snaps, this.server_info.capacity);
-	this.last_update = 0;
+	this.snapring = new SnapshotRing(this.n_snaps, this.server_info.rates.frames_update, this.server_info.capacity);
+	this.time_buffer = []; this.n_times = 4;
 
 	this.players = [];
 	this.player_name = '';
@@ -41,55 +42,19 @@ Game.prototype.on_join = function(data) {
 	html.hide_splash();
 	this.state = GameState.GAME;
 
+	//console.log(this.renderer.tracking_tank);
+
 };
 
 Game.prototype.on_server_update = function(data) {
 
+	if (this.time_buffer.length >= this.n_times) this.time_buffer.splice(0, 1);
+	this.time_buffer.push({t: Date.now(), f: data.snapshot.frame});
 
-	var update = data.snapshot.frame / this.server_info.rates.frames_update;
+	this.players = data.players;
 
-	if (update > this.last_update) {
-
-		// Set the player list
-		this.players = data.players;
-
-		// Set the snapshot
-		var ring_index = update % this.n_snaps;
-
-		this.snapring.set(ring_index, data.snapshot);
-
-		this.snapring.snaps[ring_index].update = update;
-		this.snapring.snaps[ring_index].time = Date.now();
-
-		this.last_update = update;
-
-		var player_tank = this.snapring.snaps[ring_index].tanks[this.player_tank_id];
-
-		if (this.state == GameState.GAME) {
-
-			if (!player_tank.alive) {
-				html.set_splash_respawn();
-				this.state = GameState.RESPAWN;
-			}
-
-		} else if (this.state == GameState.RESPAWN) {
-
-			if (player_tank.alive) {
-				html.hide_splash();
-				this.state = GameState.GAME;
-			}
-
-		}
-
-		for (var i = 0; i < data.events.length; i++) {
-			var evt = data.events[i];
-			if (evt.type == 'death') {
-				console.log('event: death');
-				particles.add_explosion({x: evt.x, y: evt.y}, colors.fill[this.renderer.frame_snapshot.tanks[evt.tank].color]);
-			}
-		}
-
-	}
+	//console.log(data.snapshot.tanks[0]);
+	this.snapring.add_frame(data.snapshot);
 
 };
 
@@ -111,33 +76,18 @@ Game.prototype.send_input = function() {
 
 Game.prototype.render_frame = function() {
 
-	// update the particle effects!
-	particles.update();
+	if (!this.time_buffer.length) return;
 
-	var avg_update = 0; var avg_time = 0;
-	for (var i = 0; i < this.n_snaps; i++) {
-		avg_update += this.snapring.snaps[i].update;
-		avg_time += this.snapring.snaps[i].time;
+	var time_0 = 0;
+	for (var i = 0; i < this.time_buffer.length; i++) {
+		time_0 += this.time_buffer[i].t - this.time_buffer[i].f * this.server_info.rates.ms_frame;
 	}
-	avg_update /= this.n_snaps; avg_time /= this.n_snaps;
+	time_0 /= this.time_buffer.length;
 
-	var avg_ms = (this.snapring.snaps[this.last_update % this.n_snaps].time - this.snapring.snaps[(this.last_update + 1) % this.n_snaps].time) /
-	(this.snapring.snaps[this.last_update % this.n_snaps].update - this.snapring.snaps[(this.last_update + 1) % this.n_snaps].update);
+	var frame_time = Date.now() - this.delay;
+	var frame = (frame_time - time_0) / this.server_info.rates.ms_frame;
 
-	if (!avg_update) return;
-
-	var now = Date.now();
-	now -= this.delay;
-
-	var update = (now - avg_time) / avg_ms + avg_update;
-
-	if (update > this.last_update) { // Oops we outa server updates!
-		update = this.last_update;
-	} else if (update < this.last_update - this.n_snaps) {
-		update = this.last_update - this.n_snaps;
-	}
-
-	this.snapring.set_lerp(this.renderer.frame_snapshot, update);
+	this.snapring.get_frame(this.renderer.frame_snapshot, frame);
 
 	this.renderer.render_frame();
 

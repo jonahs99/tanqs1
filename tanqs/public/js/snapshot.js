@@ -1,6 +1,9 @@
 
-function SnapshotRing(n_snaps, snap_config) {
+function SnapshotRing(n_snaps, frames_update, snap_config) {
 
+	this.newest_update = 0;
+	this.n_snaps = n_snaps;
+	this.frames_update = frames_update;
 	this.snaps = [];
 
 	for (var i = 0; i < n_snaps; i++) {
@@ -9,8 +12,17 @@ function SnapshotRing(n_snaps, snap_config) {
 
 }
 
-SnapshotRing.prototype.set = function(i, data) {
-	this.snaps[i].set(data);
+SnapshotRing.prototype.add_frame = function(data) {
+
+	var update = data.frame / this.frames_update;
+	console.log(update);
+
+	if (update <= this.newest_update - this.n_snaps) return; // Don't set old frames
+	if (update > this.newest_update) this.newest_update = update;
+
+	var ring_index = update % this.n_snaps;
+	this.snaps[ring_index].set(data);
+
 };
 
 SnapshotRing.prototype.set_lerp = function(snap, update) {
@@ -26,7 +38,43 @@ SnapshotRing.prototype.set_lerp = function(snap, update) {
 
 };
 
+SnapshotRing.prototype.get_frame = function(snap, frame) {
+
+	var snap1 = null;
+	var snap2 = null;
+
+	for (var i = 0; i < this.n_snaps; i++) {
+
+		var snapi = this.snaps[i];
+
+		if (snapi.frame < frame) {
+			if (snap1 == null || snapi.frame > snap1.frame) {
+				snap1 = snapi;
+			}
+		}
+		if (snapi.frame > frame) {
+			if (snap2 == null || snapi.frame < snap2.frame) {
+				snap2 = snapi;
+			}
+		}
+
+	}
+
+	if (snap1 != null && snap2 != null) {
+		snap.set_lerp(snap1, snap2, (frame - snap1.frame) / (snap2.frame - snap1.frame));
+	} else if (snap1 != null) {
+		console.log("only pre-frames");
+	} else if (snap2 != null) {
+		console.log("only post-frames");
+	} else {
+		console.log("no frames");
+	}
+
+};
+
 function Snapshot(config) {
+
+	this.frame = 0;
 
 	this.tanks = [];
 	this.bullets = [];
@@ -45,6 +93,8 @@ function Snapshot(config) {
 }
 
 Snapshot.prototype.set = function(data) {
+
+	this.frame = data.frame;
 
 	for (var i = 0; i < data.tanks.length; i++) {
 		var tank_data = data.tanks[i];

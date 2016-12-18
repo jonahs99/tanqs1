@@ -93,6 +93,8 @@ TanqServer.prototype.send_server_info = function(socket) {
 
 TanqServer.prototype.send_update = function(players, snapshot) {
 
+	//console.log(snapshot.tanks[0]);
+
 	var msg = {
 		players: players,
 		snapshot: snapshot,
