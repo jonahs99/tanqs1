@@ -368,15 +368,11 @@ World.prototype.resolve_collisions = function() {
 				var collide = Physics.circle_poly_collide(bullet.phys, poly);
 				if (collide.length) {
 					if (bullet.ricochets > 0) {
-						var min_overlap = 100;
-						var n = null;
+						var n = new Vec2();
 						for (var i = 0; i < collide.length; collide++) {
-							if (collide[i].overlap < min_overlap) {
-								min_overlap = collide[i].overlap;
-								n = collide[i].n;
-							}
+							n.m_add(collide[i].n);
 						}
-						if (n) bullet.ricochet(n);
+						bullet.ricochet(n);
 					} else {
 						kill_events.push({killed: bullet});
 					}
