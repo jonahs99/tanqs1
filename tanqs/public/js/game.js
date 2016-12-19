@@ -87,8 +87,8 @@ Game.prototype.render_frame = function() {
 
 	if (this.time_0 == 0)
 		this.time_0 = t_0;
-	else
-		this.time_0 = lerp(this.time_0, t_0, 0.1);
+	//else
+		//this.time_0 = lerp(this.time_0, t_0, 0.1);
 
 	console.log(this.time_0);
 
