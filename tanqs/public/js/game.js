@@ -10,6 +10,7 @@ function Game(server_info) {
 	this.state = GameState.LOGIN;
 
 	this.snapring = new SnapshotRing(this.n_snaps, this.server_info.rates.frames_update, this.server_info.capacity);
+	this.time_0 = 0;
 	this.time_buffer = []; this.n_times = 4;
 
 	this.players = [];
@@ -78,11 +79,18 @@ Game.prototype.render_frame = function() {
 
 	if (!this.time_buffer.length) return;
 
-	var time_0 = 0;
+	var t_0 = 0;
 	for (var i = 0; i < this.time_buffer.length; i++) {
-		time_0 += this.time_buffer[i].t - this.time_buffer[i].f * this.server_info.rates.ms_frame;
+		t_0 += this.time_buffer[i].t - this.time_buffer[i].f * this.server_info.rates.ms_frame;
 	}
-	time_0 /= this.time_buffer.length;
+	t_0 /= this.time_buffer.length;
+
+	if (time_0 == 0)
+		time_0 = t_0;
+	else
+		time_0 = lerp(time_0, t_0, 0.1);
+
+	console.log(time_0);
 
 	var frame_time = Date.now() - this.delay;
 	var frame = (frame_time - time_0) / this.server_info.rates.ms_frame;
