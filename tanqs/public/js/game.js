@@ -85,15 +85,15 @@ Game.prototype.render_frame = function() {
 	}
 	t_0 /= this.time_buffer.length;
 
-	if (time_0 == 0)
-		time_0 = t_0;
+	if (this.time_0 == 0)
+		this.time_0 = t_0;
 	else
-		time_0 = lerp(time_0, t_0, 0.1);
+		this.time_0 = lerp(this.time_0, t_0, 0.1);
 
-	console.log(time_0);
+	console.log(this.time_0);
 
 	var frame_time = Date.now() - this.delay;
-	var frame = (frame_time - time_0) / this.server_info.rates.ms_frame;
+	var frame = (frame_time - this.time_0) / this.server_info.rates.ms_frame;
 
 	this.snapring.get_frame(this.renderer.frame_snapshot, frame);
 
