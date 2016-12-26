@@ -8,7 +8,7 @@ function Powers(world) {
 	this.default = {
 		name: "default",
 		phys: {rad: 19},
-		mvmt: {max_vel: 5.8, max_acc: 3, agility: 1.3},
+		mvmt: {max_vel: 5.8, max_acc: 5, agility: 1.3},
 		weapon: weapons.default
 	};
 
