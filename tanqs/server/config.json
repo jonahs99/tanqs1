@@ -4,7 +4,7 @@
 
 	"game": {
 		"rates": {
-			"ms_frame": 20,
+			"ms_frame": 16,
 			"frames_update": 3
 		},
 		"capacity": {
