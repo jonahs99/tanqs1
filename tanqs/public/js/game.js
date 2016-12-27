@@ -4,7 +4,7 @@ function Game(server_info) {
 
 	this.server_info = server_info.config;
 
-	this.n_snaps = 2;
+	this.n_snaps = 3;
 	this.delay = this.server_info.rates.ms_frame * this.server_info.rates.frames_update * this.n_snaps / 2;
 
 	this.state = GameState.LOGIN;
