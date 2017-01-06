@@ -351,12 +351,6 @@
 			"hwidth": 350,
 			"hheight": 25
 		},
-		{
-			"x": 0,
-			"y": 1100,
-			"hwidth": 0,
-			"hheight": 0
-		}
 	],
 	"polys": [],
 	"flags": [
