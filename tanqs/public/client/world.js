@@ -45,7 +45,10 @@ World.prototype.local_update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
-			this.bullets[i].update();
+			if (Math.random() > 0.94) {
+				this.game.particles.add_bullet_trail(bullet);
+			}
+			bullet.update();
 		}
 	}
 };
