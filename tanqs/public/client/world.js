@@ -32,7 +32,7 @@ World.prototype.reset = function() {
 World.prototype.local_update = function() {
 	this.local_update_tanks();
 	this.game.particles.update();
-	//this.local_update_bullets();
+	this.local_update_bullets();
 
 	/*if (this.frame % 4 == 0) {
 		this.track_tanks();
@@ -45,10 +45,9 @@ World.prototype.local_update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
-			if (random_float(0, 1) > 0.7) {
+			if (random_float(0, 1) > 0.9) {
 				this.game.particles.add_bullet_trail(bullet);
 			}
-			bullet.update();
 		}
 	}
 };
