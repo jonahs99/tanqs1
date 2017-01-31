@@ -93,7 +93,7 @@ Particles.prototype.add_bullet_trail = function(bullet) {
 	var max_rad = bullet.rad * 0.8;
 	var pos = new Vec2().set(bullet.draw_pos);
 	var vel = new Vec2(random_float(-max_vel, max_vel), random_float(-max_vel, max_vel));
-	this.add_particle(pos, vel, random_float(2, max_rad), 1.5, random_float(0.96, 0.97), random_float(0.94, 0.95), bullet.color);
+	this.add_particle(pos, vel, random_float(2, max_rad), 1.5, random_float(0.96, 0.97), random_float(0.94, 0.95), "#444");
 };
 
 Particles.prototype.render = function(context) {
