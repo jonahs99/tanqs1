@@ -45,7 +45,7 @@ World.prototype.local_update_bullets = function() {
 	for (var i = 0; i < this.bullets.length; i++) {
 		var bullet = this.bullets[i];
 		if (bullet.alive) {
-			if (random_float(0, 1) > 0.94) {
+			if (random_float(0, 1) > 0.7) {
 				this.game.particles.add_bullet_trail(bullet);
 			}
 			bullet.update();
