@@ -1,0 +1,513 @@
+{
+	"size": {
+		"width": 4000,
+		"height": 2500,
+		"grid": 100
+	},
+	"teams": [
+		{
+			"spawn": {
+				"x": -1600,
+				"y": 650
+			},
+			"flag": {
+				"x": -1700,
+				"y": -250
+			},
+			"pad": {
+				"x": -1750,
+				"y": 1000,
+				"hwidth": 150,
+				"hheight": 150
+			}
+		},
+		{
+			"spawn": {
+				"x": 1600,
+				"y": 650
+			},
+			"flag": {
+				"x": 1700,
+				"y": -250
+			},
+			"pad": {
+				"x": 1750,
+				"y": 1000,
+				"hwidth": 150,
+				"hheight": 150
+			}
+		}
+	],
+	"rectangles": [
+		{
+			"x": -1975,
+			"y": -1225,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 0,
+			"y": -1225,
+			"hwidth": 1950,
+			"hheight": 25
+		},
+		{
+			"x": 1975,
+			"y": -1225,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 1975,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 1200
+		},
+		{
+			"x": 1975,
+			"y": 1225,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 0,
+			"y": 1225,
+			"hwidth": 1950,
+			"hheight": 25
+		},
+		{
+			"x": -1975,
+			"y": 1225,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -1975,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 1200
+		},
+		{
+			"x": 0,
+			"y": 1125,
+			"hwidth": 50,
+			"hheight": 75
+		},
+		{
+			"x": 0,
+			"y": -1125,
+			"hwidth": 50,
+			"hheight": 75
+		},
+		{
+			"x": -1425,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 250
+		},
+		{
+			"x": 1425,
+			"y": 0,
+			"hwidth": 25,
+			"hheight": 250
+		},
+		{
+			"x": -1700,
+			"y": -975,
+			"hwidth": 250,
+			"hheight": 25
+		},
+		{
+			"x": -1425,
+			"y": -975,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -325,
+			"y": 825,
+			"hwidth": 25,
+			"hheight": 375
+		},
+		{
+			"x": -625,
+			"y": 650,
+			"hwidth": 25,
+			"hheight": 400
+		},
+		{
+			"x": -1275,
+			"y": 875,
+			"hwidth": 25,
+			"hheight": 325
+		},
+		{
+			"x": 0,
+			"y": 550,
+			"hwidth": 50,
+			"hheight": 300
+		},
+		{
+			"x": 0,
+			"y": -550,
+			"hwidth": 50,
+			"hheight": 300
+		},
+		{
+			"x": -350,
+			"y": -275,
+			"hwidth": 300,
+			"hheight": 25
+		},
+		{
+			"x": 350,
+			"y": -275,
+			"hwidth": 300,
+			"hheight": 25
+		},
+		{
+			"x": 325,
+			"y": 825,
+			"hwidth": 25,
+			"hheight": 375
+		},
+		{
+			"x": 625,
+			"y": 650,
+			"hwidth": 25,
+			"hheight": 400
+		},
+		{
+			"x": -325,
+			"y": 125,
+			"hwidth": 25,
+			"hheight": 125
+		},
+		{
+			"x": 325,
+			"y": 125,
+			"hwidth": 25,
+			"hheight": 125
+		},
+		{
+			"x": 1275,
+			"y": 875,
+			"hwidth": 25,
+			"hheight": 325
+		},
+		{
+			"x": -775,
+			"y": -750,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": -775,
+			"y": -525,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -575,
+			"y": -525,
+			"hwidth": 175,
+			"hheight": 25
+		},
+		{
+			"x": -775,
+			"y": -975,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -575,
+			"y": -975,
+			"hwidth": 175,
+			"hheight": 25
+		},
+		{
+			"x": 575,
+			"y": -525,
+			"hwidth": 175,
+			"hheight": 25
+		},
+		{
+			"x": 775,
+			"y": -525,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 775,
+			"y": -750,
+			"hwidth": 25,
+			"hheight": 200
+		},
+		{
+			"x": 775,
+			"y": -975,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 575,
+			"y": -975,
+			"hwidth": 175,
+			"hheight": 25
+		},
+		{
+			"x": -1425,
+			"y": -600,
+			"hwidth": 25,
+			"hheight": 150
+		},
+		{
+			"x": 1675,
+			"y": -975,
+			"hwidth": 275,
+			"hheight": 25
+		},
+		{
+			"x": 1425,
+			"y": -600,
+			"hwidth": 25,
+			"hheight": 150
+		},
+		{
+			"x": -325,
+			"y": -25,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": -675,
+			"y": -25,
+			"hwidth": 325,
+			"hheight": 25
+		},
+		{
+			"x": 325,
+			"y": -25,
+			"hwidth": 25,
+			"hheight": 25
+		},
+		{
+			"x": 675,
+			"y": -25,
+			"hwidth": 325,
+			"hheight": 25
+		},
+		{
+			"x": -1000,
+			"y": -800,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -1200,
+			"y": -650,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -1000,
+			"y": -500,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -1200,
+			"y": -350,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 1000,
+			"y": -800,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 1200,
+			"y": -650,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 1000,
+			"y": -500,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 1200,
+			"y": -350,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": -900,
+			"y": -250,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 900,
+			"y": -250,
+			"hwidth": 50,
+			"hheight": 50
+		},
+		{
+			"x": 950,
+			"y": 775,
+			"hwidth": 150,
+			"hheight": 25
+		},
+		{
+			"x": 950,
+			"y": 375,
+			"hwidth": 150,
+			"hheight": 25
+		},
+		{
+			"x": -950,
+			"y": 375,
+			"hwidth": 150,
+			"hheight": 25
+		},
+		{
+			"x": -950,
+			"y": 775,
+			"hwidth": 150,
+			"hheight": 25
+		}
+	],
+	"polys": [],
+	"flags": [
+		{
+			"x": -1700,
+			"y": -250,
+			"type": null
+		},
+		{
+			"x": 1800,
+			"y": -1100,
+			"type": "guided_missile"
+		},
+		{
+			"x": -1800,
+			"y": -1100,
+			"type": "guided_missile"
+		},
+		{
+			"x": 1550,
+			"y": 150,
+			"type": "super_bullet"
+		},
+		{
+			"x": 1850,
+			"y": 150,
+			"type": "triple_shot"
+		},
+		{
+			"x": -1550,
+			"y": 150,
+			"type": "super_bullet"
+		},
+		{
+			"x": -1850,
+			"y": 150,
+			"type": "triple_shot"
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"type": "shockwave"
+		},
+		{
+			"x": -600,
+			"y": -750,
+			"type": "tunneler"
+		},
+		{
+			"x": 600,
+			"y": -750,
+			"type": "tunneler"
+		},
+		{
+			"x": -1700,
+			"y": -750,
+			"type": "speed"
+		},
+		{
+			"x": 1700,
+			"y": -750,
+			"type": "speed"
+		},
+		{
+			"x": 200,
+			"y": 1100,
+			"type": "ricochet"
+		},
+		{
+			"x": -200,
+			"y": 1100,
+			"type": "ricochet"
+		},
+		{
+			"x": 450,
+			"y": 100,
+			"type": "back_fire"
+		},
+		{
+			"x": -450,
+			"y": 100,
+			"type": "back_fire"
+		},
+		{
+			"x": 950,
+			"y": 900,
+			"type": "shield"
+		},
+		{
+			"x": -950,
+			"y": 900,
+			"type": "shield"
+		},
+		{
+			"x": 950,
+			"y": 550,
+			"type": "steam_roller"
+		},
+		{
+			"x": -950,
+			"y": 550,
+			"type": "steam_roller"
+		},
+		{
+			"x": 0,
+			"y": -950,
+			"type": "shockwave"
+		},
+		{
+			"x": 1200,
+			"y": -150,
+			"type": "sniper"
+		},
+		{
+			"x": -1200,
+			"y": -150,
+			"type": "sniper"
+		},
+		{
+			"x": 1000,
+			"y": -650,
+			"type": "tiny"
+		},
+		{
+			"x": -1000,
+			"y": -650,
+			"type": "tiny"
+		}
+	]
+}
