@@ -385,11 +385,6 @@
 	"polys": [],
 	"flags": [
 		{
-			"x": -1700,
-			"y": -250,
-			"type": null
-		},
-		{
 			"x": 1800,
 			"y": -1100,
 			"type": "guided_missile"
