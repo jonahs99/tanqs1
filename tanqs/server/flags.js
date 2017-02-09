@@ -60,7 +60,7 @@ function Flags(world) {
 
 	// RICOCHET
 
-	this.ricochet = morph(this.default, {name:"ricochet", bullet_attr:{ricochet: 3}});
+	this.ricochet = morph(this.default, {name:"ricochet", bullet_attr:{ricochet: 3, speed: 7}});
 
 	// SUPER BULLET
 
