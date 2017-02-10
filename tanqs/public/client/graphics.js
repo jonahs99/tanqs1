@@ -225,7 +225,11 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rect(-rad * 1.25, -rad * 1.25, rad * 2.5, rad * 0.75);
 	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	// Gun
-	this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
+	if (tank.flag == "sniper"){
+		this.context.rect(-2 * rad * (1 - tank.gun_len-0.2), -rad * 0.2, rad * 2, rad * 0.4);
+	} else {
+		this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
+	}
 
 	this.context.fill();
 	this.context.stroke();
