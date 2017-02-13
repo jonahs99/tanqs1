@@ -303,9 +303,6 @@ Renderer.prototype.render_bullet = function(bullet) {
 			this.context.strokeStyle = bullet.color;
 			this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
 		}
-		else if (bullet.rad > 6) {
-			this.context.globalAlpha = 0.4;
-		}
 		
 		this.context.beginPath();
 		this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad, 0, 2*Math.PI);
