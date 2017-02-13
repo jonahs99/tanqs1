@@ -154,8 +154,8 @@ Renderer.prototype.render_map = function() {
 		var rect = this.world.map.rectangles[i];
 
 		if (rect.team == -1) {
-			this.context.fillStyle = 'rgba(255, 255, 255, 0.2)';
-			this.context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+			this.context.fillStyle = '#555';//'rgba(255, 255, 255, 0.2)';
+			this.context.strokeStyle = '#ddd';//'rgba(255, 255, 255, 0.6)';
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
 			this.context.strokeStyle = '#e77471';
