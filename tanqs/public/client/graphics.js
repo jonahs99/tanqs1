@@ -60,7 +60,7 @@ Renderer.prototype.render_world = function() {
 
 	//Draw the grid
 	this.context.strokeStyle = '#333';
-	this.context.lineWidth = 1;
+	this.context.lineWidth = 4;
 
 	var grid_spacing = 100;
 
@@ -154,8 +154,8 @@ Renderer.prototype.render_map = function() {
 		var rect = this.world.map.rectangles[i];
 
 		if (rect.team == -1) {
-			this.context.fillStyle = '#333';
-			this.context.strokeStyle = '#555';
+			this.context.fillStyle = 'rgba(255, 255, 255, 0.2)';
+			this.context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
 			this.context.strokeStyle = '#e77471';
