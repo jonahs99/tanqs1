@@ -47,7 +47,7 @@ function Flags(world) {
 
 	// TEAM
 
-	this.team = morph(this.default, {name: "", tank_attr: {max_vel: 2}});
+	this.team = morph(this.default, {name: "", tank_attr: {max_vel: 4.5}});
 
 	// SHIELD
 
@@ -133,7 +133,7 @@ function Flags(world) {
 	this.speed = morph(this.default,
 	{
 		name: "speed",
-		tank_attr: {max_vel: 7.3},
+		tank_attr: {max_vel: 7},
 	});
 
 	// BACKFIRE
@@ -154,7 +154,7 @@ function Flags(world) {
 		name: "shock wave",
 		kill_verb: "incinerated",
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
-		bullet_attr: {rad: 24, speed: 0, life: 18, wall_collide: false, pass_thru: true, expansion: 16}
+		bullet_attr: {rad: 24, speed: 0, life: 16, wall_collide: false, pass_thru: true, expansion: 14}
 	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
