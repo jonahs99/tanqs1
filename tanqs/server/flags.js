@@ -154,7 +154,7 @@ function Flags(world) {
 		name: "shock wave",
 		kill_verb: "incinerated",
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
-		bullet_attr: {rad: 24, speed: 0, life: 12, wall_collide: false, pass_thru: true, expansion: 13}
+		bullet_attr: {rad: 24, speed: 0, life: 18, wall_collide: false, pass_thru: true, expansion: 16}
 	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
