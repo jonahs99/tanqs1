@@ -92,6 +92,9 @@ World.prototype.parse_map = function(map) {
 
 	for (var i = 0; i < map.rectangles.length; i++) {
 
+		if (rect_data.x == 0 || rect_data.y == 0)
+			continue;
+		
 		var rect_data = map.rectangles[i];
 		var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
 		this.map.rectangles.push(rect);
