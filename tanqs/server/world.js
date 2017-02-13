@@ -94,7 +94,7 @@ World.prototype.parse_map = function(map) {
 		
 		var rect_data = map.rectangles[i];
 		
-		if (rect_data.x == 0 || rect_data.y == 0)
+		if (rect_data.hwidth == 0 || rect_data.hheight == 0)
 			continue;
 		
 		var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
