@@ -205,7 +205,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rotate(tank.draw.dir);
 
 	if (tank.flag == "tunneler") {
-		this.context.globalAlpha = 0.6;
+		this.context.globalAlpha = 0.8;
 	}
 	
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
@@ -305,9 +305,12 @@ Renderer.prototype.render_bullet = function(bullet) {
 			this.context.lineWidth = 6;
 			this.context.strokeStyle = bullet.color;
 			this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
+		} else if (bullet.rad > 6) {
+			this.context.globalAlpha = 0.8;
 		}
 		this.context.fill();
 		this.context.stroke();
+		this.context.globalAlpha = 1;
 
 	} else {
 
