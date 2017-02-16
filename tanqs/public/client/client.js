@@ -64,6 +64,13 @@ Client.prototype.setup_socket_events = function() {
 Client.prototype.on_connect = function() {
 	console.log("Connected to server.");
 	this.game.change_state(GameState.LOGIN);
+	
+	ga('send', {
+	  hitType: 'event',
+	  eventCategory: 'Game',
+	  eventAction: 'connect',
+	});
+	
 };
 
 Client.prototype.on_server = function(msg) {
@@ -83,6 +90,12 @@ Client.prototype.on_disconnect = function() {
 	console.log("Disconnected from server.");
 	this.game.change_state(GameState.DISCONNECTED);
 	
+	ga('send', {
+	  hitType: 'event',
+	  eventCategory: 'Game',
+	  eventAction: 'disconnect',
+	});
+	
 };
 
 Client.prototype.on_join = function(msg) {
@@ -91,6 +104,12 @@ Client.prototype.on_join = function(msg) {
 	console.log("Ping " + (Date.now() - login_time) + " ms");
 	this.game.set_player(msg.id);
 	this.game.change_state(GameState.GAME);
+	
+	ga('send', {
+	  hitType: 'event',
+	  eventCategory: 'Game',
+	  eventAction: 'join',
+	});
 	
 };
 
