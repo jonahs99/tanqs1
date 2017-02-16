@@ -129,6 +129,11 @@ Client.prototype.on_update = function(msg) {
 	} else if (this.game.state == GameState.RESPAWN) {
 		if (this.game.player_tank.alive) {
 			this.game.change_state(GameState.GAME);
+			ga('send', {
+			  hitType: 'event',
+			  eventCategory: 'Game',
+			  eventAction: 'respawn',
+			});
 		}
 	}
 
