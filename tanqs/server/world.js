@@ -689,6 +689,9 @@ Tank.prototype.steer = function() { // Adjusts wheel velocities based on steer_t
 	}
 
 	var speed_factor = clamp(this.steer_target.mag() / 200, 0, 1);
+	if (this.flag.name == 'tunneler' && backwards) { // Tunneler goes slow backwards
+		speed_factor *= 0.3;
+	}
 	desired_left_wheel *= speed_factor;
 	desired_right_wheel *= speed_factor;
 
