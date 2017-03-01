@@ -266,7 +266,6 @@ World.prototype.kill_bullet = function(bullet_id) {
 };
 
 World.prototype.shoot = function(tank_id) {
-
 	var tank = this.tanks[tank_id];
 	if (tank.alive) {
 		tank.flag.shoot(tank);
@@ -275,7 +274,6 @@ World.prototype.shoot = function(tank_id) {
 };
 
 World.prototype.drop_flag = function(tank_id) {
-
 	var tank = this.tanks[tank_id];
 	if (tank.flag_id > -1) {
 		this.server.player_flag_drop(tank_id);
@@ -287,11 +285,9 @@ World.prototype.drop_flag = function(tank_id) {
 		tank.flag_id = -1;
 		tank.flag_team = -1;
 	}
-
 };
 
 World.prototype.flag_capture = function(tank_id, team_id) {
-
 	var tank = this.tanks[tank_id];
 
 	tank.set_flag(this.flag_types.default);
@@ -317,7 +313,6 @@ World.prototype.flag_capture = function(tank_id, team_id) {
 	}
 
 	this.server.flag_capture(tank_id, team_id);
-
 };
 
 World.prototype.add_bullet = function(tank_id) {
@@ -461,7 +456,7 @@ World.prototype.handle_collisions = function() {
 						break;
 					}
 					// Shield Collisions:
-					if (tank.flag.tank_attr.shield_rad && !bullet.pass_thru) {
+					if (tank.flag.tank_attr.shield_rad && !bullet.expansion) {
 						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
 							var srad2 = Math.pow(tank.flag.tank_attr.shield_rad + bullet.rad, 2);
 							if (dist2 < srad2) {
@@ -802,10 +797,27 @@ function Flag() {
 
 }
 
+var flag_types = [
+'shield',
+'ricochet',
+'super_bullet',
+'extra_clip',
+'sniper',
+'tunneler',
+'triple_shot',
+'steam_roller',
+'tiny',
+'speed',
+'back_fire',
+'shock_wave',
+'guided_missile'
+];
+
 Flag.prototype.update = function() {
 	this.cooldown--;
 	if (this.team == -1 && this.cooldown <= -1000) {
 		this.pos.set(this.spawn);
+		this.type = flag_types[Math.floor(Math.random() * flag_types.length)];
 		this.cooldown = 0;
 	} else if (this.cooldown <= -4500) {
 		this.pos.set(this.spawn);
