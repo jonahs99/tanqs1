@@ -801,26 +801,31 @@ function Flag() {
 }
 
 var flag_types = [
-'shield',
-'ricochet',
-'super_bullet',
-'extra_clip',
-'sniper',
-'tunneler',
-'triple_shot',
-'steam_roller',
-'tiny',
-'speed',
-'back_fire',
-'shock_wave',
-'guided_missile'
+	[
+	'shield',
+	'ricochet',
+	'extra_clip',
+	'sniper',
+	'steam_roller',
+	'tiny',
+	'speed',
+	'back_fire'
+	],
+	[
+	'triple_shot',
+	'tunneler',
+	'super_bullet',
+	'shock_wave',
+	'guided_missile'
+	]
 ];
 
 Flag.prototype.update = function() {
 	this.cooldown--;
 	if (this.team == -1 && this.cooldown <= -1000) {
 		this.pos.set(this.spawn);
-		this.type = flag_types[Math.floor(Math.random() * flag_types.length)];
+		var types = flag_types[Math.random() > 0.05 ? 0 : 1]; // "Rare" flags spawn 5% of the time
+		this.type = types[Math.floor(Math.random() * types.length)];
 		this.cooldown = 0;
 	} else if (this.cooldown <= -4500) {
 		this.pos.set(this.spawn);
