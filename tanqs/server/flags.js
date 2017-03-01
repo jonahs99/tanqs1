@@ -47,7 +47,12 @@ function Flags(world) {
 
 	// TEAM
 
-	this.team = morph(this.default, {name: "", tank_attr: {max_vel: 4.5}});
+	this.team = morph(this.default,
+	{
+		name: "",
+		tank_attr: {max_vel: 4.5},
+		weapon_attr: {max_bullets: 1, reload_ticks: 100}
+	});
 
 	// SHIELD
 
