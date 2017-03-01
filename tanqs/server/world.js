@@ -539,6 +539,7 @@ World.prototype.handle_collisions = function() {
 							}
 						}
 						bullet.ricochet--;
+						bullet.vel.m_scale(0.85);
 					} else {
 						this.kill_bullet(bullet_id);
 					}
