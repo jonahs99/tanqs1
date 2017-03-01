@@ -439,6 +439,9 @@ World.prototype.update_flags = function() {
 
 World.prototype.handle_collisions = function() {
 
+	// For shield ricochets
+	var normal_buffer = new Vec2();
+	
 	// Tank-bullet
 
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
@@ -457,11 +460,16 @@ World.prototype.handle_collisions = function() {
 						}
 						break;
 					}
+					// Shield Collisions:
 					if (tank.flag.tank_attr.shield_rad && !bullet.pass_thru) {
 						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
 							var srad2 = Math.pow(tank.flag.tank_attr.shield_rad + bullet.rad, 2);
 							if (dist2 < srad2) {
-								this.kill_bullet(bullet_id);
+								// Ricochet the bullet!
+								normal_buffer.set(tank.pos).m_sub(bullet.pos).m_unit();
+								normal_buffer.m_scale(2 * bullet.vel.dot(normal_buffer));
+								bullet.vel.m_sub(normal_buffer);
+								//this.kill_bullet(bullet_id);
 								tank.reload[tank.flag.weapon_attr.max_bullets - 1] = 0;
 							}
 						}
