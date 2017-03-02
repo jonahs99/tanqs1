@@ -32,9 +32,9 @@ Renderer.prototype.render_world = function() {
 	this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 
 	// Discourage zoom cheating
-	this.context.beginPath();
-	this.context.rect(-1920/2, -1080/2, 1920, 1080);
-	this.context.clip();
+	//this.context.beginPath();
+	//this.context.rect(-1920/2, -1080/2, 1920, 1080);
+	//this.context.clip();
 
 	// Pan with the player
 	var scl;
@@ -52,8 +52,7 @@ Renderer.prototype.render_world = function() {
 		scl = 0.8;
 	}
 
-	scl *= this.game.scale_value;
-	this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.1);
+	this.game.camera.scale = lerp(this.game.camera.scale, scl * this.game.scale_value, 0.1) * this.game.scale_value;
 
 	this.context.scale(this.game.camera.scale, this.game.camera.scale);
 	this.context.rotate(this.game.camera.rotate);
@@ -259,7 +258,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	}
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
-		var opac = Math.sin(Math.random());
+		var opac = (Math.sin(Date.now() * 1500) + 1) * 0.4 + 0.2;
 		this.context.strokeStyle = 'rgba(255,255,255,' + opac.toString() + ')';
 		this.context.lineWidth = 4;
 		this.context.beginPath();
