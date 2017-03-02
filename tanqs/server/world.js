@@ -629,6 +629,7 @@ function Tank() {
 
 	this.left_wheel = 0; // Velocity of each wheel
 	this.right_wheel = 0;
+	this.backwards = false;
 
 	this.reload = [];
 
@@ -664,13 +665,19 @@ Tank.prototype.steer = function() { // Adjusts wheel velocities based on steer_t
 
 	var dot = dir_vec.dot(this.steer_target.unit());
 	var clockwise = dir_vec.set_rt(1, this.dir + Math.PI / 2).dot(this.steer_target) > 0;
-	var backwards = dot < 0;
+
+	if (this.backwards) {
+		if (dot > 0.7) this.backwards = false;
+	} else {
+		if (dot < -0.7) this.backwards = true;
+	}
+	backwards = this.backwards;
 
 	if (backwards) {
 		dot = -dot;
 	}
 
-	var wheel_dif = (1 - dot) * 2;
+	var wheel_dif = (1 - dot) * 1.5;
 	if (dot < 0.999) {
 		wheel_dif += 0.2;
 	}
