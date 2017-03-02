@@ -180,7 +180,7 @@ Game.prototype.player_died = function() {
 Game.prototype.resize_canvas = function() {
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
-	this.scale_value = Math.max(this.canvas.width / 1280, this.canvas.height / 1024);
+	this.scale_value = Math.max(this.canvas.width / 1280, this.canvas.height / 1024) * 0.9;
 };
 
 Game.prototype.on_mousemove = function(evt) {
