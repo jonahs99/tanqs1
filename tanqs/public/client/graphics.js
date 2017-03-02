@@ -258,7 +258,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	}
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
-		var opac = (Math.sin(Date.now() * 1500) + 1) * 0.4 + 0.2;
+		var opac = (Math.sin(Date.now() * 6 / 500) + 1) * 0.4 + 0.2;
 		this.context.strokeStyle = 'rgba(255,255,255,' + opac.toString() + ')';
 		this.context.lineWidth = 4;
 		this.context.beginPath();
