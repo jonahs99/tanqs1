@@ -234,6 +234,12 @@
 			"y": -675,
 			"hwidth": 175,
 			"hheight": 25
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"hwidth": 50,
+			"hheight": 50
 		}
 	],
 	"polys": [],
