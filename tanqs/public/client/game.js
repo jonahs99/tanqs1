@@ -24,6 +24,7 @@ function Game() {
 	this.canvas.style.backgroundColor = '#222';
 
 	this.camera = new Camera();
+	this.scale_value = 1;
 	this.renderer = new Renderer(this, canvas);
 
 	this.resize_canvas();
@@ -179,6 +180,7 @@ Game.prototype.player_died = function() {
 Game.prototype.resize_canvas = function() {
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
+	this.scale_value = Math.max(html.canvas.width / 1600, html.canvas.height / 1200);
 };
 
 Game.prototype.on_mousemove = function(evt) {

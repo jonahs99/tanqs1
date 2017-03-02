@@ -52,6 +52,7 @@ Renderer.prototype.render_world = function() {
 		scl = 0.8;
 	}
 
+	scl *= this.game.scale_value;
 	this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.1);
 
 	this.context.scale(this.game.camera.scale, this.game.camera.scale);
