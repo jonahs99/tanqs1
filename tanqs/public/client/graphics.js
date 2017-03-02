@@ -316,14 +316,15 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 		var dif = new Vec2().set(bullet.current_pos).m_sub(bullet.old_pos);
 		var dir = Math.atan2(dif.y, dif.x);
+		var rad_mult = Math.sin(Date.now() * 6 / 400) * 0.1 + 0.9;
 
 		this.context.translate(bullet.draw_pos.x, bullet.draw_pos.y);
 		this.context.rotate(dir);
 
 		this.context.beginPath();
-		this.context.moveTo(bullet.rad, 0);
-		this.context.lineTo(-bullet.rad * 2, -bullet.rad * 1.2);
-		this.context.lineTo(-bullet.rad * 2, bullet.rad * 1.2);
+		this.context.moveTo(bullet.rad * rad_mult, 0);
+		this.context.lineTo(-bullet.rad * rad_mult * 2, -bullet.rad * rad_mult * 1.2);
+		this.context.lineTo(-bullet.rad * rad_mult * 2, bullet.rad * rad_mult * 1.2);
 		this.context.closePath();
 		this.context.fill();
 		this.context.stroke();
