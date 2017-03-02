@@ -32,7 +32,7 @@ World.prototype.reset = function() {
 World.prototype.local_update = function() {
 	this.local_update_tanks();
 	this.game.particles.update();
-	//this.local_update_bullets();
+	this.local_update_bullets();
 
 	/*if (this.frame % 4 == 0) {
 		this.track_tanks();
