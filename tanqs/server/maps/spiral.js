@@ -11,6 +11,12 @@
 				"y": 0,
 				"hwidth": 50,
 				"hheight": 100
+			},
+			"spawn": {
+				"x": -1175,
+				"y": -125,
+				"hwidth": 225,
+				"hheight": 475
 			}
 		},
 		{
@@ -19,6 +25,12 @@
 				"y": 0,
 				"hwidth": 50,
 				"hheight": 100
+			},
+			"spawn": {
+				"x": 1175,
+				"y": 125,
+				"hwidth": 225,
+				"hheight": 475
 			}
 		}
 	],
@@ -132,12 +144,6 @@
 			"hheight": 150
 		},
 		{
-			"x": 625,
-			"y": -325,
-			"hwidth": 225,
-			"hheight": 25
-		},
-		{
 			"x": 875,
 			"y": 125,
 			"hwidth": 25,
@@ -180,28 +186,10 @@
 			"hheight": 25
 		},
 		{
-			"x": -625,
-			"y": 325,
-			"hwidth": 225,
-			"hheight": 25
-		},
-		{
 			"x": -875,
 			"y": -575,
 			"hwidth": 25,
 			"hheight": 25
-		},
-		{
-			"x": -375,
-			"y": 750,
-			"hwidth": 25,
-			"hheight": 200
-		},
-		{
-			"x": 425,
-			"y": -750,
-			"hwidth": 25,
-			"hheight": 200
 		},
 		{
 			"x": 1175,
@@ -226,8 +214,115 @@
 			"y": -775,
 			"hwidth": 25,
 			"hheight": 75
+		},
+		{
+			"x": 375,
+			"y": -575,
+			"hwidth": 25,
+			"hheight": 375
+		},
+		{
+			"x": 725,
+			"y": -325,
+			"hwidth": 125,
+			"hheight": 25
+		},
+		{
+			"x": -375,
+			"y": 575,
+			"hwidth": 25,
+			"hheight": 375
+		},
+		{
+			"x": -725,
+			"y": 325,
+			"hwidth": 125,
+			"hheight": 25
+		},
+		{
+			"x": -375,
+			"y": 175,
+			"hwidth": 75,
+			"hheight": 25
+		},
+		{
+			"x": 375,
+			"y": -175,
+			"hwidth": 75,
+			"hheight": 25
 		}
 	],
 	"polys": [],
-	"flags": []
+	"flags": [
+		{
+			"x": 0,
+			"y": -100,
+			"type": "speed"
+		},
+		{
+			"x": 0,
+			"y": 100,
+			"type": "back_fire"
+		},
+		{
+			"x": -300,
+			"y": 0,
+			"type": "super_bullet"
+		},
+		{
+			"x": 300,
+			"y": 0,
+			"type": "super_bullet"
+		},
+		{
+			"x": 500,
+			"y": 0,
+			"type": "ricochet"
+		},
+		{
+			"x": -500,
+			"y": 0,
+			"type": "ricochet"
+		},
+		{
+			"x": 300,
+			"y": 450,
+			"type": "extra_clip"
+		},
+		{
+			"x": -300,
+			"y": -450,
+			"type": "extra_clip"
+		},
+		{
+			"x": -200,
+			"y": 800,
+			"type": "shock_wave"
+		},
+		{
+			"x": 200,
+			"y": -800,
+			"type": "shock_wave"
+		},
+		{
+			"x": 1200,
+			"y": 700,
+			"type": "shield"
+		},
+		{
+			"x": -1200,
+			"y": -700,
+			"type": "shield"
+		},
+		{
+			"x": -550,
+			"y": 800,
+			"type": "triple_shot"
+		},
+		{
+			"x": 550,
+			"y": -800,
+			"type": "triple_shot"
+		}
+	]
 }
