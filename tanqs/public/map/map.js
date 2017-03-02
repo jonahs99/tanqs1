@@ -112,7 +112,7 @@ document.onmousemove = function(e) {
 }
 
 canvas.onmousedown = function(e) {
-	if (toolbar.wall.checked || toolbar.team_pad.checked) {
+	if (toolbar.wall.checked || toolbar.team_pad.checked || toolbar.team_spawn.checked) {
 		var w = world_coord(e.clientX, e.clientY);
 		var x = snap(w.x, config.grid);
 		var y = snap(w.y, config.grid);
@@ -155,6 +155,19 @@ canvas.onmouseup = function(e) {
 				map.teams[team].pad = rect;
 			}
 		}
+	} else if (toolbar.team_spawn.checked) {
+		var team = -1;
+		if (toolbar.red.checked) {
+			team = 0;
+		} else if (toolbar.blue.checked) {
+			team = 1
+		}
+		if (team > -1) {
+			var rect = {x: (mouse_click.x + x) / 2, y: (mouse_click.y + y) / 2, hwidth: Math.abs((mouse_click.x - x) / 2), hheight: Math.abs((mouse_click.y - y) / 2)};
+			if (((rect.x + rect.hwidth) <= config.width / 2) && ((rect.x - rect.hwidth) >= -config.width / 2) && ((rect.y + rect.hheight) <= config.height / 2) && ((rect.y - rect.hheight) >= -config.height / 2)) {
+				map.teams[team].spawn = rect;
+			}
+		}
 	} else if (toolbar.erase_wall.checked) {
 		for (var i = map.rects.length - 1; i >= 0; i--) {
 			var rect = map.rects[i];
@@ -185,16 +198,6 @@ canvas.onmouseup = function(e) {
 		}
 		if (team > -1) {
 			map.teams[team].flag = {x: x, y: y};
-		}
-	} else if (toolbar.team_spawn.checked) {
-		var team = -1;
-		if (toolbar.red.checked) {
-			team = 0;
-		} else if (toolbar.blue.checked) {
-			team = 1
-		}
-		if (team > -1) {
-			map.teams[team].spawn = {x: x, y: y};
 		}
 	} else if (toolbar.new_poly.checked) {
 		var poly = {v: [{x: x, y: y}]};
@@ -416,10 +419,19 @@ function draw() {
 			context.stroke();
 		}
 		if (team.spawn) {
-			context.beginPath();
-			context.arc(team.spawn.x, team.spawn.y, 6, 0, 2*Math.PI);
-			context.fill();
-			context.stroke();
+			if (team.spawn.hwidth) {
+				context.globalAlpha = 0.5;
+				context.beginPath();
+				context.rect(team.spawn.x - team.spawn.hwidth, team.spawn.y - team.spawn.hheight, team.spawn.hwidth*2, team.spawn.hheight*2);
+				context.fill();
+				context.stroke();
+				context.globalAlpha = 1;
+			} else {
+				context.beginPath();
+				context.arc(team.spawn.x, team.spawn.y, 6, 0, 2*Math.PI);
+				context.fill();
+				context.stroke();
+			}
 		}
 		if (team.pad) {
 			context.beginPath();
