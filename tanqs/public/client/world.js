@@ -167,7 +167,7 @@ World.prototype.server_update_bullets = function(msg) {
 			bullet.rad = bullet_data.rad;
 
 			bullet.current_pos.set_xy(bullet_data.x, bullet_data.y);
-			bullet.vel.set(bullet.current_pos).m_sub(bullet.old_pos).m_scale(20 / this.game.time_step);
+			bullet.vel.set(bullet.current_pos).m_sub(bullet.old_pos).m_scale(20 / this.game.time_step * 0.9);
 			
 		} else {
 			if (bullet.alive) { // Bullet just died!
