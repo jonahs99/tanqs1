@@ -316,7 +316,7 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 		var dif = new Vec2().set(bullet.current_pos).m_sub(bullet.old_pos);
 		var dir = Math.atan2(dif.y, dif.x);
-		var rad_mult = Math.sin(Date.now() * 6 / 400) * 0.1 + 0.9;
+		var rad_mult = Math.sin(Date.now() * 6 / 400) * 0.1 + 1.2;
 
 		this.context.translate(bullet.draw_pos.x, bullet.draw_pos.y);
 		this.context.rotate(dir);
