@@ -68,8 +68,15 @@ World.prototype.parse_map = function(map) {
 		var pad = {x: team_data.pad.x, y: team_data.pad.y, hwidth: team_data.pad.hwidth, hheight: team_data.pad.hheight, team: i};
 		this.map.rectangles.push(pad);
 
+		var spawn_pad = {
+			x: team_data.spawn.x,
+			y: team_data.spawn.y,
+			hwidth: team_data.spawn.hwidth || 200,
+			hheight: team_data.spawn.hheight || 200
+		}
+
 		this.teams[i] = {
-			spawn: new Vec2(team_data.spawn.x, team_data.spawn.y),
+			spawn: spawn_pad,
 			tanks: [],
 			name: (["red", "blue"])[i],
 			score: 0
@@ -83,7 +90,7 @@ World.prototype.parse_map = function(map) {
 		var flag = this.flags[i + map.teams.length];
 
 		flag.alive = true;
-		flag.type = flag_data.type;
+		flag.type = random_flag_type();//flag_data.type;
 		flag.spawn.set_xy(flag_data.x, flag_data.y);
 		flag.pos.set(flag.spawn);
 		flag.team = -1;
@@ -147,6 +154,30 @@ var team_colors = [
 function random_team_color(team_id) {
 	var colors = team_colors[team_id];
 	return colors[Math.floor(Math.random() * colors.length)];
+};
+
+var flag_types = [
+	[
+	'shield',
+	'ricochet',
+	'extra_clip',
+	'sniper',
+	'steam_roller',
+	'tiny',
+	'speed',
+	'back_fire'
+	],
+	[
+	'triple_shot',
+	'tunneler',
+	'super_bullet',
+	'shock_wave',
+	'guided_missile'
+	]
+];
+function random_flag_type() {
+	var types = flag_types[Math.random() > 0.05 ? 0 : 1]; // "Rare" flags spawn 5% of the time
+	return types[Math.floor(Math.random() * types.length)];
 };
 
 World.prototype.reserve_tank = function(client) { // Returns the id of the reserved tank, or -1 if unsuccessful
@@ -241,9 +272,10 @@ World.prototype.spawn_tank = function(id) {
 	}
 
 	if (this.teams[tank.team]) {
-		tank.pos.set(this.teams[tank.team].spawn);
-		tank.pos.x += Math.random() * 600 - 300;
-		tank.pos.y += Math.random() * 600 - 300;
+		var spawn_rect = this.teams[tank.team].spawn;
+		tank.pos.set_xy(spawn_rect.x, spawn_rect.y);
+		tank.pos.x += (Math.random() * 2 - 1) * spawn_rect.hwidth;
+		tank.pos.y += (Math.random() * 2 - 1) * spawn_rect.hheight;
 	} else {
 		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
 	}
@@ -808,32 +840,11 @@ function Flag() {
 
 }
 
-var flag_types = [
-	[
-	'shield',
-	'ricochet',
-	'extra_clip',
-	'sniper',
-	'steam_roller',
-	'tiny',
-	'speed',
-	'back_fire'
-	],
-	[
-	'triple_shot',
-	'tunneler',
-	'super_bullet',
-	'shock_wave',
-	'guided_missile'
-	]
-];
-
 Flag.prototype.update = function() {
 	this.cooldown--;
 	if (this.team == -1 && this.cooldown <= -1000) {
 		this.pos.set(this.spawn);
-		var types = flag_types[Math.random() > 0.05 ? 0 : 1]; // "Rare" flags spawn 5% of the time
-		this.type = types[Math.floor(Math.random() * types.length)];
+		this.type = random_flag_type();
 		this.cooldown = 0;
 	} else if (this.cooldown <= -4500) {
 		this.pos.set(this.spawn);
