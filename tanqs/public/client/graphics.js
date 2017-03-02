@@ -32,9 +32,9 @@ Renderer.prototype.render_world = function() {
 	this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
 
 	// Discourage zoom cheating
-	this.context.beginPath();
-	this.context.rect(-1920/2, -1080/2, 1920, 1080);
-	this.context.clip();
+	//this.context.beginPath();
+	//this.context.rect(-1920/2, -1080/2, 1920, 1080);
+	//this.context.clip();
 
 	// Pan with the player
 	var scl;
@@ -52,8 +52,7 @@ Renderer.prototype.render_world = function() {
 		scl = 0.8;
 	}
 
-	scl *= this.game.scale_value;
-	this.game.camera.scale = lerp(this.game.camera.scale, scl, 0.1);
+	this.game.camera.scale = lerp(this.game.camera.scale / this.game.scale_value, scl, 0.1) * this.game.scale_value;
 
 	this.context.scale(this.game.camera.scale, this.game.camera.scale);
 	this.context.rotate(this.game.camera.rotate);
@@ -242,7 +241,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	// Gun
 	if (tank.flag != "shock wave") {
 		if (tank.flag == "sniper") {
-			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.24, rad * 2, rad * 0.4);
+			this.context.rect(-2 * rad * (1 - tank.gun_len) - 0.2 * rad, -rad * 0.2, rad * 2.4, rad * 0.4);
 		} else {
 			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
 		}
@@ -253,13 +252,14 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	
 	if (tank.flag == "shock wave") {
 		this.context.beginPath();
-		this.context.arc(0, 0, rad * 0.4, 0, Math.PI * 2);
+		this.context.arc(0, 0, rad * 0.6 * tank.gun_len, 0, Math.PI * 2);
 		this.context.fill();
 		this.context.stroke();
 	}
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
-		this.context.strokeStyle = 'rgba(255,255,255,0.5)';
+		var opac = (Math.sin(Date.now() * 6 / 500) + 1) * 0.12 + 0.2;
+		this.context.strokeStyle = 'rgba(255,255,255,' + opac.toString() + ')';
 		this.context.lineWidth = 4;
 		this.context.beginPath();
 		this.context.arc(0, 0, 40, 0, Math.PI * 2);
