@@ -242,7 +242,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	// Gun
 	if (tank.flag != "shock wave") {
 		if (tank.flag == "sniper") {
-			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.24, rad * 2, rad * 0.4);
+			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.3, rad * 2, rad * 0.4);
 		} else {
 			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
 		}
@@ -253,7 +253,7 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	
 	if (tank.flag == "shock wave") {
 		this.context.beginPath();
-		this.context.arc(0, 0, rad * 0.4, 0, Math.PI * 2);
+		this.context.arc(0, 0, rad * 0.6 * (1 - tank.gun_len), 0, Math.PI * 2);
 		this.context.fill();
 		this.context.stroke();
 	}
