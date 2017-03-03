@@ -90,6 +90,9 @@ Client.prototype.on_disconnect = function() {
 	console.log("Disconnected from server.");
 	this.game.change_state(GameState.DISCONNECTED);
 	
+	if (game_loop_interval) clearInterval(game_loop_interval);
+	if (send_input_interval) clearInterval(send_input_interval);
+	
 	ga('send', {
 	  hitType: 'event',
 	  eventCategory: 'Game',
