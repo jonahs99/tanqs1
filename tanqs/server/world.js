@@ -557,6 +557,8 @@ World.prototype.handle_collisions = function() {
 				var y_overlap = tot_height - Math.abs(rect.y - bullet.pos.y);
 				if (x_overlap > 0 && y_overlap > 0) {
 					if (bullet.ricochet > 0) {
+						bullet.pos.m_sub(bullet.vel.m_scale(0.2)); // So that bullet doesn't get stuck
+						bullet.vel.m_scale(0.85 * 5); // Undo mult and slow down to 85%
 						if (x_overlap < y_overlap) { // bounce x
 							if (Math.abs(bullet.vel.x) >= x_overlap) {
 								bullet.vel.x = - bullet.vel.x;
@@ -571,8 +573,6 @@ World.prototype.handle_collisions = function() {
 							}
 						}
 						bullet.ricochet--;
-						bullet.vel.m_sub(bullet.vel.m_scale(0.2)); // So that bullet doesn't get stuck
-						bullet.vel.m_scale(0.85 * 5); // Undo mult and slow down to 85%
 					} else {
 						this.kill_bullet(bullet_id);
 					}
