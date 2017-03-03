@@ -1,6 +1,8 @@
 
 var GameState = { DISCONNECTED: 1, LOGIN: 2, GAME: 3, RESPAWN: 4, REFUSED: 5 };
 
+var game_loop_interval, send_input_interval;
+
 function Game() {
 
 	// Game state
@@ -145,12 +147,12 @@ Game.prototype.update = function() {
 };
 
 Game.prototype.begin_simulation = function() {
-	setInterval(function() {
+	game_loop_interval = setInterval(function() {
 		this.update();
 		this.renderer.render_world();
 	}.bind(this), 20);
 
-	setInterval(function() {
+	send_input_interval = setInterval(function() {
 		if (game.state == GameState.GAME && this.player_tank.alive) {
 			this.client.send_input();
 		}
