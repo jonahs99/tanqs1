@@ -571,7 +571,8 @@ World.prototype.handle_collisions = function() {
 							}
 						}
 						bullet.ricochet--;
-						bullet.vel.m_scale(0.85);
+						bullet.m_sub(bullet.vel.m_scale(0.2)); // So that bullet doesn't get stuck
+						bullet.vel.m_scale(0.85 * 5); // Undo mult and slow down to 85%
 					} else {
 						this.kill_bullet(bullet_id);
 					}
