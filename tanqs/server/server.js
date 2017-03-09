@@ -345,10 +345,10 @@ GameServer.prototype.on_login = function(socket, msg) {
 		client.name = client.name.substring(0, 20) + "...";
 	}
 
-	client.state = 'logged';
 	client.tank_id = this.world.reserve_tank(client);
 	if (client.tank_id > -1) {
 		console.log("A client logged in.");
+		client.state = 'logged';
 		this.world.spawn_tank(client.tank_id);
 		this.send_join(socket, client.tank_id, client.name);
 
