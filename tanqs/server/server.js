@@ -335,6 +335,7 @@ GameServer.prototype.on_login = function(socket, msg) {
 	var client = this.clients[socket.id];
 	
 	if(!client) return;
+	if (client.state == 'logged') return;
 	
 	client.name = msg.name;
 
