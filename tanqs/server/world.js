@@ -496,6 +496,9 @@ World.prototype.handle_collisions = function() {
 								normal_buffer.set(tank.pos).m_sub(bullet.pos).m_unit();
 								normal_buffer.m_scale(2 * bullet.vel.dot(normal_buffer));
 								bullet.vel.m_sub(normal_buffer);
+								// Change the bullet team!
+								bullet.tank = tank_id;
+								bullet.team = tank.team;
 								//this.kill_bullet(bullet_id);
 								tank.reload[tank.flag.weapon_attr.max_bullets - 1] = 0;
 							}

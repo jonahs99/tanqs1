@@ -146,10 +146,11 @@ World.prototype.server_update_bullets = function(msg) {
 
 		if (bullet_data.alive) {
 
+			var tank = this.tanks[bullet_data.tank];
+
 			if (bullet_data.new) { // This bullet was just shot!
-				var tank = this.tanks[bullet_data.tank];
+				
 				tank.gun_len = 0.85;
-				bullet.color = tank.color;
 				bullet.alive = true;
 
 				bullet.old_pos.set(tank.draw.pos);
@@ -164,6 +165,7 @@ World.prototype.server_update_bullets = function(msg) {
 				bullet.old_rad = bullet.draw_rad;
 			}
 
+			bullet.color = tank.color; // We update this regardless of if its new in case it changes colors
 			bullet.rad = bullet_data.rad;
 
 			bullet.current_pos.set_xy(bullet_data.x, bullet_data.y);
