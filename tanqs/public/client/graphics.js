@@ -62,7 +62,7 @@ Renderer.prototype.render_world = function() {
 				this.follow_vel.set_lerp(this.follow_vel, target_vel, 0.1);
 				//if (FOLLOW_TEST)
 					//this.game.camera.translate.m_add(this.follow_vel);
-				this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.02);
+				this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.03);
 			} else {
 				this.following = -1;
 			}
