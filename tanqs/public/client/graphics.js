@@ -16,6 +16,7 @@ function Renderer(game, canvas) {
 	this.context = canvas.getContext('2d');
 
 	this.following = -1; // Tank id to follow around before login
+	this.follow_vel = new Vec2();
 	this.fpv = false; // Draw the world rotated to point tank up
 
 }
@@ -56,7 +57,9 @@ Renderer.prototype.render_world = function() {
 			var tank = this.game.world.tanks[this.following];
 			if (tank.alive) {
 				var target = new Vec2().set(tank.draw.pos).m_scale(-1);
-				this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.01);
+				var target_vel = new Vec2().set(target).m_sub(this.game.camera.translate);
+				this.follow_vel.set_lerp(this.follow_vel, target_vel, 0.03);
+				this.game.camera.translate.m_add(this.follow_vel);
 			} else {
 				this.following = -1;
 			}
