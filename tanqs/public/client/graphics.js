@@ -453,13 +453,13 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
-			this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 20px Open Sans" : "20px Open Sans";
+			this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 16px Open Sans" : "16px Open Sans";
 
-			this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(i + y_offset));
+			this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
 			this.context.beginPath();
-			this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(i + y_offset), 5, 0, Math.PI * 2);
+			this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i, 5, 0, Math.PI * 2);
 			this.context.fill();
 		}
 	}
