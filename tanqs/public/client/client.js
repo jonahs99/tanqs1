@@ -45,6 +45,14 @@ Client.prototype.send_chat = function(text) {
 	this.socket.emit('chat', {text: text});
 };
 
+Client.prototype.send_inactive = function() {
+	//this.socket.emit('inactive', {});
+};
+
+Client.prototype.send_reactive = function() {
+	//this.socket.emit('reactive', {});
+};
+
 // Events
 
 Client.prototype.setup_socket_events = function() {

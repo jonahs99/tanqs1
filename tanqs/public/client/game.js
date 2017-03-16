@@ -234,6 +234,13 @@ Game.prototype.on_keydown = function(evt) {
 	}
 };
 
+Game.prototype.on_blur = function() {
+	this.client.send_inactive();
+};
+
+Game.prototype.on_focus = function() {
+	this.client.send_reactive();
+};
 
 // Client stuff
 
@@ -247,6 +254,8 @@ window.onmousemove = game.on_mousemove.bind(game);
 window.onmousedown = game.on_mousedown.bind(game);
 window.onmouseup = game.on_mouseup.bind(game);
 window.onkeydown = game.on_keydown.bind(game);
+window.onfocus = game.on_focus.bind(game);
+window.onblur = game.on_blur.bind(game);
 
 game.canvas.ontouchmove = function(e) {
 	e.preventDefault();

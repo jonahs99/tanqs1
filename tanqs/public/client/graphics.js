@@ -15,6 +15,7 @@ function Renderer(game, canvas) {
 	this.canvas = canvas;
 	this.context = canvas.getContext('2d');
 
+	this.following = -1; // Tank id to follow around before login
 	this.fpv = false; // Draw the world rotated to point tank up
 
 }
@@ -48,6 +49,31 @@ Renderer.prototype.render_world = function() {
 			this.game.camera.rotate = 0;
 		}
 		scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
+	} else if (this.game.state == GameState.LOGIN) {
+		scl = 0.8;
+		// Pan around the best player
+		if (this.following > -1) {
+			var tank = this.game.world.tanks[this.following];
+			if (tank.alive) {
+				var target = new Vec2().set(tank.draw.pos).m_scale(-1);
+				this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.01);
+			} else {
+				this.following = -1;
+			}
+		}
+		if (this.following == -1) {
+			if (this.game.leaderboard) {
+				for (var i = 0; i < this.game.leaderboard.length; i++) {
+					var client = this.game.leaderboard[i];
+					var tank = this.game.world.tanks[client.tank_id];
+					if (tank) {
+						if (tank.alive) {
+							this.following = client.tank_id;
+						}
+					}
+				}
+			}
+		}
 	} else {
 		scl = 0.8;
 	}

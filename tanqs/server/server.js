@@ -52,6 +52,8 @@ GameServer.prototype.setup_socket_events = function(socket) {
 	this.on_connection(socket);
 	socket.on('disconnect', this.on_disconnect.bind(this, socket));
 	socket.on('login', this.on_login.bind(this, socket));
+	socket.on('inactive', this.on_inactive.bind(this, socket));
+	socket.on('reactive', this.on_reactive.bind(this, socket));
 	socket.on('respawn', this.on_respawn.bind(this, socket));
 	socket.on('input', this.on_input.bind(this, socket));
 	socket.on('shoot', this.on_shoot.bind(this, socket));
@@ -335,7 +337,7 @@ GameServer.prototype.on_login = function(socket, msg) {
 	var client = this.clients[socket.id];
 	
 	if(!client) return;
-	if (client.state == 'logged') return;
+	if (client.state != 'pre-login') return;
 	
 	client.name = msg.name;
 
@@ -358,6 +360,46 @@ GameServer.prototype.on_login = function(socket, msg) {
 
 	} else {
 		console.log("A client attempted to login, but the server is full.")
+		// TODO: What happens on the client side?
+	}
+
+};
+
+GameServer.prototype.on_inactive = function(socket, msg) {
+	// Kill the tank but save the stats
+	var client = this.clients[socket.id];
+	if (!client) return;
+	if (client.state != "logged") return;
+
+	client.state = "inactive";
+
+	this.world.kill_tank(client.tank_id);
+	this.world.free_tank(client.tank_id);
+
+	var color = this.world.tanks[client.tank_id].color;
+	this.send_chat("&gt&gt <span style=\"color:" + color + "\">" + client.name + "</span> is inactive.");
+
+};
+
+GameServer.prototype.on_reactive = function(socket, msg) {
+	// Revive the tank with the same stats
+
+	var client = this.clients[socket.id];
+	if (!client) return;
+	if (client.state != "inactive") return;
+
+	client.tank_id = this.world.reserve_tank(client);
+	if (client.tank_id > -1) {
+		console.log("A client reactivated.");
+		client.state = 'logged';
+		this.world.spawn_tank(client.tank_id);
+		this.send_join(socket, client.tank_id, client.name);
+
+		var color = this.world.tanks[client.tank_id].color;
+		this.send_chat("&gt&gt <span style=\"color:" + color + "\">" + client.name + "</span> is back.");
+
+	} else {
+		console.log("A client attempted to reactivate, but the server is full.")
 		// TODO: What happens on the client side?
 	}
 
