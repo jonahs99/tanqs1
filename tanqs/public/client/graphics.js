@@ -75,6 +75,7 @@ Renderer.prototype.render_world = function() {
 					if (tank) {
 						if (tank.alive) {
 							this.following = client.tank_id;
+							break;
 						}
 					}
 				}
