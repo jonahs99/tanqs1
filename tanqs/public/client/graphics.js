@@ -531,6 +531,13 @@ Renderer.prototype.render_ui = function() {
 		this.context.font = "18px Open Sans";
 		this.context.fillText(sub_text, 0, -this.canvas.height/2+100);
 	}
+	
+	this.context.font = "16px Open Sans";
+	this.context.fillStyle = '#fff'
+	this.context.textAlign = "left";
+	this.context.textBaseline = "top";
+	var text = this.game.leaderboard.length + " playing (" + this.game.n_spectator + " spectating)";
+	this.context.fillText(text, this.canvas.width/2 + 20, -this.canvas.height/2 + 20);
 
 };
 
