@@ -60,9 +60,9 @@ Renderer.prototype.render_world = function() {
 				var target_lerp = new Vec2().set_lerp(this.game.camera.translate, target, 0.04);
 				var target_vel = new Vec2().set(target).m_sub(target_lerp);
 				this.follow_vel.set_lerp(this.follow_vel, target_vel, 0.1);
-				if (FOLLOW_TEST)
-					this.game.camera.translate.m_add(this.follow_vel);
-				//this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.02);
+				//if (FOLLOW_TEST)
+					//this.game.camera.translate.m_add(this.follow_vel);
+				this.game.camera.translate.set_lerp(this.game.camera.translate, target, 0.02);
 			} else {
 				this.following = -1;
 			}
