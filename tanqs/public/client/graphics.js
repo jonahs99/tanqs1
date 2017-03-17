@@ -449,7 +449,9 @@ Renderer.prototype.render_leaderboard = function() {
 
 	if (this.game.leaderboard) {
 		var in_topten = false;
-		for (var i = 0; i < this.game.leaderboard.length; i++) {
+		var player_client = null;
+		var player_rank = 0;
+		for (var i = 0; i < Math.min(10, this.game.leaderboard.length); i++) {
 			var client = this.game.leaderboard[i];
 			
 			var text = (i + 1) + ". " + client.name;
@@ -461,6 +463,8 @@ Renderer.prototype.render_leaderboard = function() {
 			if (this.game.player_tank && this.game.player_id == client.tank_id) {
 				this.context.font = "18px bold Open Sans";
 				in_topten = true;
+				player_client = client;
+				player_rank = i;
 			}
 			
 			this.context.textAlign = "left";
@@ -472,6 +476,33 @@ Renderer.prototype.render_leaderboard = function() {
 			this.context.beginPath();
 			this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i, 5, 0, Math.PI * 2);
 			this.context.fill();
+		}
+		if (!in_topten && this.game.state == GameState.GAME) {
+			if (player_client) {
+				var i = Math.min(10, this.game.leaderboard.length);
+				
+				var text = (player_rank + 1) + ". " + client.name;
+				var score_text = " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
+
+				this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
+
+				this.context.font = "16px Open Sans";
+				if (this.game.player_tank && this.game.player_id == client.tank_id) {
+					this.context.font = "18px bold Open Sans";
+					in_topten = true;
+					player_client = client;
+				}
+
+				this.context.textAlign = "left";
+				this.context.fillText(text, this.canvas.width/2-340, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
+				this.context.textAlign = "right";
+				this.context.fillText(score_text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
+
+				this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
+				this.context.beginPath();
+				this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i, 5, 0, Math.PI * 2);
+				this.context.fill();
+			}
 		}
 		
 		this.context.font = "16px Open Sans";
