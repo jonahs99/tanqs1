@@ -217,6 +217,7 @@ World.prototype.reassign_tank_team = function(id) {
 			this.teams[tank.team].tanks.splice(index, 1);
 		}
 	}
+	tank.team = -1;
 
 	var n_rogue = 0;
 	var n_red = 0;
@@ -225,9 +226,12 @@ World.prototype.reassign_tank_team = function(id) {
 	for (var i = 0; i < this.n_tanks; i++) {
 		var t = this.tanks[i];
 		if (t.reserved) {
-			if (t.team == -1) n_rogue++;
-			else if (t.team == 0) n_red++;
-			else if (t.team == 1) n_blue++;
+			if (t.team == -1)
+				n_rogue++;
+			else if (t.team == 0)
+				n_red++;
+			else if (t.team == 1)
+				n_blue++;
 		}
 	}
 
