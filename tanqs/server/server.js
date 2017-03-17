@@ -153,13 +153,14 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.send_who = function() {
-	var msg = {clients: [], teams: []};
+	var msg = {clients: [], teams: [], connected: 0};
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
 			var client_msg = {name: client.name, tank_id: client.tank_id, stats: client.stats};
 			msg.clients.push(client_msg);
 		}
+		msg.connected++;
 	}
 	for (var i = 0; i < this.world.teams.length; i++) {
 		var team = this.world.teams[i];

@@ -160,6 +160,8 @@ Client.prototype.on_who = function(msg) {
 	this.game.team_leaderboard.sort(function(a, b) {
 		return (b.score - a.score);
 	});
+	
+	this.game.n_spectator = msg.connected - this.game.leaderboard.length;
 };
 
 Client.prototype.on_chat = function(msg) {
