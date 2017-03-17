@@ -461,7 +461,7 @@ Renderer.prototype.render_leaderboard = function() {
 			
 			this.context.font = "16px Open Sans";
 			if (this.game.player_tank && this.game.player_id == client.tank_id) {
-				this.context.font = "18px Open Sans bold";
+				this.context.font = "bold 18px Open Sans";
 				in_topten = true;
 				player_client = client;
 				player_rank = i;
@@ -486,7 +486,7 @@ Renderer.prototype.render_leaderboard = function() {
 
 				this.context.fillStyle = this.game.player_tank.color;
 
-				this.context.font = "18px Open Sans bold";
+				this.context.font = "bold 18px Open Sans";
 
 				this.context.textAlign = "left";
 				this.context.fillText(text, this.canvas.width/2-340, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
