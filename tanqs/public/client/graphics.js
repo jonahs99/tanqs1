@@ -511,7 +511,7 @@ Renderer.prototype.render_leaderboard = function() {
 		this.context.fillStyle = '#fff'
 		this.context.textAlign = "left";
 		this.context.textBaseline = "top";
-		var text = this.game.leaderboard.length + " playing (" + this.game.n_spectator + " spectating)";
+		var text = this.game.leaderboard.length + "/24 playing (" + this.game.n_spectator + " spectating)";
 		this.context.fillText(text, -this.canvas.width/2 + 20, -this.canvas.height/2 + 20);
 	}
 
