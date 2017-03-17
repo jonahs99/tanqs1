@@ -236,13 +236,12 @@ World.prototype.reassign_tank_team = function(id) {
 	console.log("red:" + n_red);
 	console.log("blue:" + n_blue);
 
-
-	if (n_total <= 2 || n_total % 2 == 0 || n_rogue > 1) { // Even number? (Including this tank)
-		if (n_red < n_blue) {
-			this.assign_tank_team(id, 0);
-		} else if (n_blue < n_red) {
-			this.assign_tank_team(id, 1);
-		} else {
+	if (n_red < n_blue) {
+		this.assign_tank_team(id, 0);
+	} else if (n_blue < n_red) {
+		this.assign_tank_team(id, 1);
+	} else {
+		if (n_total <= 2 || n_total % 2 == 0 || n_rogue > 1) { // Even number? (Including this tank)
 			if (this.teams[0].score < this.teams[1].score) {
 				this.assign_tank_team(id, 0);
 			} else if (this.teams[1].score < this.teams[0].score) {
@@ -250,9 +249,9 @@ World.prototype.reassign_tank_team = function(id) {
 			} else {
 				this.assign_tank_team(id, Math.floor(Math.random() * 2));
 			}
+		} else { // Odd number, let's make it a rogue player
+			this.assign_tank_team(id, -1);
 		}
-	} else { // Odd number, let's make him a rogue player
-		this.assign_tank_team(id, -1);
 	}
 
 };
