@@ -461,7 +461,7 @@ Renderer.prototype.render_leaderboard = function() {
 			
 			this.context.font = "16px Open Sans";
 			if (this.game.player_tank && this.game.player_id == client.tank_id) {
-				this.context.font = "18px bold Open Sans";
+				this.context.font = "18px Open Sans bold";
 				in_topten = true;
 				player_client = client;
 				player_rank = i;
@@ -481,24 +481,19 @@ Renderer.prototype.render_leaderboard = function() {
 			if (player_client) {
 				var i = Math.min(10, this.game.leaderboard.length);
 				
-				var text = (player_rank + 1) + ". " + client.name;
-				var score_text = " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
+				var text = (player_rank + 1) + ". " + player_client.name;
+				var score_text = " - K:[" + player_client.stats.kills + "] D:[" + player_client.stats.deaths + "]";
 
-				this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
+				this.context.fillStyle = this.game.player_tank.color;
 
-				this.context.font = "16px Open Sans";
-				if (this.game.player_tank && this.game.player_id == client.tank_id) {
-					this.context.font = "18px bold Open Sans";
-					in_topten = true;
-					player_client = client;
-				}
+				this.context.font = "18px Open Sans bold";
 
 				this.context.textAlign = "left";
 				this.context.fillText(text, this.canvas.width/2-340, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
 				this.context.textAlign = "right";
 				this.context.fillText(score_text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
 
-				this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
+				this.context.fillStyle = this.game.player_tank.alive ? '#6f6' : '#f06';
 				this.context.beginPath();
 				this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i, 5, 0, Math.PI * 2);
 				this.context.fill();
