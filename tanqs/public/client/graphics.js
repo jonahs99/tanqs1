@@ -453,7 +453,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = client.name + " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
-			this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 16px Open Sans" : "16px Open Sans";
+			this.context.font = (this.game.player_tank && this.game.player_id == client.tank_id) ? "bold 18px Open Sans" : "16px Open Sans";
 
 			this.context.fillText(text, this.canvas.width/2-40, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i);
 
@@ -530,6 +530,11 @@ Renderer.prototype.render_ui = function() {
 		this.context.fillText(flag_txt, 0, -this.canvas.height/2+60);
 		this.context.font = "18px Open Sans";
 		this.context.fillText(sub_text, 0, -this.canvas.height/2+100);
+	} else if (this.game.player_tank.team == -1) {
+		// Explain the rogue player thing
+		this.context.fillText("You are a rogue tank", 0, -this.canvas.height/2+60);
+		this.context.font = "18px Open Sans";
+		this.context.fillText("(until someone else joins)", 0, -this.canvas.height/2+100);
 	}
 
 };
