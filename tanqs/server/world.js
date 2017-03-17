@@ -188,33 +188,7 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 			tank.alive = false;
 			tank.client = client;
 
-			if (this.teams[0].tanks.length < this.teams[1].tanks.length) {
-				this.assign_tank_team(i, 0);
-			} else if (this.teams[1].tanks.length < this.teams[0].tanks.length) {
-				this.assign_tank_team(i, 1);
-			} else {
-				if (this.teams[0].score < this.teams[1].score) {
-					this.assign_tank_team(i, 0);
-				} else if (this.teams[1].score < this.teams[0].score) {
-					this.assign_tank_team(i, 1);
-				} else {
-					this.assign_tank_team(i, Math.floor(Math.random() * 2));
-				}
-			}
-
-			/*var tries = 12;
-			var repeat_color = true;
-			while (repeat_color && tries > 0) {
-				repeat_color = false;
-				tank.color = random_color();
-				tries--;
-				for (var j = 0; j < this.n_tanks; j++) {
-					if (j != i && tank.color == this.tanks[j].color) {
-						repeat_color = true;
-						break;
-					}
-				}
-			}*/
+			this.reassign_tank_team(i);
 
 			return i;
 		}
@@ -235,25 +209,77 @@ World.prototype.free_tank = function(id) {
 	}
 };
 
+World.prototype.reassign_tank_team = function(id) {
+	var tank = this.tanks[id];
+	if (this.teams[tank.team]) {
+		var index = this.teams[tank.team].tanks.indexOf(id);
+		if (index > -1) {
+			this.teams[tank.team].tanks.splice(index, 1);
+		}
+	}
+
+	var n_rogue = 0;
+	var n_red = 0;
+	var n_blue = 0;
+
+	for (var i = 0; i < this.n_tanks; i++) {
+		var t = this.tanks[i];
+		if (t.reserved) {
+			if (t.team == -1) n_rogue++;
+			else if (t.team == 0) n_red++;
+			else if (t.team == 1) n_blue++;
+		}
+	}
+
+	var n_total = n_rogue + n_red + n_blue;
+	console.log("rogue:" + n_rogue);
+	console.log("red:" + n_red);
+	console.log("blue:" + n_blue);
+
+
+	if (n_total <= 2 || n_total % 2 == 0 || n_rogue > 1) { // Even number? (Including this tank)
+		if (n_red < n_blue) {
+			this.assign_tank_team(id, 0);
+		} else if (n_blue < n_red) {
+			this.assign_tank_team(id, 1);
+		} else {
+			if (this.teams[0].score < this.teams[1].score) {
+				this.assign_tank_team(id, 0);
+			} else if (this.teams[1].score < this.teams[0].score) {
+				this.assign_tank_team(id, 1);
+			} else {
+				this.assign_tank_team(id, Math.floor(Math.random() * 2));
+			}
+		}
+	} else { // Odd number, let's make him a rogue player
+		this.assign_tank_team(id, -1);
+	}
+
+};
+
 World.prototype.assign_tank_team = function(id, team) {
 	var tank = this.tanks[id];
 	tank.team = team;
 
-	var tries = 12;
-	var repeat_color = true;
-	while (repeat_color && tries > 0) {
-		repeat_color = false;
-		tank.color = random_team_color(team);
-		tries--;
-		for (var j = 0; j < this.n_tanks; j++) {
-			if (j != id && tank.color == this.tanks[j].color) {
-				repeat_color = true;
-				break;
+	if (team == -1) {
+		tank.color = '#4d6';
+	} else {
+		var tries = 12;
+		var repeat_color = true;
+		while (repeat_color && tries > 0) {
+			repeat_color = false;
+			tank.color = random_team_color(team);
+			tries--;
+			for (var j = 0; j < this.n_tanks; j++) {
+				if (j != id && tank.color == this.tanks[j].color) {
+					repeat_color = true;
+					break;
+				}
 			}
 		}
-	}
 
-	this.teams[team].tanks.push(id);
+		this.teams[team].tanks.push(id);
+	}
 };
 
 World.prototype.spawn_tank = function(id) {
@@ -269,6 +295,10 @@ World.prototype.spawn_tank = function(id) {
 
 	for (var i = 0; i < tank.max_bullets; i++) {
 		tank.reload[i] = tank.reload_ticks;
+	}
+
+	if (tank.team == -1) { // Re-evaluate rogue status
+		this.reassign_tank_team(id);
 	}
 
 	if (this.teams[tank.team]) {
