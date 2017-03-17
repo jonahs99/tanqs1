@@ -477,7 +477,14 @@ Renderer.prototype.render_leaderboard = function() {
 			this.context.arc(this.canvas.width/2-30, -this.canvas.height/2 + 20 + 30*(y_offset) + 24*i, 5, 0, Math.PI * 2);
 			this.context.fill();
 		}
-		if (!in_topten && this.game.state == GameState.GAME) {
+		if (!in_topten) {
+			for (var i = 0; i < this.game.leaderboard.length; i++) {
+				var client = this.game.leaderboard[i];
+				if (this.game.player_tank && this.game.player_id == client.tank_id) {
+					player_client = client;
+					player_rank = i;
+				}
+			}
 			if (player_client) {
 				var i = Math.min(10, this.game.leaderboard.length);
 				
