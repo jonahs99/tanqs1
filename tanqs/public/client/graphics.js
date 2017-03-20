@@ -12,6 +12,7 @@ function Renderer(game, canvas) {
 	this.game = game;
 	this.world = game.world;
 	this.particles = game.particles;
+	this.textfx = game.textfx;
 	this.canvas = canvas;
 	this.context = canvas.getContext('2d');
 
@@ -162,6 +163,9 @@ Renderer.prototype.render_world = function() {
 
 	//Draw the particles
 	this.particles.render(this.context);
+
+	//Draw the text effects
+	this.textfx.render_tags(this.context);
 
 	/*this.context.translate(-this.game.camera.translate.x, -this.game.camera.translate.y);
 	this.context.rotate(-this.game.camera.rotate);
@@ -489,7 +493,7 @@ Renderer.prototype.render_leaderboard = function() {
 				var i = Math.min(10, this.game.leaderboard.length);
 				
 				var text = (player_rank + 1) + ". " + player_client.name;
-				var score_text = " - K:[" + player_client.stats.kills + "] D:[" + player_client.stats.deaths + "]";
+				var score_text = "K:[" + player_client.stats.kills + "] D:[" + player_client.stats.deaths + "]";
 
 				this.context.fillStyle = this.game.player_tank.color;
 

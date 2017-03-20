@@ -10,6 +10,7 @@ function Game() {
 	this.state = GameState.DISCONNECTED;
 	this.world = new World(this);
 	this.particles = new Particles();
+	this.textfx = new text_fx();
 
 	this.last_update_time = (new Date()).getTime();
 
@@ -127,6 +128,8 @@ Game.prototype.update = function() {
 
 	// Update some things locally
 	this.world.local_update();
+	this.particles.update();
+	this.textfx.update();
 
 	// Handle input in the game state
 	if (this.state == GameState.GAME) {
