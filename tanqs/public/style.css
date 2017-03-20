@@ -7,9 +7,26 @@ html, body, div, canvas {
     background: #111;
 }
 
+body {
+  overflow: hidden;
+}
+
 canvas {
 	position:	absolute;
   overflow: hidden;
+}
+
+#ad_container {
+    position:absolute;
+    width:340px;
+    height:80px;
+    background: transparent;
+    bottom:10px;
+    left:50%;
+    margin-left:-170px;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.1s;
 }
 
 #splash {

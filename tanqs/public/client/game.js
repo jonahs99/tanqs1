@@ -47,6 +47,7 @@ Game.prototype.change_state = function(state) {
 
 		splash_input.style.display = 'block';
 		splash.style.visibility = 'visible';
+		ad_container.style.opacity = 0;
 
 		splash_text.innerHTML = "tanqs.io";
 		splash_button.value = "join";
@@ -66,6 +67,7 @@ Game.prototype.change_state = function(state) {
 	} else if (state == GameState.GAME) {
 
 		splash.style.visibility = 'hidden';
+		ad_container.style.opacity = 0;
 
 		chat_input.style.visibility = 'visible';
 
@@ -109,6 +111,8 @@ Game.prototype.change_state = function(state) {
 					break;
 			}
 		}, 1000);
+
+		ad_container.style.opacity = 1;
 
 	}
 
@@ -272,6 +276,7 @@ var splash_form = document.getElementById('splash_form');
 var splash_text = document.getElementById('splash_text');
 var splash_input = document.getElementById('splash_input');
 var splash_button = document.getElementById('splash_button');
+var ad_container = document.getElementById('ad_container');
 
 splash_form.onsubmit = function() {
 	if (game.state == GameState.LOGIN) {
