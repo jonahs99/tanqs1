@@ -121,7 +121,7 @@ function Flags(world) {
 	{
 		name: "steam roller",
 		kill_verb: "flattened",
-		tank_attr: {rad: 32, max_vel: 7, kill_on_collide: true},
+		tank_attr: {rad: 22, max_vel: 6.6, kill_on_collide: true},
 	});
 	
 	// TINY
