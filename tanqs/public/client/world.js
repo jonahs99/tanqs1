@@ -128,7 +128,6 @@ World.prototype.server_update_tanks = function(msg) {
 				tank.death_anim = 3;
 				tank.killed_by = tank_data.killed_by;
 				this.game.particles.add_tank_explosion(tank);
-				//this.game.textfx.add_tag("+10", "#0f6", tank.draw.pos);
 			}
 			tank.alive = false;
 		}

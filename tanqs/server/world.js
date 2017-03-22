@@ -367,8 +367,8 @@ World.prototype.flag_capture = function(tank_id, team_id) {
 	for (var i = 0; i < team.tanks.length; i++) {
 		var enemy_tank = this.tanks[team.tanks[i]];
 		if (enemy_tank.alive) {
-			this.kill_tank(team.tanks[i]);
 			this.server.player_kill(tank_id, team.tanks[i]);
+			this.kill_tank(team.tanks[i]);
 		}
 	}
 

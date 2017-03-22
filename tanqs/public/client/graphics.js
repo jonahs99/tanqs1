@@ -459,7 +459,8 @@ Renderer.prototype.render_leaderboard = function() {
 			var client = this.game.leaderboard[i];
 			
 			var text = (i + 1) + ". " + client.name;
-			var score_text = " - K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
+			//var score_text = "K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
+			var score_text = "" + client.stats.score;
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			

@@ -63,8 +63,18 @@ GameServer.prototype.setup_socket_events = function(socket) {
 };
 
 GameServer.prototype.add_client = function(socket, user_string) {
-	var client = {id: socket.id, socket: socket, user: user_string, tank_id: -1, name: '', state: 'pre-login',
-	 stats: {kills: 0, deaths: 0}};
+	var client = {
+		id: socket.id,
+		socket: socket,
+		user: user_string,
+		tank_id: -1,
+		name: '',
+		state: 'pre-login',
+		stats: {	kills: 0,
+					deaths: 0,
+					score: 0
+		}
+	};
 
 	/*for (var id in this.clients) {
 		if (this.clients[id].user == user_string) {
@@ -98,6 +108,15 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	" <span style=\"color:" + killed_tank.color + "\">" + killed_tank.client.name + "</span>. </i>";
 
 	this.send_chat(chat_msg);
+
+	// SCORE UPDATE
+
+	var point_award = 10; // TODO: double kill, multipliers etc.
+	if (killed_tank.flag_team > -1) point_award = 25;
+	if (killer_tank.flag_team > -1) point_award = 35;
+
+	killer_tank.client.stats.score += point_award;
+	this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
 
 };
 
@@ -177,6 +196,10 @@ GameServer.prototype.send_join = function(socket, player_id, name) {
 GameServer.prototype.send_chat = function(text) {
 	this.io.emit('chat', {text: text});
 };
+
+GameServer.prototype.send_kill = function(socket, killed_id, text) {
+	socket.emit('kill', {id: killed_id, text: text});
+}
 
 GameServer.prototype.send_kick = function(socket_id) {
 	var client = this.clients[socket_id];

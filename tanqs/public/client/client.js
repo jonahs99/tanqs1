@@ -63,6 +63,7 @@ Client.prototype.setup_socket_events = function() {
 	this.socket.on('join', this.on_join.bind(this));
 	this.socket.on('refuse', this.on_refuse.bind(this));
 	this.socket.on('update', this.on_update.bind(this));
+	this.socket.on('kill', this.on_kill.bind(this));
 	this.socket.on('who', this.on_who.bind(this));
 	this.socket.on('chat', this.on_chat.bind(this));
 	this.socket.on('kick', this.on_kick.bind(this));
@@ -153,7 +154,8 @@ Client.prototype.on_update = function(msg) {
 Client.prototype.on_who = function(msg) {
 	this.game.leaderboard = msg.clients;
 	this.game.leaderboard.sort(function(a, b) {
-		return (a.stats.deaths + b.stats.kills - a.stats.kills - b.stats.deaths);
+		//return (a.stats.deaths + b.stats.kills - a.stats.kills - b.stats.deaths);
+		return b.stats.score - a.stats.score;
 	});
 
 	this.game.team_leaderboard = msg.teams;
@@ -166,6 +168,11 @@ Client.prototype.on_who = function(msg) {
 
 Client.prototype.on_chat = function(msg) {
 	this.game.add_chat_message("<br>" + msg.text);
+};
+
+Client.prototype.on_kill = function(msg) {
+	var tank = this.game.world.tanks[msg.id];
+	this.game.textfx.add_tag(msg.text, "#fff", tank.draw.pos);
 };
 
 Client.prototype.on_kick = function(msg) {

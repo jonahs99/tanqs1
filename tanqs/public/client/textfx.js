@@ -41,8 +41,8 @@ function tag(text, color, pos) {
 	this.color = color;
 	this.pos = pos;
 
-	this.max_life = 30;
-	this.life = 30;
+	this.max_life = 50;
+	this.life = this.max_life;
 }
 
 tag.prototype.update = function() {
