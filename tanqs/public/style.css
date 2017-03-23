@@ -3,7 +3,6 @@ html, body, div, canvas {
     padding:	0;
     display:	block;
     font-family: 'Open Sans';
-    font-size: 48pt;
     background: #111;
 }
 
@@ -14,6 +13,15 @@ body {
 canvas {
 	position:	absolute;
   overflow: hidden;
+}
+
+p {
+  font-size: 5vw;
+  width: 90%;
+  margin: auto;
+  margin-top: 4pt;
+  margin-bottom: 20pt;
+  word-wrap: break-word;
 }
 
 #ad_container {
@@ -35,7 +43,8 @@ canvas {
     margin-left:	auto;
     margin-right:	auto;
     margin-top:		200px;
-    padding: 50px;
+    padding-top: 30px;
+    padding-bottom: 60px;
     left:		0;
     right:		0;
 
@@ -43,11 +52,18 @@ canvas {
 
     z-index:	2;
     background:	#e2e2e2;
-    opacity: 0.6;
-    border-radius: 4px;
+    border-radius: 10px;
 
     text-align:	center;
 
+    opacity: 0;
+    transition: opacity 0.8s;
+
+}
+
+#splash_form {
+  width: 90%;
+  margin: auto;
 }
 
 input[type="text"] {
@@ -57,7 +73,7 @@ input[type="text"] {
   margin-right: auto;
   margin-top: 1%;
   font-family: sans-serif;
-  font-size: 1.5vw;
+  font-size: 20pt;
   appearance: none;
   box-shadow: none;
   border-radius: 5px;
@@ -82,7 +98,7 @@ input[type="text"]:focus {
   display: inline-block;
   margin-top: 10px;
   padding: 0px 0px;
-  font-size: 3vw;
+  font-size: 32pt;
   line-height: 1.8;
   appearance: none;
   box-shadow: none;

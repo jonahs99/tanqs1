@@ -47,9 +47,11 @@ Game.prototype.change_state = function(state) {
 
 		splash_input.style.display = 'block';
 		splash.style.visibility = 'visible';
+		splash.style.opacity = 0.6;
 		ad_container.style.opacity = 0;
 
 		splash_text.innerHTML = "tanqs.io";
+		splash_text.style.fontSize = "5vw";
 		splash_button.value = "join";
 
 		chat_input.style.visibility = 'hidden';
@@ -59,6 +61,7 @@ Game.prototype.change_state = function(state) {
 		splash_input.style.display = 'none';
 		splash.style.visibility = 'visible';
 
+		splash_text.style.fontSize = "3vw";
 		splash_text.innerHTML = "Sorry, you're already connected.";
 
 		splash_button.style.visibility = "hidden";
@@ -74,6 +77,7 @@ Game.prototype.change_state = function(state) {
 	} else if (state == GameState.RESPAWN) {
 
 		splash_input.style.display = 'none';
+		splash_text.style.fontSize = "3vw";
 
 		if (game.player_tank.killed_by > -1) {
 			var killer = game.world.tanks[game.player_tank.killed_by];
@@ -84,16 +88,7 @@ Game.prototype.change_state = function(state) {
 
 		splash_button.value = "respawn in 3";
 		splash.style.visibility = 'visible';
-		splash.style.opacity = 0;
-		setTimeout(function() {
-			var splash_fade_interval = setInterval(function() {
-				splash.style.opacity = parseFloat(splash.style.opacity) + 0.01;
-				if (splash.style.opacity >= 0.6) {
-					splash.style.opacity = 0.6;
-					clearInterval(splash_fade_interval);
-				}
-			}, 50);
-		}, 800);
+		splash.style.opacity = 0.6;
 
 		chat_input.style.visibility = 'visible';
 
