@@ -508,19 +508,6 @@ Renderer.prototype.render_leaderboard = function() {
 		}
 		if (!in_topten) {
 
-			// Draw the ellipsis
-			this.context.fillStyle = "#eee";
-			this.context.beginPath();
-			this.context.arc(center_x - 20, line_y(line), 3, 0, Math.PI * 2);
-			this.context.fill();
-			this.context.beginPath();
-			this.context.arc(center_x, line_y(line), 3, 0, Math.PI * 2);
-			this.context.fill();
-			this.context.beginPath();
-			this.context.arc(center_x + 20, line_y(line), 3, 0, Math.PI * 2);
-			this.context.fill();
-			line++;
-
 			for (var i = 0; i < this.game.leaderboard.length; i++) {
 				var client = this.game.leaderboard[i];
 				if (this.game.player_tank && this.game.player_id == client.tank_id) {
@@ -529,7 +516,18 @@ Renderer.prototype.render_leaderboard = function() {
 				}
 			}
 			if (player_client) {
-				var i = Math.min(10, this.game.leaderboard.length);
+				// Draw the ellipsis
+				this.context.fillStyle = "#eee";
+				this.context.beginPath();
+				this.context.arc(center_x - 20, line_y(line), 3, 0, Math.PI * 2);
+				this.context.fill();
+				this.context.beginPath();
+				this.context.arc(center_x, line_y(line), 3, 0, Math.PI * 2);
+				this.context.fill();
+				this.context.beginPath();
+				this.context.arc(center_x + 20, line_y(line), 3, 0, Math.PI * 2);
+				this.context.fill();
+				line++;
 				
 				var text = (player_rank + 1) + ". " + player_client.name;
 				var score_text = "" + player_client.stats.score;
