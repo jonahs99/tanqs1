@@ -120,7 +120,7 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 };
 
-GameServer.prototype.flag_capture = function(tank_id, team) {
+GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 	var tank = this.world.tanks[tank_id];
 	var team_name = (["red", "blue"])[team];
 	var team_color = (['#e04945', '#2374cf'])[team];
@@ -129,6 +129,9 @@ GameServer.prototype.flag_capture = function(tank_id, team) {
 	team_color + "\">" + team_name + " flag</span>!</i>";
 
 	this.send_chat(chat_msg);
+
+	var point_award = 20 * team_size;
+	killer_tank.client.stats.score += point_award;
 };
 
 GameServer.prototype.player_flag_pickup = function(tank_id) {
