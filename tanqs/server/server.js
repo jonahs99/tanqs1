@@ -131,7 +131,7 @@ GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 	this.send_chat(chat_msg);
 
 	var point_award = 20 * team_size;
-	killer_tank.client.stats.score += point_award;
+	tank.client.stats.score += point_award;
 };
 
 GameServer.prototype.player_flag_pickup = function(tank_id) {
