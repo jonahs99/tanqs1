@@ -454,13 +454,12 @@ Renderer.prototype.render_leaderboard = function() {
 
 		this.context.lineCap = "round";
 		this.context.lineWidth = 4;
-		this.context.strokeStyle = "#eee";
+		this.context.strokeStyle = "rgba(240, 240, 240, 0.2)";
 		this.context.beginPath();
 		this.context.moveTo(right_x, line_y(line));
 		this.context.lineTo(left_x, line_y(line));
 		this.context.stroke();
 
-		line++;
 		line++;
 	}
 
@@ -549,12 +548,64 @@ Renderer.prototype.render_leaderboard = function() {
 			}
 		}
 		
-		this.context.font = "16px Open Sans";
-		this.context.fillStyle = '#fff'
+		line = 0;
+		left_x = -this.canvas.width/2+30;
+		right_x = -this.canvas.width/2+370;
+		center_x = (right_x + left_x) / 2;
+
+		this.context.font = "18px Open Sans";
+		this.context.fillStyle = '#eee'
 		this.context.textAlign = "left";
-		this.context.textBaseline = "top";
+		this.context.textBaseline = "middle";
 		var text = this.game.leaderboard.length + "/24 playing (" + this.game.n_spectator + " spectating)";
-		this.context.fillText(text, -this.canvas.width/2 + 20, -this.canvas.height/2 + 20);
+		this.context.fillText(text, left_x, line_y(line));
+		line++;
+
+		if (this.game.topten) {
+			if (this.game.topten.length) {
+
+				line = 2;
+
+				this.context.lineCap = "round";
+				this.context.lineWidth = 4;
+				this.context.strokeStyle = "rgba(240, 240, 240, 0.2)";
+				this.context.beginPath();
+				this.context.moveTo(right_x, line_y(line));
+				this.context.lineTo(left_x, line_y(line));
+				this.context.stroke();
+				line++;
+
+				this.context.textAlign = "center";
+				this.context.font = "bold 24px Open Sans";
+				this.context.fillStyle = "#000";
+				this.context.fillText("Today's Top Ten", center_x, line_y(line) + 2);
+				this.context.font = "24px Open Sans";
+				this.context.fillStyle = "#eee";
+				this.context.fillText("Today's Top Ten", center_x, line_y(line));
+				line += 1.5;
+
+				this.context.font = "18px Open Sans";
+				for (var i = 0; i < this.game.topten.length; i++) {
+					var top = this.game.topten[i];
+					var text = "" + (i + 1) + ". " + top.name;
+					var score_text = top.score;
+					this.context.fillStyle = "#000";
+					this.context.textAlign = "left";
+					this.context.fillText(text, left_x, line_y(line) + 2);
+					this.context.textAlign = "right";
+					this.context.fillText(score_text, right_x - 20, line_y(line) + 2);
+					this.context.fillStyle = "#eee";
+					this.context.textAlign = "left";
+					this.context.fillText(text, left_x, line_y(line));
+					this.context.textAlign = "right";
+					this.context.fillText(score_text, right_x - 20, line_y(line));
+					line++;
+				}
+
+			}
+		}
+
+
 	}
 
 	// Draw the arrow if the enemy has the team flag

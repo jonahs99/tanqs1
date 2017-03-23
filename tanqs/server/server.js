@@ -22,7 +22,7 @@ var GameServer = function(http, map_path) {
 	this.world.parse_map(map);
 	
 	this.clients = {};
-
+	this.topten = [];
 	this.frame_input = {shots:[], drops:[]};
 	this.frame_events = {deaths:[]};
 
@@ -45,6 +45,36 @@ GameServer.prototype.begin = function() {
 
 GameServer.prototype.update_world = function(socket) {
 	this.world.update();
+};
+
+GameServer.prototype.update_topten = function() {
+	for (var j = 0; j < this.topten.length; j++) {
+		this.topten[j].index = j;
+	}
+	for (var i = 0; i < this.world.tanks.length; i++) {
+		var tank = this.world.tanks[i];
+		if (tank.reserved) {
+			var score = tank.client.stats.score;
+			var done = false;
+			for (var j = 0; j < this.topten.length; j++) {
+				var top = this.topten[j];
+				if (tank.client.id == top.id) {
+					var done = true;
+					top.score = score;
+					break;
+				}
+			}
+			if (!done) {
+				this.topten.push({name: tank.client.name, score: score, id: tank.client.id});
+			}
+		}
+	}
+	this.topten.sort(function(x, y) {
+		return y.score - x.score || x.index - y.index;
+	});
+	if (this.topten.length > 10) {
+		this.topten = this.topten.slice(0, 10);
+	}
 };
 
 GameServer.prototype.setup_socket_events = function(socket) {
@@ -175,7 +205,9 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.send_who = function() {
-	var msg = {clients: [], teams: [], connected: 0};
+	this.update_topten();
+
+	var msg = {clients: [], teams: [], topten: this.topten, connected: 0};
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {

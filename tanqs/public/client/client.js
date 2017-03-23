@@ -164,6 +164,10 @@ Client.prototype.on_who = function(msg) {
 	});
 	
 	this.game.n_spectator = msg.connected - this.game.leaderboard.length;
+
+	if (msg.topten) {
+		this.game.topten = msg.topten;
+	}
 };
 
 Client.prototype.on_chat = function(msg) {
