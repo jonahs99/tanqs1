@@ -54,7 +54,7 @@ GameServer.prototype.update_topten = function() {
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
 		if (tank.reserved) {
-			var score = tank.client.stats.score;
+			var score = this.score_formula(tank.client);
 			var done = false;
 			for (var j = 0; j < this.topten.length; j++) {
 				var top = this.topten[j];
