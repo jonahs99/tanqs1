@@ -141,9 +141,10 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 	// SCORE UPDATE
 
-	var point_award = 10; // TODO: double kill, multipliers etc.
-	if (killed_tank.flag_team > -1) point_award = 25;
-	if (killer_tank.flag_team > -1) point_award = 35;
+	var point_award = 100; // TODO: double kill, multipliers etc.
+	if (killer_tank.flag_id == -1) point_awatd = 150;
+	if (killed_tank.flag_team > -1) point_award = 250;
+	if (killer_tank.flag_team > -1) point_award = 350;
 
 	killer_tank.client.stats.points += point_award;
 	this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
@@ -160,7 +161,7 @@ GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 
 	this.send_chat(chat_msg);
 
-	var point_award = 20 * team_size;
+	var point_award = 100 + 150 * team_size;
 	tank.client.stats.points += point_award;
 };
 
@@ -205,7 +206,7 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.score_formula = function(client) {
-	return Math.round(10 * client.stats.points / (client.stats.deaths + 10));
+	return Math.round(20 * client.stats.points / (client.stats.deaths + 20));
 };
 
 GameServer.prototype.send_who = function() {
