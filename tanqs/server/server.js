@@ -205,7 +205,7 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.score_formula = function(client) {
-	return 10 * client.stats.points / (client.stats.deaths + 10);
+	return round(10 * client.stats.points / (client.stats.deaths + 10));
 };
 
 GameServer.prototype.send_who = function() {
