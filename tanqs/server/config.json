@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": "./maps/blocky.json"
+  "map": "./maps/updown.json"
 }

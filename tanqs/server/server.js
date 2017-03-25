@@ -54,7 +54,7 @@ GameServer.prototype.update_topten = function() {
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
 		if (tank.reserved) {
-			var score = tank.client.stats.score;
+			var score = this.score_formula(tank.client);
 			var done = false;
 			for (var j = 0; j < this.topten.length; j++) {
 				var top = this.topten[j];
@@ -101,8 +101,8 @@ GameServer.prototype.add_client = function(socket, user_string) {
 		name: '',
 		state: 'pre-login',
 		stats: {	kills: 0,
-					deaths: 0,
-					score: 0
+				deaths: 0,
+				points: 0
 		}
 	};
 
@@ -141,11 +141,12 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 	// SCORE UPDATE
 
-	var point_award = 10; // TODO: double kill, multipliers etc.
-	if (killed_tank.flag_team > -1) point_award = 25;
-	if (killer_tank.flag_team > -1) point_award = 35;
+	var point_award = 100; // TODO: double kill, multipliers etc.
+	if (killer_tank.flag_id == -1) point_awatd = 150;
+	if (killed_tank.flag_team > -1) point_award = 250;
+	if (killer_tank.flag_team > -1) point_award = 350;
 
-	killer_tank.client.stats.score += point_award;
+	killer_tank.client.stats.points += point_award;
 	this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
 
 };
@@ -160,8 +161,8 @@ GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 
 	this.send_chat(chat_msg);
 
-	var point_award = 20 * team_size;
-	tank.client.stats.score += point_award;
+	var point_award = 100 + 150 * team_size;
+	tank.client.stats.points += point_award;
 };
 
 GameServer.prototype.player_flag_pickup = function(tank_id) {
@@ -204,6 +205,10 @@ GameServer.prototype.send_refuse = function(socket) {
 	socket.emit('refuse', {});
 };
 
+GameServer.prototype.score_formula = function(client) {
+	return Math.round(20 * client.stats.points / (client.stats.deaths + 20));
+};
+
 GameServer.prototype.send_who = function() {
 	this.update_topten();
 
@@ -211,7 +216,7 @@ GameServer.prototype.send_who = function() {
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
-			var client_msg = {name: client.name, tank_id: client.tank_id, stats: client.stats};
+			var client_msg = {name: client.name, tank_id: client.tank_id, score: this.score_formula(client)};
 			msg.clients.push(client_msg);
 		}
 		msg.connected++;

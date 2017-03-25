@@ -155,7 +155,7 @@ Client.prototype.on_who = function(msg) {
 	this.game.leaderboard = msg.clients;
 	this.game.leaderboard.sort(function(a, b) {
 		//return (a.stats.deaths + b.stats.kills - a.stats.kills - b.stats.deaths);
-		return b.stats.score - a.stats.score;
+		return b.score - a.score;
 	});
 
 	this.game.team_leaderboard = msg.teams;
