@@ -289,6 +289,7 @@ World.prototype.spawn_tank = function(id) {
 	var tank = this.tanks[id];
 
 	if (tank.spawn_cooldown > 0) return;
+	tank.spawn_timer = 0;
 
 	tank.alive = true;
 	tank.new = true;
@@ -297,7 +298,7 @@ World.prototype.spawn_tank = function(id) {
 	tank.flag_id = -1;
 
 	for (var i = 0; i < tank.max_bullets; i++) {
-		tank.reload[i] = tank.reload_ticks;
+		tank.reload[i] = 0;
 	}
 
 	if (tank.team == -1) { // Re-evaluate rogue status
@@ -411,6 +412,10 @@ World.prototype.update_tanks = function() {
 	for (var i = 0; i < this.tanks.length; i++) {
 		var tank = this.tanks[i];
 		if (tank.alive) {
+			//update timers
+			tank.spawn_timer++;
+			tank.kill_timer++;
+
 			tank.steer();
 			tank.drive();
 			tank.pos.m_clampxy(-this.map.size.width / 2 + tank.rad, this.map.size.width / 2 - tank.rad,
@@ -505,7 +510,7 @@ World.prototype.handle_collisions = function() {
 
 	for (var tank_id = 0; tank_id < this.tanks.length; tank_id++) {
 		var tank = this.tanks[tank_id];
-		if (tank.alive) {
+		if (tank.alive && tank.spawn_timer >= 125) {
 			for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 				var bullet = this.bullets[bullet_id];
 				if (bullet.alive && bullet.tank != tank_id && (bullet.team == -1 || bullet.team != tank.team || bullet.team == tank.flag_team)) {
@@ -627,6 +632,8 @@ World.prototype.handle_collisions = function() {
 			for (var j = 0; j < this.tanks.length; j++) {
 				if (i != j) {
 					var tank2 = this.tanks[j];
+					if (tank2.spawn_timer < 125)
+						continue;
 					if ((tank1.team != tank2.team || tank1.team < 0) && tank2.alive && (tank1.flag.tank_attr.kill_on_collide || tank2.flag.tank_attr.die_on_collide)) {
 						var dist2 = (new Vec2()).set(tank1.pos).m_sub(tank2.pos).mag2();
 						var rad2 = Math.pow((tank1.rad*1.25) + (tank2.rad*1.25), 2);
@@ -685,7 +692,10 @@ function Tank() {
 	this.alive = false;
 	this.client = null;
 
+	// Timers
 	this.spawn_cooldown = 0;
+	this.kill_timer = 0; // Ticks since last kill
+	this.spawn_timer = 0; // Ticks since last spawn (for invincibility)
 
 	// State
 

@@ -119,6 +119,8 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.flag_team = tank_data.flag_team;
 			tank.team = tank_data.team;
 
+			tank.invincible = tank_data.inv || false;
+
 			if (tank_data.new) this.game.particles.add_tank_mist(tank);
 
 			tank.alive = true;
@@ -242,6 +244,7 @@ function Tank() {
 
 	this.corpse = false;
 	this.death_anim = 0;
+	this.invincible = false;
 
 	this.rad = 20;
 	this.draw_rad = 20;

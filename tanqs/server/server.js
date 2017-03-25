@@ -268,6 +268,9 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.flag = tank.flag.name;
 			tank_data.flag_team = tank.flag_team;
 			tank_data.team = tank.team;
+			if (tank.spawn_timer < 125) {
+				tank_data.inv = true;
+			}
 		} else {
 			tank_data.killed_by = tank.killed_by;
 		}
@@ -509,6 +512,9 @@ GameServer.prototype.on_chat = function(socket, msg) {
 		var color = this.world.tanks[client.tank_id].color;
 
 		var text = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		if (text.length > 40) {
+			text = text.substring(0, 40);
+		}
 
 		this.send_chat("<span style=\"color:" + color + "\"><b>" + name + "</b></span>: " + text);
 	}
