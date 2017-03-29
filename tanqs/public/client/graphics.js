@@ -608,14 +608,14 @@ Renderer.prototype.render_leaderboard = function() {
 				this.context.textAlign = "center";
 				this.context.font = "bold 24px Open Sans";
 				this.context.fillStyle = "#000";
-				this.context.fillText("Today's Top Ten", center_x, line_y(line) + 2);
+				this.context.fillText("Today's Top Scores", center_x, line_y(line) + 2);
 				this.context.font = "24px Open Sans";
 				this.context.fillStyle = "#eee";
-				this.context.fillText("Today's Top Ten", center_x, line_y(line));
+				this.context.fillText("Today's Top Scores", center_x, line_y(line));
 				line += 1.5;
 
 				this.context.font = "18px Open Sans";
-				for (var i = 0; i < this.game.topten.length; i++) {
+				for (var i = 0; i < Math.min(this.game.topten.length, 3); i++) {
 					var top = this.game.topten[i];
 					var text = "" + (i + 1) + ". " + top.name;
 					var score_text = top.score;
