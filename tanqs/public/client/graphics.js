@@ -512,6 +512,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = (i + 1) + ". " + client.name;
 			//var score_text = "K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 			var score_text = "" + client.score;
+			var kd_text = "[" + client.stats.kills + " - " + client.stats.deaths + "]";
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			
@@ -526,7 +527,8 @@ Renderer.prototype.render_leaderboard = function() {
 			this.context.textAlign = "left";
 			this.context.fillText(text, left_x, line_y(line));
 			this.context.textAlign = "right";
-			this.context.fillText(score_text, right_x - 20, line_y(line));
+			this.context.fillText(score_text, right_x - 120, line_y(line));
+			this.context.fillText(kd_text, right_x - 20, line_y(line));
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
 			this.context.beginPath();
