@@ -610,10 +610,10 @@ Renderer.prototype.render_leaderboard = function() {
 				this.context.textAlign = "center";
 				this.context.font = "bold 24px Open Sans";
 				this.context.fillStyle = "#000";
-				this.context.fillText("Today's Top Scores", center_x, line_y(line) + 2);
+				this.context.fillText("Today's Top Three", center_x, line_y(line) + 2);
 				this.context.font = "24px Open Sans";
 				this.context.fillStyle = "#eee";
-				this.context.fillText("Today's Top Scores", center_x, line_y(line));
+				this.context.fillText("Today's Top Three", center_x, line_y(line));
 				line += 1.5;
 
 				this.context.font = "18px Open Sans";
