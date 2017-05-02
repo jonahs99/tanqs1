@@ -142,7 +142,10 @@ Renderer.prototype.render_world = function() {
 		if (tank.alive || tank.corpse) {
 			if (tank != this.world.game.player_tank) {
 				tank.lerp_state(delta);
-				this.render_tank(tank, delta);
+				if (tank.ai)
+					this.render_bot(tank, delta);
+				else
+					this.render_tank(tank, delta);
 			}
 		}
 	}
@@ -253,6 +256,55 @@ function shadeBlendConvert(p, from, to) {
     else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
 }
 
+Renderer.prototype.render_bot = function(tank, delta) {
+
+	// Draw the tank
+
+	tank.draw_rad = lerp(tank.draw_rad, tank.rad, 0.2);
+	var rad = tank.draw_rad * 1.1;
+
+	this.context.translate(tank.draw.pos.x, tank.draw.pos.y);
+	this.context.rotate(tank.draw.dir);
+	
+	this.context.fillStyle = tank.color;
+
+	this.context.strokeStyle = '#444';
+
+	if (tank.corpse) {
+		var scl = (tank.death_anim) / 3;
+		this.context.scale((1 + scl) / 2, scl);
+	}
+
+	this.context.lineWidth = 3;
+	this.context.lineJoin = 'round';
+
+	// Flash white if invicible
+	if (tank.invincible) {
+		var period = 800;
+		this.context.fillStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.7, tank.color, "#fff");
+		this.context.strokeStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.3, "#444", "#fff");
+	}
+	
+	//guns
+	this.context.beginPath();
+	this.context.rect(-rad * (0.8 + tank.gun_len), -rad * 0.5, 2 * rad * (0.8 + tank.gun_len), rad);
+	this.context.rect(-rad * 0.5,-rad * (0.8 + tank.gun_len), rad, 2 * rad * (0.8 + tank.gun_len));
+	this.context.fill();
+	this.context.stroke();
+
+	this.context.beginPath();
+	this.context.rect(-rad, -rad, 2 * rad, 2 * rad);
+	this.context.fill();
+	this.context.stroke();
+
+	if (tank.corpse) {
+		this.context.scale(2/(1 + scl), 1/scl);
+	}
+	this.context.rotate(-tank.draw.dir);
+	this.context.translate(-tank.draw.pos.x, -tank.draw.pos.y);
+
+};
+
 Renderer.prototype.render_tank = function(tank, delta) {
 
 	// Draw the tank
@@ -350,12 +402,6 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	}
 
 	this.context.translate(-tank.draw.pos.x, -tank.draw.pos.y);
-
-	/*this.context.fillStyle = 'red';
-	this.context.fillRect(tank.current.pos.x - 4, tank.current.pos.y - 4, 8, 8);
-	this.context.fillStyle = 'blue';
-	this.context.fillRect(tank.old.pos.x - 4, tank.old.pos.y - 4, 8, 8);*/
-
 };
 
 Renderer.prototype.render_bullet = function(bullet) {

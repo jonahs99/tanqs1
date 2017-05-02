@@ -22,7 +22,6 @@ function World() {
 	this.n_bullets = 72;
 	this.n_flags = 32;
 
-	//this.generate_map();
 	this.reset();
 
 	this.flag_types = new Flags(this);
@@ -94,7 +93,31 @@ World.prototype.parse_map = function(map) {
 		flag.spawn.set_xy(flag_data.x, flag_data.y);
 		flag.pos.set(flag.spawn);
 		flag.team = -1;
+		flag.bot_id = -1;
 
+	}
+
+	if (map.bots) {
+		for (var i = 0; i < map.bots.length; i++) {
+
+			var bot_data = map.bots[i];
+			var flag = this.flags[i + map.flags.length + map.teams.length];
+
+			var bot_id = this.reserve_bot();
+
+			var bot = this.tanks[bot_id];
+			bot.flag_id = i + map.flags.length + map.teams.length;
+
+			flag.alive = false;
+			flag.type = random_rare_flag_type();
+			flag.spawn.set_xy(bot_data.x, bot_data.y);
+			flag.pos.set(flag.spawn);
+			flag.team = -1;
+			flag.bot_id = bot_id;
+
+			this.spawn_bot(bot_id);
+
+		}
 	}
 
 	for (var i = 0; i < map.rectangles.length; i++) {
@@ -179,6 +202,10 @@ function random_flag_type() {
 	var types = flag_types[Math.random() > 0.2 ? 0 : 1]; // "Rare" flags spawn 5% of the time
 	return types[Math.floor(Math.random() * types.length)];
 };
+function random_rare_flag_type() {
+	var types = flag_types[1];
+	return types[Math.floor(Math.random() * types.length)];
+}
 
 World.prototype.reserve_tank = function(client) { // Returns the id of the reserved tank, or -1 if unsuccessful
 	for (var i = 0; i < this.n_tanks; i++) {
@@ -190,6 +217,23 @@ World.prototype.reserve_tank = function(client) { // Returns the id of the reser
 
 			this.reassign_tank_team(i);
 
+			return i;
+		}
+	}
+	return -1;
+};
+
+World.prototype.reserve_bot = function() {
+	for (var i = 0; i < this.n_tanks; i++) {
+		var tank = this.tanks[i];
+		if (!tank.reserved) {
+			tank.reserved = true;
+			tank.alive = false;
+			tank.client = null;
+			tank.ai = true;
+
+			tank.team = -1;
+			tank.color = "#4d6";
 			return i;
 		}
 	}
@@ -290,6 +334,8 @@ World.prototype.spawn_tank = function(id) {
 
 	if (tank.spawn_cooldown > 0) return;
 	tank.spawn_timer = 0;
+	tank.kill_count = 0;
+	tank.kill_timer = 0;
 
 	tank.alive = true;
 	tank.new = true;
@@ -319,6 +365,21 @@ World.prototype.spawn_tank = function(id) {
 	tank.steer_target.set_xy(0, 0);
 };
 
+World.prototype.spawn_bot = function(id) {
+	var tank = this.tanks[id];
+
+	tank.alive = true;
+	tank.new = true;
+
+	tank.set_flag(this.flag_types.bot);
+
+	tank.pos.set(this.flags[tank.flag_id].spawn);
+	tank.steer_target.set_xy(0, 0);
+	tank.left_wheel = 0;
+	tank.right_wheel = 0;
+
+};
+
 World.prototype.kill_tank = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	tank.alive = false;
@@ -342,14 +403,16 @@ World.prototype.shoot = function(tank_id) {
 World.prototype.drop_flag = function(tank_id) {
 	var tank = this.tanks[tank_id];
 	if (tank.flag_id > -1) {
-		this.server.player_flag_drop(tank_id);
-		tank.set_flag(this.flag_types.default);
 		var flag = this.flags[tank.flag_id];
 		flag.pos.set(tank.pos);
 		flag.alive = true;
 		flag.cooldown = 50;
-		tank.flag_id = -1;
-		tank.flag_team = -1;
+		if (!tank.ai) {
+			this.server.player_flag_drop(tank_id);
+			tank.set_flag(this.flag_types.default);
+			tank.flag_id = -1;
+			tank.flag_team = -1;
+		}
 	}
 };
 
@@ -416,6 +479,37 @@ World.prototype.update_tanks = function() {
 			tank.spawn_timer++;
 			tank.kill_timer++;
 
+			if (tank.ai) {
+				var distance = 800;
+				var dot = 0;
+				var pointing = new Vec2();
+				var temp = new Vec2();
+				for (var j = 0; j < this.tanks.length; j++) {
+					var human_tank = this.tanks[j];
+					if (human_tank.alive && !human_tank.ai) {
+						temp.set(human_tank.pos).m_sub(tank.pos);
+						var human_distance = temp.mag();
+						if (human_distance < distance) {
+							distance = human_distance;
+							pointing.set(temp);
+							dot = human_tank.vel.dot(pointing);
+						}
+					}
+				}
+				if (distance == 800) { // slow down if out of range
+					tank.steer_target.set(this.flags[tank.flag_id].spawn).m_sub(tank.pos);
+				} else if (distance < 800) { // circle if close
+					var run_factor = 0.1 * (distance - 400);
+					tank.steer_target.set(pointing).m_scale(run_factor);
+					var tot_reload = 0;
+					for (var ri = 0; ri < tank.flag.weapon_attr.max_bullets; ri++) {
+						tot_reload += tank.reload[ri];
+					}
+					if (tot_reload > tank.flag.weapon_attr.max_bullets * tank.flag.weapon_attr.reload_ticks * 0.8)
+						tank.flag.shoot(tank);
+				}
+			}
+
 			tank.steer();
 			tank.drive();
 			tank.pos.m_clampxy(-this.map.size.width / 2 + tank.rad, this.map.size.width / 2 - tank.rad,
@@ -427,7 +521,7 @@ World.prototype.update_tanks = function() {
 				}
 			}
 		} else {
-			if (tank.reserved) {
+			if (tank.reserved && !tank.ai) {
 				tank.spawn_cooldown--;
 				if (tank.spawn_cooldown < -5000) {
 					this.server.send_kick(tank.client.id);
@@ -449,7 +543,7 @@ World.prototype.update_bullets = function() {
 				var d = new Vec2();
 
 				var closest = null;
-				var dist = 0;
+				var dist = 300;
 
 				for (var j = 0; j < this.tanks.length; j++) {
 					var tank = this.tanks[j];
@@ -459,7 +553,7 @@ World.prototype.update_bullets = function() {
 						var cos = dot / bullet.vel.mag() / d.mag();
 						if (cos >= bullet.guided.min_cos) {
 							var mag = d.mag();
-							if (closest == null || mag < dist) {
+							if (mag < dist) {
 								closest = tank;
 								dist = mag;
 							}
@@ -476,6 +570,7 @@ World.prototype.update_bullets = function() {
 			}
 
 			bullet.drive();
+			bullet.vel.m_scale(bullet.drag);
 			bullet.rad += bullet.expansion;
 			if (bullet.expansion > 0) {
 				bullet.expansion -= 0.45;
@@ -483,6 +578,10 @@ World.prototype.update_bullets = function() {
 				bullet.expansion = 0;
 			}
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
+				if (bullet.explode) {
+					console.log("explode!");
+					bullet.explode(bullet.tank, bullet);
+				}
 				this.kill_bullet(i);
 			} else {
 				bullet.life--;
@@ -493,10 +592,25 @@ World.prototype.update_bullets = function() {
 
 World.prototype.update_flags = function() {
 
+	var respawn_ticks = 100;
+
 	for (var i = 0; i < this.flags.length; i++) {
 		var flag = this.flags[i];
 		if (flag.alive) {
-			flag.update();
+			flag.cooldown--;
+			if (flag.bot_id > -1 && flag.cooldown <= - respawn_ticks) {
+				flag.alive = false;
+				flag.type = random_flag_type();
+				flag.cooldown = 0;
+				this.spawn_bot(flag.bot_id);
+			} else if (flag.team == -1 && flag.cooldown <= - respawn_ticks) {
+				flag.pos.set(flag.spawn);
+				flag.type = random_flag_type();
+				flag.cooldown = 0;
+			} else if (flag.cooldown <= - 2 * respawn_ticks) {
+				flag.pos.set(flag.spawn);
+				flag.cooldown = 0;
+			}
 		}
 	}
 };
@@ -691,11 +805,13 @@ function Tank() {
 	this.reserved = false; // We reuse tanks once the player disconnect
 	this.alive = false;
 	this.client = null;
+	this.ai = false; // If true it will be controlled by ai!
 
 	// Timers
 	this.spawn_cooldown = 0;
 	this.kill_timer = 0; // Ticks since last kill
 	this.spawn_timer = 0; // Ticks since last spawn (for invincibility)
+	this.kill_count = 0;
 
 	// State
 
@@ -862,6 +978,7 @@ function Bullet() {
 
 	this.rad = 5;
 	this.speed = 8;
+	this.drag = 1;
 
 	this.life = 0; // frames remaining until dead
 
@@ -886,16 +1003,6 @@ function Flag() {
 
 	this.rad = 12;
 
-}
+	this.bot_id = -1;
 
-Flag.prototype.update = function() {
-	this.cooldown--;
-	if (this.team == -1 && this.cooldown <= -1000) {
-		this.pos.set(this.spawn);
-		this.type = random_flag_type();
-		this.cooldown = 0;
-	} else if (this.cooldown <= -4500) {
-		this.pos.set(this.spawn);
-		this.cooldown = 0;
-	}
-};
+}

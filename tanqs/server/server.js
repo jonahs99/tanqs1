@@ -53,7 +53,7 @@ GameServer.prototype.update_topten = function() {
 	}
 	for (var i = 0; i < this.world.tanks.length; i++) {
 		var tank = this.world.tanks[i];
-		if (tank.reserved) {
+		if (tank.reserved && !tank.ai) {
 			var score = this.score_formula(tank.client);
 			var done = false;
 			for (var j = 0; j < this.topten.length; j++) {
@@ -129,25 +129,60 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 	killed_tank.killed_by = killer_id;
 
-	killer_tank.client.stats.kills++;
-	killed_tank.client.stats.deaths++;
 	this.frame_events.deaths.push(killed_id);
 
-	var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
-	var chat_msg = "&gt&gt <i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
-	" <span style=\"color:" + killed_tank.color + "\">" + killed_tank.client.name + "</span>. </i>";
+	if (killer_tank.ai && killed_tank.ai) {
+		return;
+	} else if (killer_tank.ai) {
+		killed_tank.client.stats.deaths++;
+	} else if (killed_tank.ai) {
+		killer_tank.client.stats.kills++;
 
-	this.send_chat(chat_msg);
+		var point_award = 20; // TODO: double kill, multipliers etc.
 
-	// SCORE UPDATE
+		killer_tank.client.stats.points += point_award;
+		this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
+	} else {
+		killer_tank.client.stats.kills++;
+		killed_tank.client.stats.deaths++;
 
-	var point_award = 100; // TODO: double kill, multipliers etc.
-	if (killer_tank.flag_id == -1) point_awatd = 150;
-	if (killed_tank.flag_team > -1) point_award = 250;
-	if (killer_tank.flag_team > -1) point_award = 350;
+		var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
+		var chat_msg = "&gt&gt <i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
+		" <span style=\"color:" + killed_tank.color + "\">" + killed_tank.client.name + "</span>. </i>";
 
-	killer_tank.client.stats.points += point_award;
-	this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
+		this.send_chat(chat_msg);
+
+		// SCORE UPDATE
+
+		var point_award = 100; // TODO: double kill, multipliers etc.
+		var special_text = "";
+		if (killer_tank.flag_id == -1) point_awatd = 150;
+		if (killed_tank.flag_team > -1) point_award = 250;
+		if (killer_tank.flag_team > -1) point_award = 350;
+
+		var kill_time = 1000; // ms for a double kill, x2 for triple
+		if (killer_tank.kill_timer < (kill_time / this.ms_frame) * killer_tank.kill_count) {
+			point_award += 100 * killer_tank.kill_count;
+			killer_tank.kill_count++;
+			if (killer_tank.kill_count == 2) {
+				special_text = " (double kill!)";
+			} else if (killer_tank.kill_count == 3) {
+				special_text = " (triple kill!)";
+			} else if (killer_tank.kill_count == 4) {
+				special_text = " (quad kill!)";
+			} else if (killer_tank.kill_count == 5) {
+				special_text = " (penta kill!)";
+			} else {
+				special_text = " (multi kill!)";
+			}
+		} else {
+			killer_tank.kill_count = 1;
+		}
+		killer_tank.kill_timer = 0;
+
+		killer_tank.client.stats.points += point_award;
+		this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award + special_text);
+	}
 
 };
 
@@ -263,7 +298,7 @@ GameServer.prototype.tank_update_msg = function() {
 	var msg = [];
 	for (var i = 0; i < this.world.n_tanks; i++) {
 		var tank = this.world.tanks[i];
-		var tank_data = {id: i, alive: tank.alive, rad: tank.rad};
+		var tank_data = {id: i, ai: tank.ai, alive: tank.alive, rad: tank.rad};
 		if (tank.alive) {
 			tank_data.new = tank.new; tank.new = false;
 			tank_data.pos = {x: tank.pos.x, y: tank.pos.y};
@@ -280,7 +315,7 @@ GameServer.prototype.tank_update_msg = function() {
 			tank_data.killed_by = tank.killed_by;
 		}
 		if (tank.reserved) {
-			tank_data.name = tank.client.name; // Send even if dead so that leaderboards are not messed up
+			tank_data.name = tank.ai ? "" : tank.client.name; // Send even if dead so that leaderboards are not messed up
 			tank_data.color = tank.color;
 		}
 		msg.push(tank_data);
@@ -310,15 +345,6 @@ GameServer.prototype.bullet_update_msg = function() {
 			msg.push({id: i, alive: false});
 		}
 		bullet.new = false;
-		/*if (bullet.just_died) {
-			bullet.just_died = false;
-			msg.push({id: i, alive: false});
-			continue;
-		}
-		if (bullet.need_update) {
-			bullet.need_update = false;
-			msg.push({id: i, alive: true, tank: bullet.tank, x: bullet.pos.x, y: bullet.pos.y, vx: bullet.vel.x, vy: bullet.vel.y, rad: bullet.rad});
-		}*/
 	}
 
 	return msg;

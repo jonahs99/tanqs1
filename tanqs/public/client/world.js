@@ -120,6 +120,7 @@ World.prototype.server_update_tanks = function(msg) {
 			tank.team = tank_data.team;
 
 			tank.invincible = tank_data.inv || false;
+			tank.ai = tank_data.ai || false;
 
 			if (tank_data.new) this.game.particles.add_tank_mist(tank);
 

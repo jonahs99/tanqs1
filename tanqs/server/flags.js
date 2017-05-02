@@ -34,9 +34,11 @@ function Flags(world) {
 		bullet_attr: {
 			rad: 5,
 			speed: 8,
+			drag: 0.995,
 			life: 125,
 			ricochet: 0,
-			wall_collide: true
+			wall_collide: true,
+			explode: false
 		},
 	};
 	this.default.shoot = function(tank) {
@@ -54,6 +56,28 @@ function Flags(world) {
 		weapon_attr: {max_bullets: 1, reload_ticks: 100}
 	});
 
+	// BOT
+
+	this.bot = morph(this.default, {
+		name: "",
+		tank_attr: {rad: 14, max_vel: 4},
+		weapon_attr: {
+			max_bullets: 4,
+			reload_ticks: 80
+		},
+		bullet_attr: {
+			rad: 6,
+			speed: 10,
+			life: 80
+		}
+	});
+	this.bot.shoot = function(tank) {
+		if (tank.use_reload()) {
+			for (var i = 0; i < 4; i++)
+				shoot(world, tank, this.bullet_attr, Math.PI * i / 2, 0, true, true);
+		}
+	};
+
 	// SHIELD
 
 	this.shield = morph(this.default, {name: "shield", tank_attr: {shield_rad: 40}});
@@ -70,6 +94,30 @@ function Flags(world) {
 	// SUPER BULLET
 
 	this.super_bullet = morph(this.default, {name:"super bullet", bullet_attr:{ rad: 8, speed: 5.6, wall_collide: false, pass_thru: true }});
+
+	// GRENADE
+
+	this.grenade = morph(this.default, 
+	{
+		name: "grenade",
+		weapon_attr: {},
+		bullet_attr: {
+			rad: 8,
+			speed: 10,
+			drag: 0.975
+		},
+		explode_attr: morph(this.default.bullet_attr, {
+			rad: 10,
+			speed: 0,
+			life: 12,
+			wall_collide: false,
+			pass_thru: true,
+			expansion: 8
+		})
+	});
+	this.grenade.bullet_attr.explode = function(tank, bullet) {
+		shoot(world, tank, this.explode_attr);
+	};
 
 	// EXTRA CLIP
 
@@ -160,7 +208,7 @@ function Flags(world) {
 		kill_verb: "incinerated",
 		tank_attr: {max_vel: 5.5},
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
-		bullet_attr: {rad: 24, speed: 0, life: 16, wall_collide: false, pass_thru: true, expansion: 10}
+		bullet_attr: {rad: 24, speed: 0, life: 16, wall_collide: false, pass_thru: true, expansion: 14}
 	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
@@ -218,6 +266,7 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 			bullet.vel.set_rt(bullet_attr.speed, dir).m_add(tank.vel);
 		}
 
+		bullet.drag = bullet_attr.drag;
 		bullet.life = bullet_attr.life;
 		bullet.rad = bullet_attr.rad;
 
@@ -229,7 +278,11 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 
 		bullet.guided = bullet_attr.guided || false;
 
+		bullet.explode = bullet_attr.explode || false;
+
 	}
+
+	return bullet_id;
 
 }
 
