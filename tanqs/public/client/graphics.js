@@ -548,11 +548,13 @@ Renderer.prototype.render_leaderboard = function() {
 	this.context.fillText("Leaderboard", center_x, line_y(line));
 	line += 1.5;
 
+	var n_leaderboard = 4;
+
 	if (this.game.leaderboard) {
 		var in_topten = false;
 		var player_client = null;
 		var player_rank = 0;
-		for (var i = 0; i < Math.min(10, this.game.leaderboard.length); i++) {
+		for (var i = 0; i < Math.min(n_leaderboard, this.game.leaderboard.length); i++) {
 			var client = this.game.leaderboard[i];
 			
 			var text = (i + 1) + ". " + client.name;
@@ -583,6 +585,20 @@ Renderer.prototype.render_leaderboard = function() {
 
 			line++;
 		}
+		if (this.game.leaderboard.length > n_leaderboard) {
+			// Draw the ellipsis
+			this.context.fillStyle = "#eee";
+			this.context.beginPath();
+			this.context.arc(center_x - 20, line_y(line), 3, 0, Math.PI * 2);
+			this.context.fill();
+			this.context.beginPath();
+			this.context.arc(center_x, line_y(line), 3, 0, Math.PI * 2);
+			this.context.fill();
+			this.context.beginPath();
+			this.context.arc(center_x + 20, line_y(line), 3, 0, Math.PI * 2);
+			this.context.fill();
+			line++;
+		}
 		if (!in_topten) {
 
 			for (var i = 0; i < this.game.leaderboard.length; i++) {
@@ -593,18 +609,6 @@ Renderer.prototype.render_leaderboard = function() {
 				}
 			}
 			if (player_client) {
-				// Draw the ellipsis
-				this.context.fillStyle = "#eee";
-				this.context.beginPath();
-				this.context.arc(center_x - 20, line_y(line), 3, 0, Math.PI * 2);
-				this.context.fill();
-				this.context.beginPath();
-				this.context.arc(center_x, line_y(line), 3, 0, Math.PI * 2);
-				this.context.fill();
-				this.context.beginPath();
-				this.context.arc(center_x + 20, line_y(line), 3, 0, Math.PI * 2);
-				this.context.fill();
-				line++;
 				
 				var text = (player_rank + 1) + ". " + player_client.name;
 				var score_text = "" + player_client.score;
@@ -672,7 +676,7 @@ Renderer.prototype.render_leaderboard = function() {
 					this.context.fillText(text, left_x, line_y(line) + 2);
 					this.context.textAlign = "right";
 					this.context.fillText(score_text, right_x - 20, line_y(line) + 2);
-					this.context.fillStyle = "#eee";
+					this.context.fillStyle = top.color;
 					this.context.textAlign = "left";
 					this.context.fillText(text, left_x, line_y(line));
 					this.context.textAlign = "right";

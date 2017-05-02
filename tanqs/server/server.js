@@ -60,12 +60,13 @@ GameServer.prototype.update_topten = function() {
 				var top = this.topten[j];
 				if (tank.client.id == top.id) {
 					var done = true;
-					top.score = score;
+					if (score > top.score)
+						top.score = score;
 					break;
 				}
 			}
 			if (!done) {
-				this.topten.push({name: tank.client.name, score: score, id: tank.client.id});
+				this.topten.push({name: tank.client.name, color: tank.color , score: score, id: tank.client.id});
 			}
 		}
 	}
@@ -156,7 +157,7 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 		var point_award = 100; // TODO: double kill, multipliers etc.
 		var special_text = "";
-		if (killer_tank.flag_id == -1) point_awatd = 150;
+		if (killer_tank.flag_id == -1) point_award = 150;
 		if (killed_tank.flag_team > -1) point_award = 250;
 		if (killer_tank.flag_team > -1) point_award = 350;
 
