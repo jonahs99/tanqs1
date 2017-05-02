@@ -241,7 +241,8 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.score_formula = function(client) {
-	return Math.round(20 * client.stats.points / (client.stats.deaths + 20));
+	var crossover = 5;
+	return Math.round(crossover * client.stats.points / (client.stats.deaths + crossover));
 };
 
 GameServer.prototype.send_who = function() {
@@ -251,7 +252,11 @@ GameServer.prototype.send_who = function() {
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
-			var client_msg = {name: client.name, tank_id: client.tank_id, score: this.score_formula(client)};
+			var client_msg = {
+				name: client.name, tank_id: client.tank_id,
+				score: this.score_formula(client),
+				stats: {kills: client.stats.kills, deaths: client.stats.deaths}
+			};
 			msg.clients.push(client_msg);
 		}
 		msg.connected++;

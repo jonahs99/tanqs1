@@ -558,6 +558,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = (i + 1) + ". " + client.name;
 			//var score_text = "K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 			var score_text = "" + client.score;
+			var kd_text = "[" + client.stats.kills + " - " + client.stats.deaths + "]";
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			
@@ -572,7 +573,8 @@ Renderer.prototype.render_leaderboard = function() {
 			this.context.textAlign = "left";
 			this.context.fillText(text, left_x, line_y(line));
 			this.context.textAlign = "right";
-			this.context.fillText(score_text, right_x - 20, line_y(line));
+			this.context.fillText(score_text, right_x - 120, line_y(line));
+			this.context.fillText(kd_text, right_x - 20, line_y(line));
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';
 			this.context.beginPath();
@@ -654,14 +656,14 @@ Renderer.prototype.render_leaderboard = function() {
 				this.context.textAlign = "center";
 				this.context.font = "bold 24px Open Sans";
 				this.context.fillStyle = "#000";
-				this.context.fillText("Today's Top Ten", center_x, line_y(line) + 2);
+				this.context.fillText("Today's Top Three", center_x, line_y(line) + 2);
 				this.context.font = "24px Open Sans";
 				this.context.fillStyle = "#eee";
-				this.context.fillText("Today's Top Ten", center_x, line_y(line));
+				this.context.fillText("Today's Top Three", center_x, line_y(line));
 				line += 1.5;
 
 				this.context.font = "18px Open Sans";
-				for (var i = 0; i < this.game.topten.length; i++) {
+				for (var i = 0; i < Math.min(this.game.topten.length, 3); i++) {
 					var top = this.game.topten[i];
 					var text = "" + (i + 1) + ". " + top.name;
 					var score_text = top.score;
