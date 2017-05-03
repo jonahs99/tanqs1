@@ -548,7 +548,7 @@ Renderer.prototype.render_leaderboard = function() {
 	this.context.fillText("Leaderboard", center_x, line_y(line));
 	line += 1.5;
 
-	var n_leaderboard = 4;
+	var n_leaderboard = 10;
 
 	if (this.game.leaderboard) {
 		var in_topten = false;
