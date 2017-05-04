@@ -103,6 +103,7 @@ GameServer.prototype.add_client = function(socket, user_string) {
 		state: 'pre-login',
 		stats: {	kills: 0,
 				deaths: 0,
+				death_record: 0,
 				points: 0
 		}
 	};
@@ -146,6 +147,10 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	} else {
 		killer_tank.client.stats.kills++;
 		killed_tank.client.stats.deaths++;
+		
+		killer_tank.client.stats.death_record *= 0.9;
+		killed_tank.client.stats.death_record *= 0.9;
+		killed_tank.client.stats.death_record++;
 
 		var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
 		var chat_msg = "&gt&gt <i> <span style=\"color:" + killer_tank.color + "\">" + killer_tank.client.name + "</span> " + verb + 
@@ -243,7 +248,7 @@ GameServer.prototype.send_refuse = function(socket) {
 
 GameServer.prototype.score_formula = function(client) {
 	var crossover = 5;
-	return Math.round(crossover * client.stats.points / (client.stats.deaths + crossover));
+	return Math.round(crossover * client.stats.points / (client.stats.death_record + crossover));
 };
 
 GameServer.prototype.send_who = function() {
