@@ -252,9 +252,9 @@ GameServer.prototype.score_formula = function(client) {
 };
 
 GameServer.prototype.send_who = function() {
-	this.update_topten();
+	//this.update_topten();
 
-	var msg = {clients: [], teams: [], topten: this.topten, connected: 0};
+	var msg = {clients: [], teams: [], connected: 0};
 	for (var id in this.clients) {
 		var client = this.clients[id];
 		if (client.state == 'logged') {
