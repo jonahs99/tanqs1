@@ -140,7 +140,7 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 	} else if (killed_tank.ai) {
 		killer_tank.client.stats.kills++;
 
-		var point_award = 20; // TODO: double kill, multipliers etc.
+		var point_award = 4; // TODO: double kill, multipliers etc.
 
 		killer_tank.client.stats.points += point_award;
 		this.send_kill(killer_tank.client.socket, killed_id, "+" + point_award);
@@ -148,8 +148,8 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 		killer_tank.client.stats.kills++;
 		killed_tank.client.stats.deaths++;
 		
-		killer_tank.client.stats.death_record *= 0.9;
-		killed_tank.client.stats.death_record *= 0.9;
+		killer_tank.client.stats.death_record *= 0.8;
+		killed_tank.client.stats.death_record *= 0.8;
 		killed_tank.client.stats.death_record++;
 
 		var verb = killer_tank.flag.kill_verb;//(["blew up", "destroyed", "obliterated", "rekt"])[Math.floor(Math.random() * 4)];
@@ -160,26 +160,26 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 		// SCORE UPDATE
 
-		var point_award = 100; // TODO: double kill, multipliers etc.
+		var point_award = 10; // TODO: double kill, multipliers etc.
 		var special_text = "";
-		if (killer_tank.flag_id == -1) point_award = 150;
-		if (killed_tank.flag_team > -1) point_award = 250;
-		if (killer_tank.flag_team > -1) point_award = 350;
+		if (killer_tank.flag_id == -1) {point_award = 15; special_text+=" (flagless kill!)";}
+		if (killed_tank.flag_team > -1) {point_award = 20; special_text+=" (carrier kill!)";}
+		if (killer_tank.flag_team > -1) {point_award = 25; special_text+=" (flag kill!)";}
 
 		var kill_time = 1000; // ms for a double kill, x2 for triple
 		if (killer_tank.kill_timer < (kill_time / this.ms_frame) * killer_tank.kill_count) {
-			point_award += 100 * killer_tank.kill_count;
+			point_award += 10 * killer_tank.kill_count;
 			killer_tank.kill_count++;
 			if (killer_tank.kill_count == 2) {
-				special_text = " (double kill!)";
+				special_text += " (double kill!)";
 			} else if (killer_tank.kill_count == 3) {
-				special_text = " (triple kill!)";
+				special_text += " (triple kill!)";
 			} else if (killer_tank.kill_count == 4) {
-				special_text = " (quad kill!)";
+				special_text += " (quad kill!)";
 			} else if (killer_tank.kill_count == 5) {
-				special_text = " (penta kill!)";
+				special_text += " (penta kill!)";
 			} else {
-				special_text = " (multi kill!)";
+				special_text += " (multi kill!)";
 			}
 		} else {
 			killer_tank.kill_count = 1;

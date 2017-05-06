@@ -507,7 +507,7 @@ Renderer.prototype.render_leaderboard = function() {
 	}
 
 	var right_x = this.canvas.width/2-30;
-	var left_x = this.canvas.width/2-350;
+	var left_x = this.canvas.width/2-400;
 	var center_x = (right_x + left_x) / 2;
 
 	this.context.fillStyle = "rgba(0,0,0,0.2)";
