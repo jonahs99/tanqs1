@@ -202,7 +202,7 @@ GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 
 	this.send_chat(chat_msg);
 
-	var point_award = 100 + 150 * team_size;
+	var point_award = 10 + 10 * team_size;
 	tank.client.stats.points += point_award;
 };
 
