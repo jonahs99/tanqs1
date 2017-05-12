@@ -128,6 +128,12 @@ World.prototype.parse_map = function(map) {
 			continue;
 		
 		var rect = {x: rect_data.x, y: rect_data.y, hwidth: rect_data.hwidth, hheight: rect_data.hheight, team: -1};
+
+		if (rect_data.gate_team != undefined)
+			rect.gate_team = rect_data.gate_team;
+		else
+			rect.gate_team = -1;
+
 		this.map.rectangles.push(rect);
 
 	}
@@ -674,7 +680,7 @@ World.prototype.handle_collisions = function() {
 				var x_overlap = tot_width - Math.abs(rect.x - tank.pos.x);
 				var y_overlap = tot_height - Math.abs(rect.y - tank.pos.y);
 				if (x_overlap > 0 && y_overlap > 0) { // Collision
-					if (rect.team == -1) {
+					if (rect.team == -1 && (rect.gate_team == -1 || rect.gate_team != tank.team)) {
 						if (x_overlap < y_overlap) { // fix x
 							if (tank.pos.x > rect.x) {
 								tank.pos.x += x_overlap;
@@ -706,7 +712,7 @@ World.prototype.handle_collisions = function() {
 		if (bullet.alive && bullet.wall_collide) {
 			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
 				var rect = this.map.rectangles[rect_id];
-				if (rect.team != -1) continue;
+				if (rect.team != -1 || (rect.gate_team != -1 && rect.gate_team != bullet.team)) continue;
 				var tot_width = bullet.rad + rect.hwidth;
 				var tot_height = bullet.rad + rect.hheight;
 				var x_overlap = tot_width - Math.abs(rect.x - bullet.pos.x);

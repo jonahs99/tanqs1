@@ -194,8 +194,14 @@ Renderer.prototype.render_map = function() {
 		var rect = this.world.map.rectangles[i];
 
 		if (rect.team == -1) {
-			this.context.fillStyle = '#555';//'rgba(255, 255, 255, 0.2)';
-			this.context.strokeStyle = '#ddd';//'rgba(255, 255, 255, 0.6)';
+			if (rect.gate_team == -1) {
+				this.context.fillStyle = '#555';//'rgba(255, 255, 255, 0.2)';
+				this.context.strokeStyle = '#ddd';//'rgba(255, 255, 255, 0.6)';
+			} else if (rect.gate_team == 0) {
+				this.context.fillStyle = 'rgba(255, 0, 128, 0.1)';
+			} else if (rect.gate_team == 1) {
+				this.context.fillStyle = 'rgba(0, 128, 255, 0.1)';
+			}
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
 			this.context.strokeStyle = '#e77471';
@@ -207,7 +213,8 @@ Renderer.prototype.render_map = function() {
 		this.context.beginPath();
 		this.context.rect(rect.x - rect.hwidth, rect.y - rect.hheight, rect.hwidth * 2, rect.hheight * 2);
 		this.context.fill();
-		this.context.stroke();
+		if (rect.gate_team == -1)
+			this.context.stroke();
 	}
 
 };

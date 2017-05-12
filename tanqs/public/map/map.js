@@ -15,6 +15,7 @@ var toolbar = {
 	team_pad: document.getElementById('team_pad_radio'),
 	flag: document.getElementById('flag_radio'),
 	wall: document.getElementById('wall_radio'),
+	gate: document.getElementById('gate_radio'),
 	new_poly: document.getElementById('poly_radio'),
 	continue_poly: document.getElementById('continue_poly_radio'),
 	erase_flag: document.getElementById('erase_flag_radio'),
@@ -112,7 +113,7 @@ document.onmousemove = function(e) {
 }
 
 canvas.onmousedown = function(e) {
-	if (toolbar.wall.checked || toolbar.team_pad.checked || toolbar.team_spawn.checked) {
+	if (toolbar.wall.checked || toolbar.gate.checked || toolbar.team_pad.checked || toolbar.team_spawn.checked) {
 		var w = world_coord(e.clientX, e.clientY);
 		var x = snap(w.x, config.grid);
 		var y = snap(w.y, config.grid);
@@ -136,8 +137,19 @@ canvas.onmouseup = function(e) {
 
 	if (Math.abs(x) > config.width / 2 || Math.abs(y) > config.height / 2) return;
  
-	if (toolbar.wall.checked) {
+	if (toolbar.wall.checked || toolbar.gate.checked) {
 		var rect = {x: (mouse_click.x + x) / 2, y: (mouse_click.y + y) / 2, hwidth: Math.abs((mouse_click.x - x) / 2), hheight: Math.abs((mouse_click.y - y) / 2)};
+
+		rect.gate_team = -1;
+		if (toolbar.gate.checked) {
+			var team = -1;
+			if (toolbar.red.checked) {
+				team = 0;
+			} else if (toolbar.blue.checked) {
+				team = 1;
+			}
+			rect.gate_team = team;
+		}
 
 		if (((rect.x + rect.hwidth) <= config.width / 2) && ((rect.x - rect.hwidth) >= -config.width / 2) && ((rect.y + rect.hheight) <= config.height / 2) && ((rect.y - rect.hheight) >= -config.height / 2)) {
 			map.rects.push(rect);
@@ -351,10 +363,10 @@ function draw() {
 	//rectangles
 	context.lineWidth = 3;
 	context.strokeStyle = '#f52';
-	context.fillStyle = 'rgba(255, 128, 64, 0.7)';
 	context.lineJoin = 'round';
 	for (var i = 0; i < map.rects.length; i++) {
 		var rect = map.rects[i];
+		context.fillStyle = (['rgba(255, 128, 64, 0.7)', 'rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 255, 0.1)'])[rect.gate_team + 1];
 		context.beginPath();
 		context.rect(rect.x - rect.hwidth, rect.y - rect.hheight, rect.hwidth*2, rect.hheight*2);
 		context.fill();
