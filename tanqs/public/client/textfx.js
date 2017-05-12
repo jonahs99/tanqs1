@@ -39,7 +39,7 @@ text_fx.prototype.update = function() {
 function tag(text, color, pos) {
 	this.text = text;
 	this.color = color;
-	this.pos = pos;
+	this.pos = new Vec2().set(pos);
 
 	this.max_life = 50;
 	this.life = this.max_life;

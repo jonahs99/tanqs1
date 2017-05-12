@@ -357,7 +357,7 @@ World.prototype.spawn_tank = function(id) {
 		tank.pos.x += (Math.random() * 2 - 1) * spawn_rect.hwidth;
 		tank.pos.y += (Math.random() * 2 - 1) * spawn_rect.hheight;
 	} else {
-		tank.pos.set_xy(Math.random() * 2000 - 1000, Math.random() * 2000 - 1000);
+		tank.pos.set_xy((Math.random() - 0.5) * this.map.size.width, (Math.random() - 0.5) * this.map.size.height);
 	}
 
 	tank.dir = Math.atan2(-tank.pos.y, -tank.pos.x) || 0;

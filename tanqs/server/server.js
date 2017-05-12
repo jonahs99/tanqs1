@@ -160,11 +160,11 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 		// SCORE UPDATE
 
-		var point_award = 10; // TODO: double kill, multipliers etc.
+		var point_award = 10; // Base points for a regular kill
 		var special_text = "";
-		if (killer_tank.flag_id == -1) {point_award = 15; special_text+=" (flagless kill!)";}
-		if (killed_tank.flag_team > -1) {point_award = 20; special_text+=" (carrier kill!)";}
-		if (killer_tank.flag_team > -1) {point_award = 25; special_text+=" (flag kill!)";}
+		if (killer_tank.flag_id == -1) {point_award += 5; special_text+=" (flagless kill!)";}
+		if (killed_tank.flag_team > -1) {point_award += 10; special_text+=" (carrier kill!)";}
+		if (killer_tank.flag_team > -1) {point_award += 15; special_text+=" (flag kill!)";}
 
 		var kill_time = 1000; // ms for a double kill, x2 for triple
 		if (killer_tank.kill_timer < (kill_time / this.ms_frame) * killer_tank.kill_count) {
@@ -203,7 +203,10 @@ GameServer.prototype.flag_capture = function(tank_id, team, team_size) {
 	this.send_chat(chat_msg);
 
 	var point_award = 10 + 10 * team_size;
+	var special_text = " (CAPTURE!)";
 	tank.client.stats.points += point_award;
+
+	this.send_kill(tank.client.socket, tank_id, "+" + point_award + special_text);
 };
 
 GameServer.prototype.player_flag_pickup = function(tank_id) {

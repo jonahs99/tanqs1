@@ -320,11 +320,12 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	}
 	
 	this.context.fillStyle = tank.color;//'#06f';//'#f28';
+	this.context.strokeStyle = '#444';
 
-	this.context.strokeStyle = tank.flag == "default" ? '#444' : '#777';
+	/*this.context.strokeStyle = tank.flag == "default" ? '#444' : '#777';
 	if (tank.flag_team > -1) {
 		this.context.strokeStyle = (['#c00', '#06c'])[tank.flag_team];
-	}
+	}*/
 
 	if (tank.corpse) {
 		var scl = (tank.death_anim) / 3;
@@ -393,6 +394,16 @@ Renderer.prototype.render_tank = function(tank, delta) {
 
 	this.context.globalAlpha = 1;
 	
+	if (tank.flag != 'default') {
+		var flag_color = '#fff';
+		if (tank.flag_team > -1) {
+			flag_color = (['#e04945', '#2374cf'])[tank.flag_team];
+		}
+		this.context.translate(4, -8);
+		this.render_flag_shape(8, flag_color);
+		this.context.translate(-4, 8);
+	}
+
 	this.context.fillStyle = '#fff';
 	this.context.font = "16px Open Sans";
 	this.context.textAlign = "center";
@@ -449,6 +460,24 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 };
 
+Renderer.prototype.render_flag_shape = function(rad, color) {
+
+	this.context.strokeStyle = color;
+	this.context.fillStyle = color;
+
+	this.context.beginPath();
+	this.context.moveTo(-0.5 * rad, rad);
+	this.context.lineTo(-0.5 * rad, -rad);
+	this.context.lineTo(rad * 0.5, -rad);
+	this.context.lineTo(rad * 0.5, 0);
+	this.context.lineTo(-0.5 * rad, 0);
+	this.context.closePath();
+	
+	this.context.fill();
+	this.context.stroke();
+
+};
+
 Renderer.prototype.render_flag = function(flag) {
 
 	var colors = {bg: '', flag: ''};
@@ -481,19 +510,7 @@ Renderer.prototype.render_flag = function(flag) {
 	this.context.fill();
 	this.context.stroke();
 
-	this.context.strokeStyle = colors.flag;
-	this.context.fillStyle = colors.flag;
-
-	this.context.beginPath();
-	this.context.moveTo(-0.5 * flag_rad, flag_rad);
-	this.context.lineTo(-0.5 * flag_rad, -flag_rad);
-	this.context.lineTo(flag_rad * 0.5, -flag_rad);
-	this.context.lineTo(flag_rad * 0.5, 0);
-	this.context.lineTo(-0.5 * flag_rad, 0);
-	this.context.closePath();
-	
-	this.context.fill();
-	this.context.stroke();
+	this.render_flag_shape(flag_rad, colors.flag);
 
 	this.context.translate(-flag.pos.x, -flag.pos.y);
 
@@ -560,7 +577,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = (i + 1) + ". " + client.name;
 			//var score_text = "K:[" + client.stats.kills + "] D:[" + client.stats.deaths + "]";
 			var score_text = "" + client.score;
-			var kd_text = "[" + client.stats.kills + " - " + client.stats.deaths + "]";
+			var kd_text = "[" + client.stats.kills + "-" + client.stats.deaths + "]";
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			
@@ -700,9 +717,9 @@ Renderer.prototype.render_leaderboard = function() {
 					var d = new Vec2().set(tank.draw.pos).m_sub(this.game.player_tank.draw.pos);
 					var mag2 = d.mag2();
 					if (mag2 > Math.pow(this.canvas.height / 2, 2) || mag2 > Math.pow(this.canvas.width / 2, 2)) {
-						var rad = 200;
 						var ang = Math.atan2(d.y, d.x);
-						var pulse = Math.sin(Date.now() / 120);
+						var pulse = Math.sin(Date.now() / 80);
+						var rad = 200 + 4 * pulse;
 						d.m_scale(rad / d.mag());
 						this.context.fillStyle = (['#c00', '#06c'])[tank.flag_team];
 						this.context.strokeStyle = this.context.fillStyle;
