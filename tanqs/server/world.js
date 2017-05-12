@@ -592,7 +592,7 @@ World.prototype.update_bullets = function() {
 
 World.prototype.update_flags = function() {
 
-	var respawn_ticks = 100;
+	var respawn_ticks = 1000;
 
 	for (var i = 0; i < this.flags.length; i++) {
 		var flag = this.flags[i];
