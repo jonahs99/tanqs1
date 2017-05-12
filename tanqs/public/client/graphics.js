@@ -399,9 +399,9 @@ Renderer.prototype.render_tank = function(tank, delta) {
 		if (tank.flag_team > -1) {
 			flag_color = (['#e04945', '#2374cf'])[tank.flag_team];
 		}
-		this.context.translate(0, -tank.draw_rad * 2);
+		this.context.translate(0, -tank.draw_rad * 2.8);
 		this.render_flag_shape(8, flag_color);
-		this.context.translate(0, tank.draw_rad * 2);
+		this.context.translate(0, tank.draw_rad * 2.8);
 	}
 
 	this.context.fillStyle = '#fff';
