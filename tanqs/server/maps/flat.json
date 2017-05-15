@@ -224,6 +224,76 @@
 			"hwidth": 50,
 			"hheight": 25,
 			"gate_team": 1
+		},
+		{
+			"x": 975,
+			"y": 375,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": 975,
+			"y": 575,
+			"hwidth": 25,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 525,
+			"y": 575,
+			"hwidth": 425,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -325,
+			"y": 575,
+			"hwidth": 375,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -975,
+			"y": 75,
+			"hwidth": 25,
+			"hheight": 225,
+			"gate_team": -1
+		},
+		{
+			"x": -975,
+			"y": -375,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": -975,
+			"y": -575,
+			"hwidth": 25,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -525,
+			"y": -575,
+			"hwidth": 425,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 325,
+			"y": -575,
+			"hwidth": 375,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 975,
+			"y": -75,
+			"hwidth": 25,
+			"hheight": 225,
+			"gate_team": -1
 		}
 	],
 	"polys": [],
