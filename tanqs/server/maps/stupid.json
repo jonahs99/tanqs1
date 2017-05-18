@@ -83,7 +83,8 @@
 			"x": 0,
 			"y": 0,
 			"hwidth": 50,
-			"hheight": 50
+			"hheight": 50,
+			"gate_team": 1
 		},
 		{
 			"x": 325,
@@ -173,7 +174,8 @@
 			"x": -150,
 			"y": 150,
 			"hwidth": 50,
-			"hheight": 50
+			"hheight": 50,
+			"gate_team": 0
 		},
 		{
 			"x": 150,

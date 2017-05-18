@@ -198,9 +198,9 @@ Renderer.prototype.render_map = function() {
 				this.context.fillStyle = '#555';//'rgba(255, 255, 255, 0.2)';
 				this.context.strokeStyle = '#ddd';//'rgba(255, 255, 255, 0.6)';
 			} else if (rect.gate_team == 0) {
-				this.context.fillStyle = 'rgba(255, 0, 128, 0.1)';
+				this.context.fillStyle = 'rgba(255, 90, 90, 0.1)';
 			} else if (rect.gate_team == 1) {
-				this.context.fillStyle = 'rgba(0, 128, 255, 0.1)';
+				this.context.fillStyle = 'rgba(, 128, 255, 0.1)';
 			}
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
