@@ -456,7 +456,7 @@ function draw() {
 
 	//preview rectangle and cursor
 
-	if (mouse_pressed && (toolbar.wall.checked || toolbar.team_pad.checked || toolbar.team_spawn.checked)) {
+	if (mouse_pressed && (toolbar.wall.checked || toolbar.gate.checked || toolbar.team_pad.checked || toolbar.team_spawn.checked)) {
 		var x = snap(mouse.x, config.grid);
 		var y = snap(mouse.y, config.grid);
 

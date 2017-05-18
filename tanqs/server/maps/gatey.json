@@ -1,0 +1,292 @@
+{
+	"size": {
+		"width": 1600,
+		"height": 2000,
+		"grid": 100
+	},
+	"teams": [
+		{
+			"spawn": {
+				"x": -650,
+				"y": -850,
+				"hwidth": 150,
+				"hheight": 150
+			},
+			"pad": {
+				"x": -650,
+				"y": -850,
+				"hwidth": 50,
+				"hheight": 50
+			},
+			"flag": {
+				"x": -500,
+				"y": -700
+			}
+		},
+		{
+			"flag": {
+				"x": 500,
+				"y": 700
+			},
+			"spawn": {
+				"x": 650,
+				"y": 850,
+				"hwidth": 150,
+				"hheight": 150
+			},
+			"pad": {
+				"x": 650,
+				"y": 850,
+				"hwidth": 50,
+				"hheight": 50
+			}
+		}
+	],
+	"rectangles": [
+		{
+			"x": 225,
+			"y": -975,
+			"hwidth": 525,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 775,
+			"y": -975,
+			"hwidth": 25,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -775,
+			"y": 975,
+			"hwidth": 25,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -775,
+			"y": 225,
+			"hwidth": 25,
+			"hheight": 725,
+			"gate_team": -1
+		},
+		{
+			"x": -225,
+			"y": 975,
+			"hwidth": 525,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 775,
+			"y": -225,
+			"hwidth": 25,
+			"hheight": 725,
+			"gate_team": -1
+		},
+		{
+			"x": 650,
+			"y": -25,
+			"hwidth": 100,
+			"hheight": 25,
+			"gate_team": 0
+		},
+		{
+			"x": 525,
+			"y": -350,
+			"hwidth": 25,
+			"hheight": 350,
+			"gate_team": -1
+		},
+		{
+			"x": -650,
+			"y": 25,
+			"hwidth": 100,
+			"hheight": 25,
+			"gate_team": 1
+		},
+		{
+			"x": -525,
+			"y": 350,
+			"hwidth": 25,
+			"hheight": 350,
+			"gate_team": -1
+		},
+		{
+			"x": 0,
+			"y": -425,
+			"hwidth": 50,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": 0,
+			"y": 425,
+			"hwidth": 50,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": -250,
+			"y": 450,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": 250,
+			"y": -450,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": -450,
+			"y": -350,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": 450,
+			"y": 350,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": -625,
+			"y": -325,
+			"hwidth": 125,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 625,
+			"y": 325,
+			"hwidth": 125,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -650,
+			"y": 675,
+			"hwidth": 100,
+			"hheight": 25,
+			"gate_team": 1
+		},
+		{
+			"x": 650,
+			"y": -675,
+			"hwidth": 100,
+			"hheight": 25,
+			"gate_team": 0
+		},
+		{
+			"x": -225,
+			"y": 775,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": 225,
+			"y": -775,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": -200,
+			"y": -175,
+			"hwidth": 250,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -425,
+			"y": -250,
+			"hwidth": 25,
+			"hheight": 50,
+			"gate_team": 0
+		},
+		{
+			"x": 500,
+			"y": -300,
+			"hwidth": 0,
+			"hheight": 0,
+			"gate_team": -1
+		},
+		{
+			"x": 200,
+			"y": 175,
+			"hwidth": 250,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 425,
+			"y": 250,
+			"hwidth": 25,
+			"hheight": 50,
+			"gate_team": 1
+		},
+		{
+			"x": -250,
+			"y": 150,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": 250,
+			"y": -150,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": -450,
+			"y": 300,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		},
+		{
+			"x": 450,
+			"y": -300,
+			"hwidth": 50,
+			"hheight": 50,
+			"gate_team": -1
+		}
+	],
+	"polys": [],
+	"flags": [
+		{
+			"x": -200,
+			"y": 0,
+			"type": "speed"
+		},
+		{
+			"x": 200,
+			"y": 0,
+			"type": "speed"
+		},
+		{
+			"x": -650,
+			"y": 850,
+			"type": "speed"
+		},
+		{
+			"x": 650,
+			"y": -850,
+			"type": "speed"
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"type": "speed"
+		}
+	]
+}
