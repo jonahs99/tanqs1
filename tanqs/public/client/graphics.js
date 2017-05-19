@@ -200,7 +200,7 @@ Renderer.prototype.render_map = function() {
 			} else if (rect.gate_team == 0) {
 				this.context.fillStyle = 'rgba(255, 90, 90, 0.1)';
 			} else if (rect.gate_team == 1) {
-				this.context.fillStyle = 'rgba(, 128, 255, 0.1)';
+				this.context.fillStyle = 'rgba(0, 128, 255, 0.1)';
 			}
 		} else if (rect.team == 0) {
 			this.context.fillStyle = '#e04945';
@@ -345,8 +345,14 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	// Flash white if invicible
 	if (tank.invincible) {
 		var period = 800;
-		this.context.fillStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.7, tank.color, "#fff");
-		this.context.strokeStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.3, "#444", "#fff");
+		//this.context.fillStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.7, tank.color, "#fff");
+		//this.context.strokeStyle = shadeBlendConvert(Math.sin((Date.now() % period) / period * 2 * Math.PI) * 0.3, "#444", "#fff");
+		if (Date.now() % 150 > 80) {
+			this.context.fillStyle = 'rgba(0, 0, 0, 0)';
+			this.context.strokeStyle = 'rgba(0, 0, 0, 0)';
+			//this.context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+			//this.context.strokeStyle = 'rgba(255, 255, 255, 0)';
+		}
 	}
 
 
