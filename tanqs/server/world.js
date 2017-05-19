@@ -425,6 +425,8 @@ World.prototype.drop_flag = function(tank_id) {
 World.prototype.flag_capture = function(tank_id, team_id) {
 	var tank = this.tanks[tank_id];
 
+	tank.flag.capture(tank); // Send forth the shock wave
+
 	tank.set_flag(this.flag_types.default);
 
 	var flag = this.flags[tank.flag_id];
@@ -433,13 +435,13 @@ World.prototype.flag_capture = function(tank_id, team_id) {
 	tank.flag_id = -1;
 	tank.flag_team = -1;
 
-	var team = this.teams[team_id];
+	/*var team = this.teams[team_id];
 	for (var i = 0; i < team.tanks.length; i++) {
 		var enemy_tank = this.tanks[team.tanks[i]];
 		if (enemy_tank.alive) {
 			this.kill_tank(team.tanks[i]);
 		}
-	}
+	}*/
 
 	var team = this.teams[tank.team];
 	if (team) {
@@ -576,7 +578,8 @@ World.prototype.update_bullets = function() {
 			}
 
 			bullet.drive();
-			bullet.vel.m_scale(bullet.drag);
+			if (bullet.drag)
+				bullet.vel.m_scale(bullet.drag);
 			bullet.rad += bullet.expansion;
 			if (bullet.expansion > 0) {
 				bullet.expansion -= 0.45;
