@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": "./maps/skinny.json"
+  "map": "./maps/spiral.json"
 }
