@@ -44,45 +44,10 @@
 	],
 	"rectangles": [
 		{
-			"x": 50,
-			"y": -25,
-			"hwidth": 50,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": -25,
-			"y": -50,
-			"hwidth": 25,
-			"hheight": 50,
-			"gate_team": -1
-		},
-		{
-			"x": -50,
-			"y": 25,
-			"hwidth": 50,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": 25,
-			"y": 50,
-			"hwidth": 25,
-			"hheight": 50,
-			"gate_team": -1
-		},
-		{
 			"x": 250,
 			"y": 75,
 			"hwidth": 50,
 			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": 175,
-			"y": 50,
-			"hwidth": 25,
-			"hheight": 50,
 			"gate_team": -1
 		},
 		{
@@ -114,13 +79,6 @@
 			"gate_team": -1
 		},
 		{
-			"x": 50,
-			"y": -175,
-			"hwidth": 50,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
 			"x": 125,
 			"y": -150,
 			"hwidth": 25,
@@ -144,20 +102,6 @@
 		{
 			"x": -250,
 			"y": -75,
-			"hwidth": 50,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": -175,
-			"y": -50,
-			"hwidth": 25,
-			"hheight": 50,
-			"gate_team": -1
-		},
-		{
-			"x": -50,
-			"y": 175,
 			"hwidth": 50,
 			"hheight": 25,
 			"gate_team": -1
