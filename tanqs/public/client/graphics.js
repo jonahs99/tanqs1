@@ -226,7 +226,7 @@ Renderer.prototype.render_map = function() {
 		this.context.textAlign = "left";
 		this.context.textBaseline = "top";
 		this.context.fillStyle = "#eee";
-		this.context.fillText(credit_text, this.world.map.size.width / 2, this.world.map.size.height / 2 + 20);
+		this.context.fillText(credit_text, -this.world.map.size.width / 2, this.world.map.size.height / 2 + 20);
 	}
 	
 };
