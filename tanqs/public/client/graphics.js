@@ -217,6 +217,18 @@ Renderer.prototype.render_map = function() {
 			this.context.stroke();
 	}
 
+	// Draw the credits
+
+	if (this.world.map.credit) {
+		var credit_text = "Map credit: " + this.world.map.credit;
+
+		this.context.font = "16px Open Sans";
+		this.context.textAlign = "left";
+		this.context.textBaseline = "bottom";
+		this.context.fillStyle = "#eee";
+		this.context.fillText(credit_text, 20 - this.world.map.size.width / 2, this.world.map.size.height / 2 - 20);
+	}
+	
 };
 
 Renderer.prototype.render_tank_tracks = function(tank) {

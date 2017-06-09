@@ -52,6 +52,10 @@ World.prototype.parse_map = function(map) {
 
 	this.map = {size: map.size, rectangles: []};
 
+	if (map.credit) { // Text displayed in bottom left of the map
+		this.map.credit = map.credit;
+	}
+
 	for (var i = 0; i < map.teams.length; i++) {
 
 		var team_data = map.teams[i];
