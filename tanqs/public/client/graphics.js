@@ -222,11 +222,11 @@ Renderer.prototype.render_map = function() {
 	if (this.world.map.credit) {
 		var credit_text = "Map credit: " + this.world.map.credit;
 
-		this.context.font = "16px Open Sans";
+		this.context.font = "24px Open Sans";
 		this.context.textAlign = "left";
-		this.context.textBaseline = "bottom";
+		this.context.textBaseline = "top";
 		this.context.fillStyle = "#eee";
-		this.context.fillText(credit_text, 20 - this.world.map.size.width / 2, this.world.map.size.height / 2 - 20);
+		this.context.fillText(credit_text, this.world.map.size.width / 2, this.world.map.size.height / 2 + 20);
 	}
 	
 };
