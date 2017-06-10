@@ -581,6 +581,14 @@ Renderer.prototype.render_leaderboard = function() {
 		line++;
 	}
 
+	// Draw the time remaining in the game
+	var time_text = this.game.time_left.m + ":" + (this.game.time_left.s < 10 ? "0" : "") + this.game.time_left.s;
+	this.context.textAlign = "left";
+	this.context.textBaseline = "center";
+	this.context.font = "bold 24px Open Sans";
+	this.context.fillStyle = "#eee";
+	this.context.fillText(time_text, left_x + 20, line_y(line - 2.5));
+
 	this.context.textAlign = "center";
 	this.context.font = "bold 24px Open Sans";
 	this.context.fillStyle = "#000";

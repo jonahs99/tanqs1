@@ -152,6 +152,7 @@ Client.prototype.on_update = function(msg) {
 };
 
 Client.prototype.on_who = function(msg) {
+	this.game.time_left = msg.time;
 	this.game.leaderboard = msg.clients;
 	this.game.leaderboard.sort(function(a, b) {
 		//return (a.stats.deaths + b.stats.kills - a.stats.kills - b.stats.deaths);
