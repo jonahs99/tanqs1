@@ -26,7 +26,7 @@ Renderer.prototype.render_world = function() {
 
 	// Calculate delta value for interpolation
 
-	var elapsed = Date.now() - this.game.last_update_time;
+	var elapsed = Date.now() - this.game.last_update_;
 	var delta = clamp(elapsed / this.game.time_step, 0, 1.2); // Allow dead-reckoning for up to 0.2 time steps if necessary
 
 	// Clear the canvas
@@ -582,12 +582,12 @@ Renderer.prototype.render_leaderboard = function() {
 	}
 
 	// Draw the time remaining in the game
-	var time_text = this.game.time_left.m + ":" + (this.game.time_left.s < 10 ? "0" : "") + this.game.time_left.s;
+	/*var time_text = this.game.time_left.m + ":" + (this.game.time_left.s < 10 ? "0" : "") + this.game.time_left.s;
 	this.context.textAlign = "left";
 	this.context.textBaseline = "center";
 	this.context.font = "bold 24px Open Sans";
 	this.context.fillStyle = "#eee";
-	this.context.fillText(time_text, left_x + 20, line_y(line - 2.5));
+	this.context.fillText(time_text, left_x + 20, line_y(line - 2.5));*/
 
 	this.context.textAlign = "center";
 	this.context.font = "bold 24px Open Sans";
