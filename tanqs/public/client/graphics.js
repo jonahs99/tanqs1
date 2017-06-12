@@ -26,7 +26,7 @@ Renderer.prototype.render_world = function() {
 
 	// Calculate delta value for interpolation
 
-	var elapsed = Date.now() - this.game.last_update_;
+	var elapsed = Date.now() - this.game.last_update_time;
 	var delta = clamp(elapsed / this.game.time_step, 0, 1.2); // Allow dead-reckoning for up to 0.2 time steps if necessary
 
 	// Clear the canvas
