@@ -18,6 +18,9 @@ http.listen(server_port, function(){
 var GameServer = require('./server/server.js');
 
 var map_path = config.map;
+if (map_path instanceof Array) {
+  map_path = map_path[ Math.floor(Math.random() * map_path.length) ];
+}
 
 var server = new GameServer(http, map_path);
 server.begin();
