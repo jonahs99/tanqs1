@@ -385,12 +385,12 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	// Gun
 	if (tank.flag != "shock wave") {
-		if (tank.flag == "triple_shot") {
-			this.context.rotate(-Math.PI / 5);
-			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
-			this.context.rotate(2 * Math.PI / 5);
-			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2, rad * 2, rad * 0.4);
-			this.context.rotate(-Math.PI / 5);
+		if (tank.flag == "triple shot") {
+			this.context.rotate(-Math.PI * 0.03);
+			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2 - rad * 0.3, rad * 2, rad * 0.4);
+			this.context.rotate(2 * Math.PI * 0.03);
+			this.context.rect(-2 * rad * (1 - tank.gun_len), -rad * 0.2 + rad * 0.3, rad * 2, rad * 0.4);
+			this.context.rotate(-Math.PI * 0.03);
 		}
 		if (tank.flag == "sniper") {
 			this.context.rect(-2 * rad * (1 - tank.gun_len) - 0.2 * rad, -rad * 0.2, rad * 2.4, rad * 0.4);
