@@ -699,7 +699,7 @@ Renderer.prototype.render_leaderboard = function() {
 		this.context.fillStyle = '#eee'
 		this.context.textAlign = "left";
 		this.context.textBaseline = "middle";
-		var text = this.game.leaderboard.length + "/24 playing (" + this.game.n_spectator + " spectating)";
+		var text = this.game.leaderboard.length + "/32 playing (" + this.game.n_spectator + " spectating)";
 		this.context.fillText(text, left_x, line_y(line));
 		line++;
 

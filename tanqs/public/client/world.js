@@ -17,10 +17,10 @@ function World(game) {
 
 World.prototype.reset = function() {
 
-	for (var i = 0; i < 24; i++) {
+	for (var i = 0; i < 32; i++) {
 		this.tanks.push(new Tank());
 	}
-	for (var i = 0; i < 72; i++) {
+	for (var i = 0; i < 96; i++) {
 		this.bullets.push(new Bullet());
 	}
 	for (var i = 0; i < 32; i++) {
