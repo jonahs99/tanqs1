@@ -83,6 +83,7 @@ Game.prototype.change_state = function(state) {
 		if (game.player_tank.killed_by > -1) {
 			var killer = game.world.tanks[game.player_tank.killed_by];
 			splash_text.innerHTML = "<span style=\"color:" + killer.color + "\">" + killer.name + "</span> rekt you ;&gt";
+			this.renderer.following = game.player_tank.killed_by;
 		} else {
 			splash_text.innerHTML = "you got blown up ;>";
 		}
