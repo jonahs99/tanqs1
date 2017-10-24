@@ -51,7 +51,7 @@ Renderer.prototype.render_world = function() {
 			this.game.camera.rotate = 0;
 		}
 		scl = this.game.player_tank.flag == 'sniper' ? 0.7 : 1;
-	} else if (this.game.state == GameState.LOGIN) {
+	} else if (this.game.state == GameState.LOGIN || this.game.state == GameState.RESPAWN) {
 		scl = 0.8;
 		// Pan around the best player
 		if (this.following > -1) {
