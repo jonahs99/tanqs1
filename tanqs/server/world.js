@@ -18,8 +18,8 @@ function World() {
 
 	this.teams = [];
 
-	this.n_tanks = 24;
-	this.n_bullets = 72;
+	this.n_tanks = 32;
+	this.n_bullets = 96;
 	this.n_flags = 32;
 
 	this.reset();
