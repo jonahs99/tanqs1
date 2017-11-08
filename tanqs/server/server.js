@@ -250,8 +250,9 @@ GameServer.prototype.send_refuse = function(socket) {
 };
 
 GameServer.prototype.score_formula = function(client) {
-	var crossover = 5;
-	return Math.round(crossover * client.stats.points / (client.stats.death_record + crossover));
+	//var crossover = 5;
+	//return Math.round(crossover * client.stats.points / (client.stats.death_record + crossover));
+	return client.stats.points - (client.stats.deaths * 10);
 };
 
 GameServer.prototype.send_who = function() {
