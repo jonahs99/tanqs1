@@ -7,38 +7,38 @@
 	"teams": [
 		{
 			"spawn": {
-				"x": 600,
-				"y": 300,
+				"x": 1100,
+				"y": 200,
 				"hwidth": 100,
 				"hheight": 100
 			},
 			"pad": {
-				"x": 600,
-				"y": 300,
+				"x": 1100,
+				"y": 200,
 				"hwidth": 100,
 				"hheight": 100
 			},
 			"flag": {
-				"x": 900,
-				"y": 600
+				"x": 1400,
+				"y": 250
 			}
 		},
 		{
 			"spawn": {
-				"x": -600,
-				"y": -300,
+				"x": -1100,
+				"y": -200,
 				"hwidth": 100,
 				"hheight": 100
 			},
 			"pad": {
-				"x": -600,
-				"y": -300,
+				"x": -1100,
+				"y": -200,
 				"hwidth": 100,
 				"hheight": 100
 			},
 			"flag": {
-				"x": -900,
-				"y": -600
+				"x": -1400,
+				"y": -250
 			}
 		}
 	],
@@ -128,31 +128,10 @@
 			"gate_team": -1
 		},
 		{
-			"x": 25,
-			"y": -850,
-			"hwidth": 25,
-			"hheight": 150,
-			"gate_team": -1
-		},
-		{
-			"x": -25,
-			"y": 850,
-			"hwidth": 25,
-			"hheight": 150,
-			"gate_team": -1
-		},
-		{
 			"x": -1150,
 			"y": 375,
 			"hwidth": 50,
 			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": -1225,
-			"y": 550,
-			"hwidth": 25,
-			"hheight": 150,
 			"gate_team": -1
 		},
 		{
@@ -184,13 +163,6 @@
 			"gate_team": -1
 		},
 		{
-			"x": 1225,
-			"y": -550,
-			"hwidth": 25,
-			"hheight": 150,
-			"gate_team": -1
-		},
-		{
 			"x": 1050,
 			"y": -25,
 			"hwidth": 250,
@@ -212,13 +184,6 @@
 			"gate_team": -1
 		},
 		{
-			"x": 1475,
-			"y": 175,
-			"hwidth": 25,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
 			"x": -1050,
 			"y": 25,
 			"hwidth": 250,
@@ -237,13 +202,6 @@
 			"y": -100,
 			"hwidth": 25,
 			"hheight": 50,
-			"gate_team": -1
-		},
-		{
-			"x": -1475,
-			"y": -175,
-			"hwidth": 25,
-			"hheight": 25,
 			"gate_team": -1
 		},
 		{
@@ -345,20 +303,6 @@
 			"gate_team": -1
 		},
 		{
-			"x": 725,
-			"y": -575,
-			"hwidth": 25,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
-			"x": -725,
-			"y": 575,
-			"hwidth": 25,
-			"hheight": 25,
-			"gate_team": -1
-		},
-		{
 			"x": 1275,
 			"y": 625,
 			"hwidth": 25,
@@ -454,6 +398,160 @@
 			"y": -975,
 			"hwidth": 375,
 			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -12.5,
+			"y": -12.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 12.5,
+			"y": 12.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 287.5,
+			"y": -62.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 312.5,
+			"y": -37.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -312.5,
+			"y": 37.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -287.5,
+			"y": 62.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 925,
+			"y": -700,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": -925,
+			"y": 700,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": -337.5,
+			"y": 612.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 337.5,
+			"y": -612.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 225,
+			"y": 500,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": 275,
+			"y": 700,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": 325,
+			"y": 900,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": 387.5,
+			"y": 362.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 437.5,
+			"y": 662.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": 487.5,
+			"y": 762.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -487.5,
+			"y": -762.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -437.5,
+			"y": -662.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -387.5,
+			"y": -362.5,
+			"hwidth": 12.5,
+			"hheight": 12.5,
+			"gate_team": -1
+		},
+		{
+			"x": -325,
+			"y": -900,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": -275,
+			"y": -700,
+			"hwidth": 25,
+			"hheight": 100,
+			"gate_team": -1
+		},
+		{
+			"x": -225,
+			"y": -500,
+			"hwidth": 25,
+			"hheight": 100,
 			"gate_team": -1
 		}
 	],
