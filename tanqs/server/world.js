@@ -525,7 +525,7 @@ World.prototype.update_tanks = function() {
 			tank.steer();
 			tank.drive();
 			tank.pos.m_clampxy(-this.map.size.width / 2 + tank.rad, this.map.size.width / 2 - tank.rad,
-			 -this.map.size.height / 2 + tank.rad, this.map.size.height / 2 - tank.rad);
+			-this.map.size.height / 2 + tank.rad, this.map.size.height / 2 - tank.rad);
 
 			for (var j = 0; j < tank.max_bullets; j++) {
 				if (tank.reload[j] < tank.reload_ticks) {

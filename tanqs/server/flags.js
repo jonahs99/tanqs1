@@ -54,7 +54,7 @@ function Flags(world) {
 		name: "",
 		tank_attr: {max_vel: 4.5},
 		weapon_attr: {max_bullets: 1, reload_ticks: 100},
-		capture_bullet_attr: {rad: 24, speed: 0, life: 60, ricochet: 0, wall_collide: false, pass_thru: true, expansion: 30}
+		capture_bullet_attr: {rad: 24, speed: 0, life: 60, ricochet: 0, wall_collide: false, pass_thru: true, expansion: 60}
 	});
 	this.team.capture = function(tank) {
 		shoot(world, tank, this.capture_bullet_attr, 0, true, false, true);
