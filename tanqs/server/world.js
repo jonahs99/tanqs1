@@ -606,12 +606,13 @@ World.prototype.update_bullets = function() {
 World.prototype.update_flags = function() {
 
 	var respawn_ticks = 1000;
+	var bot_respawn_ticks = 160;
 
 	for (var i = 0; i < this.flags.length; i++) {
 		var flag = this.flags[i];
 		if (flag.alive) {
 			flag.cooldown--;
-			if (flag.bot_id > -1 && flag.cooldown <= - respawn_ticks) {
+			if (flag.bot_id > -1 && flag.cooldown <= - bot_respawn_ticks) {
 				flag.alive = false;
 				flag.type = random_flag_type();
 				flag.cooldown = 0;
