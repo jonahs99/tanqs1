@@ -1,4 +1,4 @@
 {
   "port": 3000,
-  "map": ["./maps/bots.json"]
+  "map": ["./maps/organic.json"]
 }

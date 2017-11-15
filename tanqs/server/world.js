@@ -614,7 +614,7 @@ World.prototype.update_flags = function() {
 			flag.cooldown--;
 			if (flag.bot_id > -1 && flag.cooldown <= - bot_respawn_ticks) {
 				flag.alive = false;
-				flag.type = random_flag_type();
+				flag.type = random_rare_flag_type();
 				flag.cooldown = 0;
 				this.spawn_bot(flag.bot_id);
 			} else if (flag.team == -1 && flag.cooldown <= - respawn_ticks) {
