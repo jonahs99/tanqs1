@@ -636,7 +636,8 @@ World.prototype.update_flags = function() {
 			if (!carried) {
 				console.log("Fixed the team flag gone bug...");
 				flag.pos.set(flag.spawn);
-				flag.cooldown = 0;
+				flag.cooldown = 50;
+				flag.alive = true;
 			}
 		}
 	}
