@@ -73,6 +73,10 @@ Vec2.prototype.mag2 = function() {
 
 };
 
+Vec2.prototype.dir = function() {
+	return Math.atan2(this.y, this.x);
+}
+
 Vec2.prototype.dot = function(v) {
 
 	return this.x * v.x + this.y * v.y;

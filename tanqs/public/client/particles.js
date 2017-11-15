@@ -10,8 +10,11 @@ Particles.prototype.update = function() {
 		var particle = this.particles[i];
 
 		particle.scale *= particle.scale_speed;
-		particle.pos.m_add(particle.vel);
-		particle.vel.m_scale(particle.drag);
+		//particle.pos.m_add(particle.vel);
+		//particle.vel.m_scale(particle.drag);
+		particle.pos.m_addxy(particle.speed * Math.cos(particle.dir), particle.speed * Math.sin(particle.dir));
+		particle.speed *= particle.drag;
+		particle.dir += (Math.random() * 2 - 1) * particle.wander;
 
 		if (particle.rad * particle.scale < particle.min_rad) {
 			this.particles.splice(i, 1);
@@ -21,7 +24,7 @@ Particles.prototype.update = function() {
 };
 
 Particles.prototype.add_particle = function(pos, vel, rad, min_rad, scale_speed, drag, fill) {
-	var particle = {pos: pos, vel: vel, rad: rad, scale: 1, scale_speed: scale_speed, fill: fill, drag: drag, min_rad: min_rad};
+	var particle = {pos: pos, speed: vel.mag(), dir: vel.dir(), wander: 0.2, rad: rad, scale: 1, scale_speed: scale_speed, fill: fill, drag: drag, min_rad: min_rad};
 	this.particles.push(particle);
 };
 
