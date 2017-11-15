@@ -625,6 +625,19 @@ World.prototype.update_flags = function() {
 				flag.pos.set(flag.spawn);
 				flag.cooldown = 0;
 			}
+		} else if (flag.team > -1) {
+			var carried = false;
+			for (var j = 0; j < this.tanks.length; j++) {
+				if (this.tanks[j].alive && this.tanks[j].flag_id == i) {
+					carried = true;
+					break;
+				}
+			}
+			if (!carried) {
+				console.log("Fixed the team flag gone bug...");
+				flag.pos.set(flag.spawn);
+				flag.cooldown = 0;
+			}
 		}
 	}
 };
