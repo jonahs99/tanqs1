@@ -817,10 +817,12 @@ Renderer.prototype.render_ui = function() {
 		this.context.font = "18px Open Sans";
 		this.context.fillText(sub_text, 0, -this.canvas.height/2+100);
 	} else if (this.game.player_tank.team == -1) {
-		// Explain the rogue player thing
-		this.context.fillText("You are a rogue tank", 0, -this.canvas.height/2+60);
-		this.context.font = "18px Open Sans";
-		this.context.fillText("(until someone else joins)", 0, -this.canvas.height/2+100);
+		if (this.game.game_type == 'ctf') {
+			// Explain the rogue player thing
+			this.context.fillText("You are a rogue tank", 0, -this.canvas.height/2+60);
+			this.context.font = "18px Open Sans";
+			this.context.fillText("(until someone else joins)", 0, -this.canvas.height/2+100);
+		}
 	}
 
 };

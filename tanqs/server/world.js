@@ -10,6 +10,7 @@ var Flags = new require('./flags.js');
 function World() {
 
 	this.server = null;
+	this.game_type = 'ffa';
 
 	this.tanks = [];
 	this.bullets = [];
@@ -273,6 +274,11 @@ World.prototype.reassign_tank_team = function(id) {
 	}
 	tank.team = -1;
 
+	if (this.game_type = 'ffa') { //Everyone is rogue
+		this.assign_tank_team(id, -1);
+		return;
+	}
+
 	var n_rogue = 0;
 	var n_red = 0;
 	var n_blue = 0;
@@ -290,9 +296,6 @@ World.prototype.reassign_tank_team = function(id) {
 	}
 
 	var n_total = n_rogue + n_red + n_blue;
-	console.log("rogue:" + n_rogue);
-	console.log("red:" + n_red);
-	console.log("blue:" + n_blue);
 
 	if (n_red < n_blue) {
 		this.assign_tank_team(id, 0);
@@ -319,7 +322,11 @@ World.prototype.assign_tank_team = function(id, team) {
 	tank.team = team;
 
 	if (team == -1) {
-		tank.color = '#4d6';
+		if (this.game_type == 'ctf') {
+			tank.color = '#4d6';
+		} else {
+			tank.color = random_color();
+		}
 	} else {
 		var tries = 12;
 		var repeat_color = true;
@@ -357,7 +364,7 @@ World.prototype.spawn_tank = function(id) {
 		tank.reload[i] = 0;
 	}
 
-	if (tank.team == -1) { // Re-evaluate rogue status
+	if (this.game_type == 'ctf' && tank.team == -1) { // Re-evaluate rogue status
 		this.reassign_tank_team(id);
 	}
 
@@ -367,7 +374,7 @@ World.prototype.spawn_tank = function(id) {
 		tank.pos.x += (Math.random() * 2 - 1) * spawn_rect.hwidth;
 		tank.pos.y += (Math.random() * 2 - 1) * spawn_rect.hheight;
 	} else {
-		tank.pos.set_xy((Math.random() - 0.5) * this.map.size.width, (Math.random() - 0.5) * this.map.size.height);
+		tank.pos.set_xy((Math.random() - 0.5) * this.map.size.width * 0.9, (Math.random() - 0.5) * this.map.size.height * 0.9);
 	}
 
 	tank.dir = Math.atan2(-tank.pos.y, -tank.pos.x) || 0;

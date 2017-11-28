@@ -9,7 +9,7 @@ var GameServer = function(http, map_path) {
 	this.frames_update = 3; // Every n ticks, update the clients
 	this.frame = 0;
 
-	this.server_config = {ms_frame: this.ms_frame, frames_update: this.frames_update};
+	this.server_config = {ms_frame: this.ms_frame, frames_update: this.frames_update, game_type: 'ffa'};
 
 	var map = require(map_path);
 
