@@ -10,7 +10,7 @@ var Flags = new require('./flags.js');
 function World() {
 
 	this.server = null;
-	this.game_type = 'ffa';
+	this.game_type = 'ctf';
 
 	this.tanks = [];
 	this.bullets = [];
@@ -274,7 +274,7 @@ World.prototype.reassign_tank_team = function(id) {
 	}
 	tank.team = -1;
 
-	if (this.game_type = 'ffa') { //Everyone is rogue
+	if (this.game_type == 'ffa') { //Everyone is rogue
 		this.assign_tank_team(id, -1);
 		return;
 	}
