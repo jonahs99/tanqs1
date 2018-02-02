@@ -62,7 +62,7 @@ Particles.prototype.add_flag_mist = function(flag) {
 Particles.prototype.add_tank_explosion = function(tank) {
 
 	var max_vel = 3;
-	var max_rad = tank.rad / 2;
+	var max_rad = tank.rad * 0.7;
 
 	for (var i = 0; i < random_float(12, 18); i++) {
 		var pos = new Vec2().set(tank.current.pos);//.m_addxy(random_float(-tank.rad, tank.rad), random_float(-tank.rad, tank.rad));
@@ -81,7 +81,7 @@ Particles.prototype.add_tank_explosion = function(tank) {
 Particles.prototype.add_bullet_explosion = function(bullet) {
 
 	var max_vel = 1.6;
-	var max_rad = bullet.rad;
+	var max_rad = bullet.rad * 1.1;
 
 	for (var i = 0; i < random_float(3, 5); i++) {
 		var pos = new Vec2().set(bullet.draw_pos);//.m_addxy(random_float(-bullet.rad, bullet.rad), random_float(-bullet.rad, bullet.rad));
@@ -100,7 +100,7 @@ Particles.prototype.add_bullet_trail = function(bullet) {
 };
 
 Particles.prototype.render = function(context) {
-
+	context.globalCompositeOperation = 'lighter';
 	for (var i = 0; i < this.particles.length; i++) {
 		var particle = this.particles[i];
 
@@ -113,5 +113,5 @@ Particles.prototype.render = function(context) {
 		context.fill();
 
 	}
-
+	context.globalCompositeOperation = 'normal';
 };
