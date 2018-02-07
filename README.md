@@ -1,4 +1,4 @@
-# [tanqs.io](tanqs.io)
+# [tanqs.io](http://tanqs.io)
 
 In-browser, fully multiplayer capture-the-flag built on node.js and websockets. Join the community with thousands of middle schoolers worldwide!
 
@@ -12,6 +12,6 @@ In-browser, fully multiplayer capture-the-flag built on node.js and websockets. 
 * Numerous power ups
 * Particle system
 * "Spectator mode" follows players before you join the game
-* A barely-functioning [map editor](tanqs.io/map.html)
+* A barely-functioning [map editor](http://tanqs.io/map.html)
 
 ## Please note: A lot of code in this project is garbage. It was meant as a prototype and I am working on a complete rewrite.
