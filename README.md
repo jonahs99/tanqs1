@@ -2,7 +2,7 @@
 
 In-browser, fully multiplayer capture-the-flag built on node.js and websockets!
 
-![A nice screenshot](url)
+![A nice screenshot](tanqs-screen.png)
 
 ## Features
 
