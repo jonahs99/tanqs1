@@ -2,7 +2,7 @@
 
 In-browser, fully multiplayer capture-the-flag built on node.js and websockets. Join the community with thousands of middle schoolers worldwide!
 
-![A nice screenshot](tanqs-screen.png)
+![A nice screenshot](tanqs-crop.png)
 
 ## Features
 
