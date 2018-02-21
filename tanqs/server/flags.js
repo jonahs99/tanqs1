@@ -120,7 +120,7 @@ function Flags(world) {
 		bullet_attr: {
 			type: "grenade",
 			rad: 8,
-			ricochet: 10,
+			ricochet: 1,
 			speed: 7,
 			life: 100,
 			hurt: false,

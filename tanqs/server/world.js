@@ -407,6 +407,10 @@ World.prototype.kill_tank = function(tank_id) {
 
 World.prototype.kill_bullet = function(bullet_id) {
 	var bullet = this.bullets[bullet_id];
+	if (bullet.explode) {
+		var tank = this.tanks[bullet.tank]
+		bullet.flag.explode(tank, bullet);
+	}
 	bullet.alive = false;
 };
 
@@ -598,11 +602,10 @@ World.prototype.update_bullets = function() {
 			} else {
 				bullet.expansion = 0;
 			}
-			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
-				if (bullet.explode) {
-					var tank = this.tanks[bullet.tank]
-					bullet.flag.explode(tank, bullet);
-				}
+
+			var off_map = !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2,
+				this.map.size.width / 2, this.map.size.height / 2);
+			if (bullet.life <= 0 || (off_map && bullet.type != "explosion")) {
 				this.kill_bullet(i);
 			} else {
 				bullet.life--;
