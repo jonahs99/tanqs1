@@ -84,6 +84,12 @@ function Flags(world) {
 		}
 	};
 
+	// USELESS
+
+	this.useless = morph(this.default, {
+		name: "useless"
+	})
+
 	// SHIELD
 
 	this.shield = morph(this.default, {name: "shield", tank_attr: {shield_rad: 40}});

@@ -207,7 +207,8 @@ var flag_types = [
 	'super_bullet',
 	'shock_wave',
 	'guided_missile',
-	'grenade'
+	'grenade',
+	'useless'
 	]
 ];
 function random_flag_type() {
