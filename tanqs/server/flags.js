@@ -112,6 +112,7 @@ function Flags(world) {
 	this.grenade = morph(this.default, 
 	{
 		name: "grenade",
+		kill_verb: "detonated",
 		weapon_attr: {
 			max_bullets: 2,
 			reload_ticks: 150
