@@ -206,7 +206,8 @@ var flag_types = [
 	'tunneler',
 	'super_bullet',
 	'shock_wave',
-	'guided_missile'
+	'guided_missile',
+	'grenade'
 	]
 ];
 function random_flag_type() {
@@ -599,8 +600,8 @@ World.prototype.update_bullets = function() {
 			}
 			if (bullet.life <= 0 || !bullet.pos.in_BB(-this.map.size.width / 2, -this.map.size.height / 2, this.map.size.width / 2, this.map.size.height / 2)) {
 				if (bullet.explode) {
-					console.log("explode!");
-					bullet.explode(bullet.tank, bullet);
+					var tank = this.tanks[bullet.tank]
+					bullet.flag.explode(tank, bullet);
 				}
 				this.kill_bullet(i);
 			} else {
@@ -662,11 +663,12 @@ World.prototype.handle_collisions = function() {
 		if (tank.alive && tank.spawn_timer >= 125) {
 			for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 				var bullet = this.bullets[bullet_id];
+				if (!bullet.hurt) continue;
 				if (bullet.alive && bullet.tank != tank_id && (bullet.team == -1 || bullet.team != tank.team || bullet.team == tank.flag_team)) {
 					var dist2 = (new Vec2()).set(tank.pos).m_sub(bullet.pos).mag2();
 					var rad2 = Math.pow((tank.rad*1.25) + bullet.rad, 2);
 					if (dist2 < rad2) {
-						this.server.player_kill(bullet.tank, tank_id)
+						this.server.player_kill(bullet.tank, tank_id, bullet)
 						this.kill_tank(tank_id);
 						if (!bullet.pass_thru) {
 							this.kill_bullet(bullet_id);

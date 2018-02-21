@@ -458,14 +458,19 @@ Renderer.prototype.render_bullet = function(bullet) {
 
 	if (!bullet.guided) {
 
-		if (bullet.old_rad != bullet.rad) {
+		if (bullet.type == "explosion") {
 			this.context.lineWidth = 6;
 			this.context.strokeStyle = bullet.color;
 			this.context.fillStyle = 'rgba(255, 255, 255, 0.06)';
 		}
 		
+		var rad_mult = 1;
+		if (bullet.type == "grenade") {
+			var rad_mult = Math.sin(Date.now() * 6 / 400) * 0.2 + 1.1;
+		}
+
 		this.context.beginPath();
-		this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad, 0, 2*Math.PI);
+		this.context.arc(bullet.draw_pos.x, bullet.draw_pos.y, bullet.draw_rad * rad_mult, 0, 2*Math.PI);
 
 		this.context.fill();
 		this.context.stroke();
@@ -558,11 +563,12 @@ Renderer.prototype.render_leaderboard = function() {
 		return -this.canvas.height/2 + 30 + 26*l;
 	}
 
+	var name_width = 300;
 	var right_x = this.canvas.width/2-30;
-	var left_x = this.canvas.width/2-400;
+	var left_x = right_x - name_width - 120;
 	var center_x = (right_x + left_x) / 2;
 
-	this.context.fillStyle = "rgba(0,0,0,0.2)";
+	//this.context.fillStyle = "rgba(0,0,0,0.2)";
 	//this.context.fillRect(left_x - 15, -this.canvas.height/2 + 5, right_x - left_x + 30, this.canvas.height - 10);
 
 	this.context.textAlign = "right";
@@ -574,7 +580,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = team.name + " team: " + team.score;
 
 			this.context.fillStyle = (['#f66', '#6bf'])[team.id];
-			this.context.font = "20px Open Sans";
+			this.context.font = "3vh Open Sans";
 
 			this.context.fillText(text, right_x - 20, line_y(line));
 			line++;
@@ -599,14 +605,14 @@ Renderer.prototype.render_leaderboard = function() {
 	this.context.fillStyle = "#eee";
 	this.context.fillText(time_text, left_x + 20, line_y(line - 2.5));*/
 
-	this.context.textAlign = "center";
+	/*this.context.textAlign = "center";
 	this.context.font = "bold 24px Open Sans";
 	this.context.fillStyle = "#000";
 	this.context.fillText("Leaderboard", center_x, line_y(line) + 2);
 	this.context.font = "24px Open Sans";
 	this.context.fillStyle = "#eee";
 	this.context.fillText("Leaderboard", center_x, line_y(line));
-	line += 1.5;
+	line += 1.5;*/
 
 	var n_leaderboard = 10;
 
@@ -624,18 +630,18 @@ Renderer.prototype.render_leaderboard = function() {
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			
-			this.context.font = "18px Open Sans";
+			this.context.font = "3vh Open Sans";
 			if (this.game.player_tank && this.game.player_id == client.tank_id) {
-				this.context.font = "bold italic 18px Open Sans";
+				this.context.font = "bold 3vh Open Sans";
 				in_topten = true;
 				player_client = client;
 				player_rank = i;
 			}
 			
 			this.context.textAlign = "left";
-			this.context.fillText(text, left_x, line_y(line));
+			this.context.fillText(text, left_x, line_y(line), name_width);
 			this.context.textAlign = "right";
-			this.context.fillText(score_text, right_x - 120, line_y(line));
+			this.context.fillText(score_text, right_x - 100, line_y(line));
 			this.context.fillText(kd_text, right_x - 20, line_y(line));
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].alive ? '#6f6' : '#f06';

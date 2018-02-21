@@ -154,8 +154,12 @@ World.prototype.server_update_bullets = function(msg) {
 				
 				tank.gun_len = 0.85;
 				bullet.alive = true;
+				bullet.type = bullet_data.type;
 
 				bullet.old_pos.set(tank.draw.pos);
+				if (bullet.type == "explosion") {
+					bullet.old_pos.set_xy(bullet_data.x, bullet_data.y);
+				}
 				bullet.draw_pos.set(bullet.old_pos);
 				bullet.current_pos.set(bullet.old_pos);
 				bullet.old_rad = bullet_data.rad;
@@ -175,7 +179,9 @@ World.prototype.server_update_bullets = function(msg) {
 			
 		} else {
 			if (bullet.alive) { // Bullet just died!
-				if (bullet.rad < 50) this.game.particles.add_bullet_explosion(bullet);
+				if (bullet.rad < 50) {
+					this.game.particles.add_bullet_explosion(bullet);
+				}
 			}
 			bullet.alive = false;
 		}

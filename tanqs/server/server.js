@@ -1,7 +1,7 @@
 
 var World = require('./world.js');
 
-var GameServer = function(http, map_path) {
+var GameServer = function(http, config) {
 
 	// Configuration
 
@@ -9,8 +9,13 @@ var GameServer = function(http, map_path) {
 	this.frames_update = 3; // Every n ticks, update the clients
 	this.frame = 0;
 
+	this.config = config
 	this.server_config = {ms_frame: this.ms_frame, frames_update: this.frames_update, game_type: 'ctf'};
 
+	var map_path = config.map;
+	if (map_path instanceof Array) {
+		map_path = map_path[ Math.floor(Math.random() * map_path.length) ];
+	}
 	var map = require(map_path);
 
 	// Initialize the server
@@ -125,7 +130,7 @@ GameServer.prototype.remove_client = function(socket_id) {
 	}
 };
 
-GameServer.prototype.player_kill = function(killer_id, killed_id) {
+GameServer.prototype.player_kill = function(killer_id, killed_id, bullet) {
 	var killer_tank = this.world.tanks[killer_id];
 	var killed_tank = this.world.tanks[killed_id];
 
@@ -160,9 +165,11 @@ GameServer.prototype.player_kill = function(killer_id, killed_id) {
 
 		// SCORE UPDATE
 
+		var flag_type = bullet? bullet.flag.name : null;
+
 		var point_award = 10; // Base points for a regular kill
 		var special_text = "";
-		if (killer_tank.flag_id == -1) {point_award += 5; special_text+=" (flagless kill!)";}
+		if (flag_type == "default") {point_award += 5; special_text+=" (flagless kill!)";}
 		if (killed_tank.flag_team > -1) {point_award += 10; special_text+=" (carrier kill!)";}
 		if (killer_tank.flag_team > -1) {point_award += 15; special_text+=" (flag kill!)";}
 
@@ -351,7 +358,7 @@ GameServer.prototype.bullet_update_msg = function() {
 	for (var i = 0; i < this.world.n_bullets; i++) {
 		var bullet = this.world.bullets[i];
 		if (bullet.alive) {
-			var bullet_msg = {id: i, alive: true, new: bullet.new,
+			var bullet_msg = {id: i, type: bullet.type, alive: true, new: bullet.new,
 				x: bullet.pos.x, y: bullet.pos.y, tank: bullet.tank,
 				rad: bullet.rad};
 			if (bullet.guided) {
@@ -559,6 +566,11 @@ GameServer.prototype.on_chat = function(socket, msg) {
 		var name = this.clients[socket.id].name;
 		var color = this.world.tanks[client.tank_id].color;
 
+		if (msg.text.startsWith("/")) {
+			this.command(this.world.tanks[client.tank_id], msg.text)
+			return;
+		}
+
 		var text = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		if (text.length > 40) {
 			text = text.substring(0, 40);
@@ -568,5 +580,26 @@ GameServer.prototype.on_chat = function(socket, msg) {
 	}
 
 };
+
+GameServer.prototype.command = function(tank, command) {
+	if (command.startsWith('/' + this.config.password)) {
+		var args = command.split(' ')
+		if (args.length > 1) {
+			switch (args[1]) {
+				case 'flag':
+					if (args.length == 3) {
+						if (tank.flag_id > -1) {
+							if (args[2] in this.world.flag_types) {
+								tank.set_flag(this.world.flag_types[args[2]]);
+							}
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
+}
 
 module.exports = GameServer;

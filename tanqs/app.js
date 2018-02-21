@@ -4,6 +4,7 @@ var app = express();
 var http = require('http').Server(app);
 
 var config = require('./server/config.json');
+config.password = config.password || "supersecret";
 
 // Serve the public folder statically
 app.use(express.static(path.join(__dirname, 'public')));
@@ -17,10 +18,5 @@ http.listen(server_port, function(){
 
 var GameServer = require('./server/server.js');
 
-var map_path = config.map;
-if (map_path instanceof Array) {
-  map_path = map_path[ Math.floor(Math.random() * map_path.length) ];
-}
-
-var server = new GameServer(http, map_path);
+var server = new GameServer(http, config);
 server.begin();

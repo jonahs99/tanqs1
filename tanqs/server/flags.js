@@ -32,11 +32,13 @@ function Flags(world) {
 			reload_ticks: 125,
 		},
 		bullet_attr: {
+			type: "normal",
 			rad: 5,
 			speed: 8,
 			drag: 0.995,
 			life: 125,
 			ricochet: 0,
+			hurt: true,
 			wall_collide: true,
 			explode: false
 		},
@@ -97,30 +99,44 @@ function Flags(world) {
 
 	// SUPER BULLET
 
-	this.super_bullet = morph(this.default, {name:"super bullet", bullet_attr:{ rad: 8, speed: 5.6, wall_collide: false, pass_thru: true }});
+	this.super_bullet = morph(this.default,
+	{
+		name:"super bullet",
+		bullet_attr:{
+			rad: 8, speed: 5.6, wall_collide: false, pass_thru: true
+		}
+	});
 
 	// GRENADE
 
 	this.grenade = morph(this.default, 
 	{
 		name: "grenade",
-		weapon_attr: {},
+		weapon_attr: {
+			max_bullets: 2,
+			reload_ticks: 150
+		},
 		bullet_attr: {
+			type: "grenade",
 			rad: 8,
-			speed: 10,
-			drag: 0.975
+			ricochet: 10,
+			speed: 7,
+			life: 100,
+			hurt: false,
+			explode: true
 		},
 		explode_attr: morph(this.default.bullet_attr, {
+			type: "explosion",
 			rad: 10,
 			speed: 0,
 			life: 12,
 			wall_collide: false,
 			pass_thru: true,
-			expansion: 8
+			expansion: 8.6
 		})
 	});
-	this.grenade.bullet_attr.explode = function(tank, bullet) {
-		shoot(world, tank, this.explode_attr);
+	this.grenade.explode = function(tank, bullet) {
+		shoot(world, tank, this.explode_attr, 0, true, false, true, bullet.pos);
 	};
 
 	// EXTRA CLIP
@@ -212,7 +228,7 @@ function Flags(world) {
 		kill_verb: "incinerated",
 		tank_attr: {max_vel: 5.5},
 		weapon_attr: {max_bullets: 2, reload_ticks: 125},
-		bullet_attr: {rad: 24, speed: 0, life: 16, wall_collide: false, pass_thru: true, expansion: 14}
+		bullet_attr: {type: "explosion", rad: 24, speed: 0, life: 16, wall_collide: false, pass_thru: true, expansion: 14}
 	});
 	this.shock_wave.shoot = function(tank) {
 		if (tank.use_reload()) {
@@ -241,7 +257,7 @@ module.exports = Flags;
 
 // Private methods
 
-function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center) {
+function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center, pos) {
 
 	dir_offset = dir_offset || 0;
 	abs_vel = abs_vel || false;
@@ -254,14 +270,17 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 
 	if (bullet_id > -1) {
 		var bullet = world.bullets[bullet_id];
+		bullet.type = bullet_attr.type;
+		bullet.flag = tank.flag;
 
+		pos = pos || tank.pos
 		if (center) {
-			bullet.pos.set(tank.pos);
+			bullet.pos.set(pos);
 		} else {
 			if (dir_sweep) {
-				bullet.pos.set_rt(tank.rad * 2, dir).m_add(tank.pos);
+				bullet.pos.set_rt(tank.rad * 2, dir).m_add(pos);
 			} else {
-				bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(tank.pos);
+				bullet.pos.set_rt(tank.rad * 2, tank.dir).m_add(pos);
 			}
 		}
 		if (abs_vel) {
@@ -273,6 +292,7 @@ function shoot(world, tank, bullet_attr, dir_offset, abs_vel, dir_sweep, center)
 		bullet.drag = bullet_attr.drag;
 		bullet.life = bullet_attr.life;
 		bullet.rad = bullet_attr.rad;
+		bullet.hurt = bullet_attr.hurt;
 
 		bullet.ricochet = bullet_attr.ricochet;
 		bullet.wall_collide = bullet_attr.wall_collide;
