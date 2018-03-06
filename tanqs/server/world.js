@@ -94,7 +94,7 @@ World.prototype.parse_map = function(map) {
 		var flag = this.flags[i + map.teams.length];
 
 		flag.alive = true;
-		flag.type = random_flag_type();//flag_data.type;
+		flag.type = this.random_flag_type();//flag_data.type;
 		flag.spawn.set_xy(flag_data.x, flag_data.y);
 		flag.pos.set(flag.spawn);
 		flag.team = -1;
@@ -212,13 +212,24 @@ var flag_types = [
 	]
 ];
 function random_flag_type() {
-	var types = flag_types[Math.random() > 0.2 ? 0 : 1]; // "Rare" flags spawn 5% of the time
+	var types = flag_types[Math.random() > 0.3 ? 0 : 1]; // "Rare" flags spawn 30% of the time
 	return types[Math.floor(Math.random() * types.length)];
 };
 function random_rare_flag_type() {
 	var types = flag_types[1];
 	return types[Math.floor(Math.random() * types.length)];
 }
+
+World.prototype.random_flag_type = function() {
+	for (var i = 0; i < 5; i++){
+		type = random_flag_type();
+		for (var j = 0; j < this.flags.length; j++) {
+			if (this.flags[j].type == type) continue;
+		}
+		break;
+	}
+	return type
+};
 
 World.prototype.reserve_tank = function(client) { // Returns the id of the reserved tank, or -1 if unsuccessful
 	for (var i = 0; i < this.n_tanks; i++) {
@@ -631,7 +642,7 @@ World.prototype.update_flags = function() {
 				this.spawn_bot(flag.bot_id);
 			} else if (flag.team == -1 && flag.cooldown <= - respawn_ticks) {
 				flag.pos.set(flag.spawn);
-				flag.type = random_flag_type();
+				flag.type = this.random_flag_type();
 				flag.cooldown = 0;
 			} else if (flag.cooldown <= - 2 * respawn_ticks) {
 				flag.pos.set(flag.spawn);
