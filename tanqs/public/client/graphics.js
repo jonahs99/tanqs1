@@ -580,7 +580,7 @@ Renderer.prototype.render_leaderboard = function() {
 			var text = team.name + " team: " + team.score;
 
 			this.context.fillStyle = (['#f66', '#6bf'])[team.id];
-			this.context.font = "3vh Open Sans";
+			this.context.font = "20px Open Sans";
 
 			this.context.fillText(text, right_x - 20, line_y(line));
 			line++;
@@ -630,9 +630,9 @@ Renderer.prototype.render_leaderboard = function() {
 
 			this.context.fillStyle = this.game.world.tanks[client.tank_id].color;
 			
-			this.context.font = "3vh Open Sans";
+			this.context.font = "18 px Open Sans";
 			if (this.game.player_tank && this.game.player_id == client.tank_id) {
-				this.context.font = "bold 3vh Open Sans";
+				this.context.font = "bold 18px Open Sans";
 				in_topten = true;
 				player_client = client;
 				player_rank = i;
