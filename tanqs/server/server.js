@@ -26,6 +26,9 @@ var GameServer = function(http, config) {
 	this.world.server = this;
 	this.world.parse_map(map);
 	
+	var Filter = require('bad-words');
+	this.login_filter = new Filter({placeHolder: '♥'});
+
 	this.clients = {};
 	this.topten = [];
 	this.frame_input = {shots:[], drops:[]};
@@ -457,6 +460,8 @@ GameServer.prototype.on_login = function(socket, msg) {
 	if (client.state != 'pre-login') return;
 	
 	client.name = msg.name;
+
+	client.name = this.login_filter.clean(client.name);
 
 	if (client.name == "") {
 		client.name = "Anon";
