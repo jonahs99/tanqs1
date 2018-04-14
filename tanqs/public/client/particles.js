@@ -122,5 +122,5 @@ Particles.prototype.render = function(context) {
 		context.fill();
 
 	}
-	context.globalCompositeOperation = 'normal';
+	context.globalCompositeOperation = 'source-over';
 };
