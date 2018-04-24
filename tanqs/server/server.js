@@ -99,6 +99,10 @@ GameServer.prototype.setup_socket_events = function(socket) {
 	socket.on('drop_flag', this.on_drop_flag.bind(this, socket));
 	socket.on('chat', this.on_chat.bind(this, socket));
 
+	socket.on('error', function(er) {
+		console.log("ERROR: " + er);
+	});
+
 };
 
 GameServer.prototype.add_client = function(socket, user_string) {
