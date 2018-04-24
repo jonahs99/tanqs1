@@ -538,6 +538,8 @@ GameServer.prototype.on_respawn = function(socket, msg) {
 
 GameServer.prototype.on_input = function(socket, msg) {
 
+	if (!(socket.id in this.clients)) return;
+
 	var tank_id = this.clients[socket.id].tank_id;
 	if (tank_id > -1) {
 		var client_tank = this.world.tanks[tank_id];
