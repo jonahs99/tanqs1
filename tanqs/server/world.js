@@ -453,7 +453,9 @@ World.prototype.drop_flag = function(tank_id) {
 World.prototype.flag_capture = function(tank_id, team_id) {
 	var tank = this.tanks[tank_id];
 
-	tank.flag.capture(tank); // Send forth the shock wave
+	if (tank.flag.capture) {
+		tank.flag.capture(tank); // Send forth the shock wave
+	}
 
 	tank.set_flag(this.flag_types.default);
 
