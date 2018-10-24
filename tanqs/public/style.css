@@ -66,6 +66,10 @@ p {
   margin: auto;
 }
 
+#message {
+  font-size: 1em;
+}
+
 input[type="text"] {
   display: block;
   width: 80%;
@@ -181,6 +185,28 @@ input[type="text"]:focus {
 
 span {
   padding-bottom: 5px;
+}
+
+#message-container {
+  background-color: transparent;
+  opacity: 0.6;
+
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+#message {
+  background-color: #ccc;
+  font: 2vh "Open Sans";
+  text-align: justify;
+
+  padding: 10px;
+  border-radius: 8px;
+
+  width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (max-height: 720px) {

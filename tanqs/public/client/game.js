@@ -71,8 +71,9 @@ Game.prototype.change_state = function(state) {
 	} else if (state == GameState.GAME) {
 
 		splash.style.visibility = 'hidden';
+		message_container.style.visibility = 'hidden';
 		ad_container.style.opacity = 0;
-
+		
 		chat_input.style.visibility = 'visible';
 
 	} else if (state == GameState.RESPAWN) {
@@ -274,6 +275,7 @@ var splash_text = document.getElementById('splash_text');
 var splash_input = document.getElementById('splash_input');
 var splash_button = document.getElementById('splash_button');
 var ad_container = document.getElementById('ad_container');
+var message_container = document.getElementById('message-container');
 
 splash_form.onsubmit = function() {
 	if (game.state == GameState.LOGIN) {
