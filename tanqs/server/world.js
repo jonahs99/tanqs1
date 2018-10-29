@@ -697,7 +697,7 @@ World.prototype.handle_collisions = function() {
 						if (tank.reload[tank.flag.weapon_attr.max_bullets - 1] >= tank.flag.weapon_attr.reload_ticks) {
 							var srad2 = Math.pow(tank.flag.tank_attr.shield_rad + bullet.rad, 2);
 							if (dist2 < srad2) {
-								if (tank.flag.tank_attr.shield_rad + bullet.rad - Math.sqrt(dist2) < bullet.vel.mag()) {
+								/*if (tank.flag.tank_attr.shield_rad + bullet.rad - Math.sqrt(dist2) < bullet.vel.mag()) {
 									// Ricochet the bullet!
 									normal_buffer.set(tank.pos).m_sub(bullet.pos).m_unit();
 									normal_buffer.m_scale(2 * bullet.vel.dot(normal_buffer));
@@ -705,8 +705,8 @@ World.prototype.handle_collisions = function() {
 									// *Don't* Change the bullet team!
 									//bullet.tank = tank_id;
 									//bullet.team = tank.team;
-								}
-								//this.kill_bullet(bullet_id);
+								}*/
+								this.kill_bullet(bullet_id);
 								tank.reload[tank.flag.weapon_attr.max_bullets - 1] = 0;
 							}
 						}
