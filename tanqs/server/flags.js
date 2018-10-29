@@ -127,10 +127,9 @@ function Flags(world) {
 		bullet_attr: {
 			type: "grenade",
 			rad: 8,
-			ricochet: 1,
 			speed: 7,
 			life: 100,
-			hurt: false,
+			hurt: true,
 			explode: true
 		},
 		explode_attr: morph(this.default.bullet_attr, {
