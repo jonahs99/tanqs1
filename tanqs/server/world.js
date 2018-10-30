@@ -331,6 +331,10 @@ World.prototype.reassign_tank_team = function(id) {
 	} else if (n_blue < n_red) {
 		this.assign_tank_team(id, 1);
 	} else {
+		// ASSIGNING TEAM RANDOMLY (no rogue)
+		this.assign_tank_team(id, Math.floor(Math.random() * 2));
+		return;
+
 		if (n_total <= 2 || n_total % 2 == 0 || n_rogue > 1) { // Even number? (Including this tank)
 			if (this.teams[0].score < this.teams[1].score) {
 				this.assign_tank_team(id, 0);
