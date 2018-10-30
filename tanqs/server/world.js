@@ -294,7 +294,7 @@ World.prototype.reassign_tank_team = function(id) {
 
 	// If you have a "clan name"
 	// try to be on the same team
-	var clan_re = /^\[\w*\]/g;
+	var clan_re = /^\[[^\[\]]*\]/g;
 	if (tank.client.name) {
 		var clan = tank.client.name.match(clan_re);
 		if (clan !== null) {
