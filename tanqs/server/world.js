@@ -292,6 +292,22 @@ World.prototype.reassign_tank_team = function(id) {
 		return;
 	}
 
+	// If you have a "clan name"
+	// try to be on the same team
+	var clan_re = /^\[\w*\]/g;
+	if (tank.client.name) {
+		var clan = tank.client.name.match(clan_re);
+		if (clan !== null) {
+			for (var i = 0; i < this.n_tanks; i++) {
+				var t = this.tanks[i];
+				if (t.team != -1 && t.client.name.startsWith(clan[0])) {
+					this.assign_tank_team(id, t.team);
+					return;
+				}
+			}
+		}
+	}
+
 	var n_rogue = 0;
 	var n_red = 0;
 	var n_blue = 0;
@@ -757,9 +773,11 @@ World.prototype.handle_collisions = function() {
 
 	for (var bullet_id = 0; bullet_id < this.bullets.length; bullet_id++) {
 		var bullet = this.bullets[bullet_id];
-		if (bullet.alive && bullet.wall_collide) {
+		if (!bullet.alive) continue;
+		if (bullet.wall_collide) {
 			for (var rect_id = 0; rect_id < this.map.rectangles.length; rect_id++) {
 				var rect = this.map.rectangles[rect_id];
+
 				if (rect.team != -1 || (rect.gate_team != -1 && rect.gate_team != bullet.team)) continue;
 				var tot_width = bullet.rad + rect.hwidth;
 				var tot_height = bullet.rad + rect.hheight;
