@@ -171,7 +171,7 @@ function Flags(world) {
 	this.tunneler = morph(this.default,
 	{
 		name: "tunneler",
-		tank_attr: {max_vel: 4.8, wall_collide: false}
+		tank_attr: {max_vel: 4.6, wall_collide: false}
 	});
 
 	// TRIPLE SHOT
