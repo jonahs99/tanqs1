@@ -413,9 +413,9 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	}
 
 	if (tank.flag == "shield" && tank.reload[tank.reload.length - 1] >= tank.reload_ticks) {
-		var opac = (Math.sin(Date.now() * 6 / 500) + 1) * 0.12 + 0.2;
+		var opac = (Math.sin(Date.now() * 6 / 500 + 0.2) + 1) * 0.08 + 0.2;
 		this.context.strokeStyle = 'rgba(255,255,255,' + opac.toString() + ')';
-		this.context.lineWidth = 4;
+		this.context.lineWidth = (Math.sin(Date.now() * 6 / 500) + 1) * 0.4 + 3;
 		this.context.beginPath();
 		this.context.arc(0, 0, 40, 0, Math.PI * 2);
 		this.context.stroke();
