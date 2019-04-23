@@ -379,14 +379,15 @@ Renderer.prototype.render_tank = function(tank, delta) {
 	this.context.fill();
 	this.context.stroke();
 
-	this.context.beginPath();
 	// Wheels
+	this.context.beginPath();
 	this.context.rect(-rad * 1.25, -rad * 1.25, rad * 2.5, rad * 0.75);
 	this.context.rect(-rad * 1.25, rad * 0.5, rad * 2.5, rad * 0.75);
 	this.context.fill();
 	this.context.stroke();
 	
 	// Gun
+	this.context.beginPath()
 	if (tank.flag != "shock wave") {
 		if (tank.flag == "triple shot") {
 			this.context.rotate(-Math.PI * 0.03);
