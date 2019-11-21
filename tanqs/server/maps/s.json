@@ -1,0 +1,162 @@
+{
+	"size": {
+		"width": 1400,
+		"height": 1400,
+		"grid": 100
+	},
+	"teams": [
+		{
+			"spawn": {
+				"x": 400,
+				"y": 500,
+				"hwidth": 300,
+				"hheight": 200
+			},
+			"pad": {
+				"x": 400,
+				"y": 500,
+				"hwidth": 100,
+				"hheight": 100
+			},
+			"flag": {
+				"x": 400,
+				"y": 500
+			}
+		},
+		{
+			"spawn": {
+				"x": -400,
+				"y": -500,
+				"hwidth": 300,
+				"hheight": 200
+			},
+			"pad": {
+				"x": -400,
+				"y": -500,
+				"hwidth": 100,
+				"hheight": 100
+			},
+			"flag": {
+				"x": -400,
+				"y": -500
+			}
+		}
+	],
+	"rectangles": [
+		{
+			"x": 250,
+			"y": -200,
+			"hwidth": 0,
+			"hheight": 0,
+			"gate_team": -1
+		},
+		{
+			"x": -325,
+			"y": -25,
+			"hwidth": 25,
+			"hheight": 75,
+			"gate_team": -1
+		},
+		{
+			"x": 100,
+			"y": -125,
+			"hwidth": 400,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 525,
+			"y": -325,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": 350,
+			"y": -525,
+			"hwidth": 150,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 325,
+			"y": 25,
+			"hwidth": 25,
+			"hheight": 75,
+			"gate_team": -1
+		},
+		{
+			"x": -100,
+			"y": 125,
+			"hwidth": 400,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -525,
+			"y": 325,
+			"hwidth": 25,
+			"hheight": 175,
+			"gate_team": -1
+		},
+		{
+			"x": -350,
+			"y": 525,
+			"hwidth": 150,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": -300,
+			"y": -275,
+			"hwidth": 400,
+			"hheight": 25,
+			"gate_team": -1
+		},
+		{
+			"x": 300,
+			"y": 275,
+			"hwidth": 400,
+			"hheight": 25,
+			"gate_team": -1
+		}
+	],
+	"polys": [],
+	"flags": [
+		{
+			"x": 600,
+			"y": -600,
+			"type": "speed"
+		},
+		{
+			"x": -600,
+			"y": 600,
+			"type": "speed"
+		},
+		{
+			"x": -600,
+			"y": -100,
+			"type": "speed"
+		},
+		{
+			"x": 600,
+			"y": 100,
+			"type": "speed"
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"type": "speed"
+		},
+		{
+			"x": -400,
+			"y": 400,
+			"type": "speed"
+		},
+		{
+			"x": 400,
+			"y": -400,
+			"type": "speed"
+		}
+	]
+}
