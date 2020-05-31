@@ -20,3 +20,4 @@ var GameServer = require('./server/server.js');
 
 var server = new GameServer(http, config);
 server.begin();
+
