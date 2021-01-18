@@ -212,7 +212,7 @@ var flag_types = [
 	]
 ];
 function random_flag_type() {
-	var types = flag_types[Math.random() > 0.3 ? 0 : 1]; // "Rare" flags spawn 30% of the time
+	var types = flag_types.flat();
 	return types[Math.floor(Math.random() * types.length)];
 };
 function random_rare_flag_type() {
