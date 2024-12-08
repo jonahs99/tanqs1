@@ -1,0 +1,12 @@
+[Unit]
+Description=tanqs server
+After=network-online.target
+
+[Service]
+WorkingDirectory=/root/tanqs
+ExecStart=/usr/bin/node app.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

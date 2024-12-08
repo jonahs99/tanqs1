@@ -49,7 +49,6 @@ Game.prototype.change_state = function(state) {
 		splash_input.style.display = 'block';
 		splash.style.visibility = 'visible';
 		splash.style.opacity = 0.6;
-		ad_container.style.opacity = 0;
 
 		splash_text.innerHTML = "tanqs.io";
 		splash_text.style.fontSize = "5vw";
@@ -71,9 +70,6 @@ Game.prototype.change_state = function(state) {
 	} else if (state == GameState.GAME) {
 
 		splash.style.visibility = 'hidden';
-		message_container.style.visibility = 'hidden';
-		ad_container.style.opacity = 0;
-		
 		chat_input.style.visibility = 'visible';
 
 	} else if (state == GameState.RESPAWN) {
@@ -109,9 +105,6 @@ Game.prototype.change_state = function(state) {
 					break;
 			}
 		}, 1000);
-
-		ad_container.style.opacity = 1;
-
 	}
 
 	this.state = state;
@@ -173,10 +166,7 @@ Game.prototype.add_chat_message = function(chat) {
 
 	if (chat_output.childElementCount > 16) {
 		chat_output.removeChild(chat_output.children[0]);
-	} else {
-
 	}
-
 };
 
 // Events
@@ -204,17 +194,10 @@ Game.prototype.on_mousedown = function(evt) {
 		} else { // Left click
 			this.client.send_shoot();
 		}
-		/*if (!shoot_repeat) {
-			shoot_repeat = setInterval(function() {
-				game.on_mousedown(evt);
-			}, 300);
-		}*/
 	}
 };
 Game.prototype.on_mouseup = function(evt) {
 	this.mouse_down = false;
-	//clearInterval(shoot_repeat);
-	//shoot_repeat = null;
 };
 
 Game.prototype.on_keydown = function(evt) {
@@ -274,8 +257,6 @@ var splash_form = document.getElementById('splash_form');
 var splash_text = document.getElementById('splash_text');
 var splash_input = document.getElementById('splash_input');
 var splash_button = document.getElementById('splash_button');
-var ad_container = document.getElementById('ad_container');
-var message_container = document.getElementById('message-container');
 
 splash_form.onsubmit = function() {
 	if (game.state == GameState.LOGIN) {
@@ -297,3 +278,4 @@ chat_form.onsubmit = function() {
 	}
 	return false;
 };
+

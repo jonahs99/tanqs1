@@ -1,27 +1,15 @@
 <!DOCTYPE html>
-
 <html>
-
 	<head>
 		<link rel="icon" href="icon.png">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="./style.css">
 		
-		<title>tanqs.io - Multiplayer Capture the Flag</title>
-		
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-		  ga('create', 'UA-92002808-1', 'auto');
-		  ga('send', 'pageview');
-		</script>
+		<title>tanqs</title>
 	</head>
 
 	<body>
-
 		<canvas id="canvas">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
@@ -32,26 +20,13 @@
 		</form>
 
 		<div id="splash">
-			<p id="splash_text">tanqs.io</p>
+			<p id="splash_text">tanqs.net</p>
 			<form id="splash_form">
 				<input id="splash_input" type="text" placeholder="enter a nickname">
 				<input id="splash_button" class="button" type="submit" value="join">
 			</form>
 		</div>
-
 		
-		<div id="message-container" style="visibility:hidden">
-			<p id="message">
-				Hi friends!
-				If you want to share your ideas for the future of tanqs, you can fill out
-				<a href="https://goo.gl/forms/Izp34tFiPXBMKFtC2">this form</a>. Thanks!
-			</p>
-		</div>
-		
-
-		<div id="ad_container" style="visibility: hidden">
-		</div>
-
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="./shared/shared.js"></script>
 		<script src="./client/particles.js"></script>
@@ -62,3 +37,4 @@
 		<script src="./client/game.js"></script>
 	</body>
 </html>
+
