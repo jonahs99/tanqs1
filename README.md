@@ -1,4 +1,4 @@
-# [tanqs.io](http://tanqs.io)
+# [tanqs.net](http://tanqs.net)
 
 In-browser, fully multiplayer capture-the-flag built on node.js and websockets. Online now with 200+ players/day.
 
@@ -16,7 +16,7 @@ In-browser, fully multiplayer capture-the-flag built on node.js and websockets. 
 * Clean vector graphhics with HTML5 canvas primitives
 * Particle animations
 
-* Barebones [map editor](http://tanqs.io/map.html)
+* Barebones [map editor](http://tanqs.net/map.html)
 
 ## Todo for tanqs2 (in progress)
 
